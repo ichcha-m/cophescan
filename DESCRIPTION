@@ -1,0 +1,50 @@
+Package: cophescan
+Title: CoPheScan
+Version: 0.1.0
+Authors@R: c(person("Ichcha", "Manipur", role=c("aut","cre"),
+    email = "im504@cam.ac.uk"))
+Description: Coloc adapted Phenome-wide Scans.
+License: GPL
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: 
+    R (>= 3.5.0)
+URL: https://github.com/ichcha-m/cophescan
+BugReports: https://github.com/ichcha-m/cophescan
+Imports: 
+    Rcpp (>= 1.0.7),
+    data.table,
+    ggplot2,
+    ggrepel,
+    pheatmap,
+    methods,
+    viridis,
+    stats,
+    grDevices,
+    magrittr,
+    utils,
+    RcppParallel (>= 5.0.1),
+    RcppArmadillo,
+    coloc
+Suggests:
+    knitr,
+    testthat,
+    rmarkdown
+Remotes: 
+    github::stephenslab/susieR,
+    github::chr1swallace/coloc
+Collate: 
+    'cophescan-package.R'
+    'singlevar.R'
+    'multivarsusie.R'
+    'impute.R'
+    'hello.R'
+    'multitrait.R'
+    'copheplots.R'
+    'testdata.R'
+    'RcppExports.R'
+    'metrop_hier_priors.R'
+LinkingTo: Rcpp, RcppArmadillo
