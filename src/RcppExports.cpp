@@ -12,24 +12,24 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // pars2pik_norg
-arma::mat pars2pik_norg(NumericVector pars, NumericVector nsnps);
+arma::mat pars2pik_norg(arma::vec pars, NumericVector nsnps);
 RcppExport SEXP _cophescan_pars2pik_norg(SEXP parsSEXP, SEXP nsnpsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     rcpp_result_gen = Rcpp::wrap(pars2pik_norg(pars, nsnps));
     return rcpp_result_gen;
 END_RCPP
 }
 // pars2pik_rg
-arma::mat pars2pik_rg(NumericVector pars, NumericVector nsnps, NumericVector rg_vec);
+arma::mat pars2pik_rg(arma::vec pars, NumericVector nsnps, NumericVector rg_vec);
 RcppExport SEXP _cophescan_pars2pik_rg(SEXP parsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     rcpp_result_gen = Rcpp::wrap(pars2pik_rg(pars, nsnps, rg_vec));
@@ -37,12 +37,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // pars2pik
-arma::mat pars2pik(NumericVector pars, NumericVector nsnps, NumericVector rg_vec, bool rg);
+arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec, bool rg);
 RcppExport SEXP _cophescan_pars2pik(SEXP parsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
@@ -62,12 +62,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // logpost
-arma::mat logpost(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
 RcppExport SEXP _cophescan_logpost(SEXP parsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
@@ -77,12 +77,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // loglik
-double loglik(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+double loglik(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
 RcppExport SEXP _cophescan_loglik(SEXP parsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
@@ -92,17 +92,192 @@ BEGIN_RCPP
 END_RCPP
 }
 // posterior
-arma::mat posterior(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+arma::mat posterior(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
 RcppExport SEXP _cophescan_posterior(SEXP parsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
     rcpp_result_gen = Rcpp::wrap(posterior(pars, lbf_mat, nsnps, rg_vec, rg));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sample_alpha
+arma::vec sample_alpha(int n);
+RcppExport SEXP _cophescan_sample_alpha(SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_alpha(n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sample_beta
+arma::vec sample_beta(int n);
+RcppExport SEXP _cophescan_sample_beta(SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_beta(n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sample_gamma
+arma::vec sample_gamma(int n);
+RcppExport SEXP _cophescan_sample_gamma(SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_gamma(n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// logd_alpha
+double logd_alpha(double a, double mean, double sd, bool log);
+RcppExport SEXP _cophescan_logd_alpha(SEXP aSEXP, SEXP meanSEXP, SEXP sdSEXP, SEXP logSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    Rcpp::traits::input_parameter< double >::type mean(meanSEXP);
+    Rcpp::traits::input_parameter< double >::type sd(sdSEXP);
+    Rcpp::traits::input_parameter< bool >::type log(logSEXP);
+    rcpp_result_gen = Rcpp::wrap(logd_alpha(a, mean, sd, log));
+    return rcpp_result_gen;
+END_RCPP
+}
+// logd_beta
+double logd_beta(double b);
+RcppExport SEXP _cophescan_logd_beta(SEXP bSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type b(bSEXP);
+    rcpp_result_gen = Rcpp::wrap(logd_beta(b));
+    return rcpp_result_gen;
+END_RCPP
+}
+// logd_gamma
+double logd_gamma(double g);
+RcppExport SEXP _cophescan_logd_gamma(SEXP gSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type g(gSEXP);
+    rcpp_result_gen = Rcpp::wrap(logd_gamma(g));
+    return rcpp_result_gen;
+END_RCPP
+}
+// logpriors
+double logpriors(arma::vec pars, bool rg);
+RcppExport SEXP _cophescan_logpriors(SEXP parsSEXP, SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(logpriors(pars, rg));
+    return rcpp_result_gen;
+END_RCPP
+}
+// target
+double target(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_target(SEXP parsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(target(pars, lbf_mat, nsnps, rg_vec, rg));
+    return rcpp_result_gen;
+END_RCPP
+}
+// propose
+arma::vec propose(arma::vec pars, double propsd);
+RcppExport SEXP _cophescan_propose(SEXP parsSEXP, SEXP propsdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< double >::type propsd(propsdSEXP);
+    rcpp_result_gen = Rcpp::wrap(propose(pars, propsd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// pars_init
+arma::vec pars_init(bool rg);
+RcppExport SEXP _cophescan_pars_init(SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(pars_init(rg));
+    return rcpp_result_gen;
+END_RCPP
+}
+// metrop_init
+arma::vec metrop_init(bool rg);
+RcppExport SEXP _cophescan_metrop_init(SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(metrop_init(rg));
+    return rcpp_result_gen;
+END_RCPP
+}
+// metrop_run
+List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg, int nits, int thin);
+RcppExport SEXP _cophescan_metrop_run(SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP, SEXP nitsSEXP, SEXP thinSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    rcpp_result_gen = Rcpp::wrap(metrop_run(lbf_mat, nsnps, rg_vec, rg, nits, thin));
+    return rcpp_result_gen;
+END_RCPP
+}
+// post_prob
+List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_post_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(post_prob(params, lbf_mat, nsnps, rg_vec, rg));
+    return rcpp_result_gen;
+END_RCPP
+}
+// piks
+List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_piks(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(piks(params, nsnps, rg_vec, rg));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -115,6 +290,20 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cophescan_logpost", (DL_FUNC) &_cophescan_logpost, 5},
     {"_cophescan_loglik", (DL_FUNC) &_cophescan_loglik, 5},
     {"_cophescan_posterior", (DL_FUNC) &_cophescan_posterior, 5},
+    {"_cophescan_sample_alpha", (DL_FUNC) &_cophescan_sample_alpha, 1},
+    {"_cophescan_sample_beta", (DL_FUNC) &_cophescan_sample_beta, 1},
+    {"_cophescan_sample_gamma", (DL_FUNC) &_cophescan_sample_gamma, 1},
+    {"_cophescan_logd_alpha", (DL_FUNC) &_cophescan_logd_alpha, 4},
+    {"_cophescan_logd_beta", (DL_FUNC) &_cophescan_logd_beta, 1},
+    {"_cophescan_logd_gamma", (DL_FUNC) &_cophescan_logd_gamma, 1},
+    {"_cophescan_logpriors", (DL_FUNC) &_cophescan_logpriors, 2},
+    {"_cophescan_target", (DL_FUNC) &_cophescan_target, 5},
+    {"_cophescan_propose", (DL_FUNC) &_cophescan_propose, 2},
+    {"_cophescan_pars_init", (DL_FUNC) &_cophescan_pars_init, 1},
+    {"_cophescan_metrop_init", (DL_FUNC) &_cophescan_metrop_init, 1},
+    {"_cophescan_metrop_run", (DL_FUNC) &_cophescan_metrop_run, 6},
+    {"_cophescan_post_prob", (DL_FUNC) &_cophescan_post_prob, 5},
+    {"_cophescan_piks", (DL_FUNC) &_cophescan_piks, 4},
     {NULL, NULL, 0}
 };
 

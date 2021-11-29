@@ -5,7 +5,7 @@ using namespace Rcpp;
 // using namespace arma;
 
 // [[Rcpp::export]]
-arma::mat pars2pik_norg(NumericVector pars, NumericVector nsnps) {
+arma::mat pars2pik_norg(arma::vec pars, NumericVector nsnps) {
   // double alpha=pars[0];
   // double beta=pars[1];
 
@@ -20,8 +20,9 @@ arma::mat pars2pik_norg(NumericVector pars, NumericVector nsnps) {
   pik.each_col() /= denom ;
   return pik;
 }
+
 // [[Rcpp::export]]
-arma::mat pars2pik_rg(NumericVector pars, NumericVector nsnps, NumericVector rg_vec) {
+arma::mat pars2pik_rg(arma::vec pars, NumericVector nsnps, NumericVector rg_vec) {
   // double alpha=pars[0];
   // double beta=pars[1];
   // double gamma=pars[2];
@@ -38,8 +39,9 @@ arma::mat pars2pik_rg(NumericVector pars, NumericVector nsnps, NumericVector rg_
   pik.each_col() /= denom ;
   return pik;
 }
+
 // [[Rcpp::export]]
-arma::mat pars2pik(NumericVector pars, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
   arma::mat pik;
   if (rg==false){
     pik = pars2pik_norg(pars, nsnps);
@@ -57,7 +59,7 @@ double logsumexp(arma::rowvec x) {
 }
 
 // [[Rcpp::export]]
-arma::mat logpost(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
   arma::mat pik = pars2pik(pars, nsnps, rg_vec=rg_vec, rg=rg);
   int k = nsnps.length();
   arma::mat logpost = arma::ones(k , 3);
@@ -75,7 +77,7 @@ arma::mat logpost(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, Nu
 }
 
 // [[Rcpp::export]]
-double loglik(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+double loglik(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
   arma::mat logpos = logpost(pars, lbf_mat, nsnps, rg_vec, rg=rg);
   int k = nsnps.length();
   arma::vec ll_k(k);
@@ -88,7 +90,7 @@ double loglik(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, Numeri
 }
 
 // [[Rcpp::export]]
-arma::mat posterior(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+arma::mat posterior(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
   arma::mat logpos = logpost(pars, lbf_mat, nsnps, rg_vec, rg=rg);
   int k = nsnps.length();
   arma::vec denom(k);
@@ -101,3 +103,137 @@ arma::mat posterior(NumericVector pars, arma::mat lbf_mat, NumericVector nsnps, 
   return post;
 }
 
+// [[Rcpp::export]]
+arma::vec sample_alpha(int n=1){
+  return(rnorm(n, -10, 0.5));
+}
+
+// [[Rcpp::export]]
+arma::vec sample_beta(int n=1){
+  return(rgamma(n, 0.5, 2));
+}
+
+// [[Rcpp::export]]
+arma::vec sample_gamma(int n=1){
+  return(rgamma(n, 0.5, 2));
+}
+
+// [[Rcpp::export]]
+double logd_alpha(double a, double mean=-10, double sd=0.5, bool log=true){
+  return(R::dnorm(a, mean, sd, log));
+}
+
+// [[Rcpp::export]]
+double logd_beta(double b){
+  // scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
+  // Also for logd_gamma
+  return R::dgamma(b, 0.5, 2, true);
+}
+
+// [[Rcpp::export]]
+double logd_gamma(double g){
+  return R::dgamma(g, 0.5, 2, true);
+}
+
+// [[Rcpp::export]]
+double logpriors(arma::vec pars, bool rg=false) {
+  double loggamma;
+  if (rg == false){
+    loggamma = 0;
+  } else{
+    loggamma = logd_gamma(pars[2]);
+  }
+  double logprior = logd_alpha(pars[0]) + logd_beta(pars[1]) + loggamma;
+  return logprior;
+}
+
+// [[Rcpp::export]]
+double target(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+  double target = loglik(pars, lbf_mat, nsnps, rg_vec, rg) + logpriors(pars, rg);
+  return target;
+}
+
+// [[Rcpp::export]]
+arma::vec propose(arma::vec pars, double propsd=0.5){
+  arma::vec propose = pars + arma::vec(rnorm(pars.n_elem, 0, propsd));
+  return propose;
+}
+
+// [[Rcpp::export]]
+arma::vec pars_init(bool rg=false){
+  double alpha = arma::as_scalar(sample_alpha());
+  double beta = arma::as_scalar(sample_beta());
+  arma::vec pars;
+
+  if(rg==true) {
+    double gamma = arma::as_scalar(sample_gamma());
+    pars = {alpha, beta, gamma};
+  } else{
+    pars = {alpha, beta};
+  }
+  return pars;
+}
+
+// [[Rcpp::export]]
+arma::vec metrop_init(bool rg=false){
+  double alpha = arma::as_scalar(sample_alpha());
+  double beta = arma::as_scalar(sample_beta());
+  arma::vec pars;
+
+  if(rg==true) {
+    double gamma = arma::as_scalar(sample_gamma());
+    pars = {alpha, beta, gamma};
+  } else{
+    pars = {alpha, beta};
+  }
+  return pars;
+}
+
+// [[Rcpp::export]]
+List metrop_run(arma::mat lbf_mat, NumericVector nsnps,
+                NumericVector rg_vec=0, bool rg=false, int nits=10000,
+                int thin=1){
+  arma::vec pars = pars_init(rg=rg);
+  arma::mat params = arma::zeros(pars.n_elem, nits/thin);
+  arma::vec ll(nits/thin);
+  arma::vec L0(nits);
+  arma::vec T0(nits);
+  L0[0] = loglik(pars, lbf_mat, nsnps, rg_vec,  rg=rg);
+  T0[0] = L0[0] + logpriors(pars, rg=rg);
+  for(int i = 0; i < nits; i++){
+    if(i % thin == 0) {
+      params.col(i) = pars;
+      ll[i] = T0[i];
+      }
+
+    arma::vec newpars=propose(pars);
+    double accept = exp(target(pars, lbf_mat, nsnps, rg_vec,  rg=rg) - T0[i]);
+    if (R::runif(0, 1) < accept) {
+      pars = newpars;
+      L0[i+1] = loglik(pars, lbf_mat, nsnps, rg_vec,  rg=rg);
+      T0[i+1] = L0[i+1] + logpriors(pars, rg=rg);
+      }
+  }
+  return Rcpp::List::create(Rcpp::Named("ll") = ll,
+                            Rcpp::Named("params") = params);
+}
+
+// [[Rcpp::export]]
+List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false){
+  List post;
+  double k = params.n_cols;
+  for (int i = 0; i < k; i++){
+    post(i) = posterior(params.col(i),  lbf_mat, nsnps, rg_vec,  rg=rg);
+  }
+  return post;
+}
+
+// [[Rcpp::export]]
+List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false){
+  List piks;
+  double k = params.n_cols;
+  for (int i = 0; i < k; i++){
+    piks(i) = pars2pik(params.col(i), nsnps, rg_vec,  rg=rg);
+  }
+  return piks;
+}

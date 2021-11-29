@@ -44,6 +44,19 @@ res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = c
 
 #### Plot cophescan results
 ```r
-cophe_plot(res.multi, thresh=0.5)
+cophe.plots.rs <- multi_plot(res.multi, thresh=0.5,addplot = 'pval', adddat=cophe_multi_trait_data$summ_stat,  causal.snpid=causal.snpid, pltheatmap=F)
+ggpubr::ggarrange(cophe.plots.rs$pval, cophe.plots.rs$ppHa, cophe.plots.rs$ppHc, nrow=1)
+# ggpubr::ggarrange(cophe.plots.rs$hmp[[4]], cophe.plots.rs$pval, cophe.plots.rs$ppHa, cophe.plots.rs$ppHc)
+```
+
+#### Run hierarchical model for priors
+```r
+cophe.hier.res <- run_metrop_priors(res.multi, posterior = T) 
+ll <- cophe.hier.res$ll
+params <- cophe.hier.res$params
+par(mfrow=c(2,2))
+plot(1:length(ll), ll, main="ll",type="l")
+plot(1:ncol(params), params[1,], main="alpha",type="l")
+plot(1:ncol(params), params[2,], main="beta",type="l")
 ```
 

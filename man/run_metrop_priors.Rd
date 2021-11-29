@@ -5,14 +5,18 @@
 \title{run_metrop_priors}
 \usage{
 run_metrop_priors(
-  lbf_mat,
+  multi.dat,
   rg = FALSE,
   rg_vec = NULL,
   nits = 10000,
-  thin = 1000
+  thin = 1,
+  posterior = F,
+  pik = T
 )
 }
 \arguments{
+\item{multi.dat}{matrix of bf values}
+
 \item{rg}{whether to run rg}
 
 \item{rg_vec}{vector of genetic correlations}
@@ -21,7 +25,9 @@ run_metrop_priors(
 
 \item{thin}{burnin}
 
-\item{multi.dat}{matrix of bf values}
+\item{posterior}{estimated posterior probabilities of the hypotheses}
+
+\item{pik}{inferred prior probabilities}
 }
 \value{
 list containing posterior of the parameters
