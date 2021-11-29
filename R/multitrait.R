@@ -67,7 +67,7 @@ multitrait.simplify <- function(multi.dat){
       pp_df <- rbind(pp_df, pp)
     }
   }
-  colnames(pp_df) <- c('Hn' , 'Ha', 'Hc', 'nsnps', 'querysnp', 'bf.a', 'bf.c')
+  colnames(pp_df) <- c('Hn' , 'Ha', 'Hc', 'nsnps', 'bf.a', 'bf.c', 'querysnp')
   print('Done')
   return(pp_df)
 }

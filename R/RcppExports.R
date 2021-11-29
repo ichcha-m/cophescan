@@ -29,3 +29,59 @@ posterior <- function(pars, lbf_mat, nsnps, rg_vec = 0L, rg = FALSE) {
     .Call(`_cophescan_posterior`, pars, lbf_mat, nsnps, rg_vec, rg)
 }
 
+sample_alpha <- function(n = 1L) {
+    .Call(`_cophescan_sample_alpha`, n)
+}
+
+sample_beta <- function(n = 1L) {
+    .Call(`_cophescan_sample_beta`, n)
+}
+
+sample_gamma <- function(n = 1L) {
+    .Call(`_cophescan_sample_gamma`, n)
+}
+
+logd_alpha <- function(a, mean = -10, sd = 0.5, log = TRUE) {
+    .Call(`_cophescan_logd_alpha`, a, mean, sd, log)
+}
+
+logd_beta <- function(b) {
+    .Call(`_cophescan_logd_beta`, b)
+}
+
+logd_gamma <- function(g) {
+    .Call(`_cophescan_logd_gamma`, g)
+}
+
+logpriors <- function(pars, rg = FALSE) {
+    .Call(`_cophescan_logpriors`, pars, rg)
+}
+
+target <- function(pars, lbf_mat, nsnps, rg_vec = 0L, rg = FALSE) {
+    .Call(`_cophescan_target`, pars, lbf_mat, nsnps, rg_vec, rg)
+}
+
+propose <- function(pars, propsd = 0.5) {
+    .Call(`_cophescan_propose`, pars, propsd)
+}
+
+pars_init <- function(rg = FALSE) {
+    .Call(`_cophescan_pars_init`, rg)
+}
+
+metrop_init <- function(rg = FALSE) {
+    .Call(`_cophescan_metrop_init`, rg)
+}
+
+metrop_run <- function(lbf_mat, nsnps, rg_vec = 0L, rg = FALSE, nits = 10000L, thin = 1L) {
+    .Call(`_cophescan_metrop_run`, lbf_mat, nsnps, rg_vec, rg, nits, thin)
+}
+
+post_prob <- function(params, lbf_mat, nsnps, rg_vec = 0L, rg = FALSE) {
+    .Call(`_cophescan_post_prob`, params, lbf_mat, nsnps, rg_vec, rg)
+}
+
+piks <- function(params, nsnps, rg_vec = 0L, rg = FALSE) {
+    .Call(`_cophescan_piks`, params, nsnps, rg_vec, rg)
+}
+

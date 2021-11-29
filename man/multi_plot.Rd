@@ -10,7 +10,8 @@ multi_plot(
   pltheatmap = F,
   cophe.plots = T,
   addplot = NULL,
-  adddat = NULL
+  adddat = NULL,
+  causal.snpid = NULL
 )
 }
 \arguments{
