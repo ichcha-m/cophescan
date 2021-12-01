@@ -9,7 +9,7 @@ pars2pik_rg <- function(pars, nsnps, rg_vec) {
     .Call(`_cophescan_pars2pik_rg`, pars, nsnps, rg_vec)
 }
 
-pars2pik <- function(pars, nsnps, rg_vec = 0L, rg = FALSE) {
+pars2pik <- function(pars, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_pars2pik`, pars, nsnps, rg_vec, rg)
 }
 
@@ -17,15 +17,15 @@ logsumexp <- function(x) {
     .Call(`_cophescan_logsumexp`, x)
 }
 
-logpost <- function(pars, lbf_mat, nsnps, rg_vec = 0L, rg = FALSE) {
+logpost <- function(pars, lbf_mat, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_logpost`, pars, lbf_mat, nsnps, rg_vec, rg)
 }
 
-loglik <- function(pars, lbf_mat, nsnps, rg_vec = 0L, rg = FALSE) {
+loglik <- function(pars, lbf_mat, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_loglik`, pars, lbf_mat, nsnps, rg_vec, rg)
 }
 
-posterior <- function(pars, lbf_mat, nsnps, rg_vec = 0L, rg = FALSE) {
+posterior <- function(pars, lbf_mat, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_posterior`, pars, lbf_mat, nsnps, rg_vec, rg)
 }
 
@@ -57,7 +57,7 @@ logpriors <- function(pars, rg = FALSE) {
     .Call(`_cophescan_logpriors`, pars, rg)
 }
 
-target <- function(pars, lbf_mat, nsnps, rg_vec = 0L, rg = FALSE) {
+target <- function(pars, lbf_mat, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_target`, pars, lbf_mat, nsnps, rg_vec, rg)
 }
 
@@ -73,15 +73,19 @@ metrop_init <- function(rg = FALSE) {
     .Call(`_cophescan_metrop_init`, rg)
 }
 
-metrop_run <- function(lbf_mat, nsnps, rg_vec = 0L, rg = FALSE, nits = 10000L, thin = 1L) {
+metrop_run <- function(lbf_mat, nsnps, rg_vec, rg = FALSE, nits = 10000L, thin = 1L) {
     .Call(`_cophescan_metrop_run`, lbf_mat, nsnps, rg_vec, rg, nits, thin)
 }
 
-post_prob <- function(params, lbf_mat, nsnps, rg_vec = 0L, rg = FALSE) {
+post_prob <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_post_prob`, params, lbf_mat, nsnps, rg_vec, rg)
 }
 
-piks <- function(params, nsnps, rg_vec = 0L, rg = FALSE) {
+piks <- function(params, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_piks`, params, nsnps, rg_vec, rg)
+}
+
+average_post <- function(posterior, nits, thin) {
+    .Call(`_cophescan_average_post`, posterior, nits, thin)
 }
 

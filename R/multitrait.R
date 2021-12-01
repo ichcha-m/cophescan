@@ -56,18 +56,18 @@ multitrait.simplify <- function(multi.dat){
   for (trait in seq_along(multi.dat)){
     dat <- multi.dat[[trait]]
     if (any(names(dat$summary)%in%'hit1')){
-      pp <-  as.data.frame(t(dat$summary[, c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'bf.a', 'bf.c')]))
+      pp <-  as.data.frame(t(dat$summary[, c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'lbfak', 'lbfck')]))
       pp$querysnp <-dat$querysnp
       rownames(pp) <- paste0(names(multi.dat)[trait], '_hit_', dat$summary$hit2)
       pp_df <- rbind(pp_df, pp)
     } else {
-      pp <- as.data.frame(t(dat$summary[c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'bf.a', 'bf.c')]))
+      pp <- as.data.frame(t(dat$summary[c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'lbfak', 'lbfck')]))
       pp$querysnp <-dat$querysnp
       rownames(pp) <-names(multi.dat)[trait]
       pp_df <- rbind(pp_df, pp)
     }
   }
-  colnames(pp_df) <- c('Hn' , 'Ha', 'Hc', 'nsnps', 'bf.a', 'bf.c', 'querysnp')
+  colnames(pp_df) <- c('Hn' , 'Ha', 'Hc', 'nsnps', 'lbfak', 'lbfck', 'querysnp')
   print('Done')
   return(pp_df)
 }
