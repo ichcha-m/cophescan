@@ -11,6 +11,7 @@ run_metrop_priors(
   nits = 10000,
   thin = 1,
   posterior = F,
+  avg_posterior = T,
   pik = T
 )
 }

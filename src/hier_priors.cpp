@@ -41,7 +41,7 @@ arma::mat pars2pik_rg(arma::vec pars, NumericVector nsnps, NumericVector rg_vec)
 }
 
 // [[Rcpp::export]]
-arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
   arma::mat pik;
   if (rg==false){
     pik = pars2pik_norg(pars, nsnps);
@@ -59,7 +59,7 @@ double logsumexp(arma::rowvec x) {
 }
 
 // [[Rcpp::export]]
-arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
   arma::mat pik = pars2pik(pars, nsnps, rg_vec=rg_vec, rg=rg);
   int k = nsnps.length();
   arma::mat logpost = arma::ones(k , 3);
@@ -77,7 +77,7 @@ arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, Numeri
 }
 
 // [[Rcpp::export]]
-double loglik(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+double loglik(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
   arma::mat logpos = logpost(pars, lbf_mat, nsnps, rg_vec, rg=rg);
   int k = nsnps.length();
   arma::vec ll_k(k);
@@ -90,7 +90,7 @@ double loglik(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVec
 }
 
 // [[Rcpp::export]]
-arma::mat posterior(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+arma::mat posterior(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
   arma::mat logpos = logpost(pars, lbf_mat, nsnps, rg_vec, rg=rg);
   int k = nsnps.length();
   arma::vec denom(k);
@@ -148,7 +148,7 @@ double logpriors(arma::vec pars, bool rg=false) {
 }
 
 // [[Rcpp::export]]
-double target(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false) {
+double target(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
   double target = loglik(pars, lbf_mat, nsnps, rg_vec, rg) + logpriors(pars, rg);
   return target;
 }
@@ -190,50 +190,64 @@ arma::vec metrop_init(bool rg=false){
 }
 
 // [[Rcpp::export]]
-List metrop_run(arma::mat lbf_mat, NumericVector nsnps,
-                NumericVector rg_vec=0, bool rg=false, int nits=10000,
+List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false, int nits=10000,
                 int thin=1){
   arma::vec pars = pars_init(rg=rg);
   arma::mat params = arma::zeros(pars.n_elem, nits/thin);
   arma::vec ll(nits/thin);
-  arma::vec L0(nits);
-  arma::vec T0(nits);
-  L0[0] = loglik(pars, lbf_mat, nsnps, rg_vec,  rg=rg);
-  T0[0] = L0[0] + logpriors(pars, rg=rg);
+  double L0;
+  double T0;
+  double accept;
+  arma::vec newpars;
+  L0 = loglik(pars, lbf_mat, nsnps, rg_vec,  rg=rg);
+  T0 = L0 + logpriors(pars, rg=rg);
   for(int i = 0; i < nits; i++){
     if(i % thin == 0) {
-      params.col(i) = pars;
-      ll[i] = T0[i];
-      }
-
-    arma::vec newpars=propose(pars);
-    double accept = exp(target(pars, lbf_mat, nsnps, rg_vec,  rg=rg) - T0[i]);
+      params.col(i/thin) = pars;
+      ll(i/thin) = T0;
+    }
+    newpars=propose(pars);
+    accept = exp(target(newpars, lbf_mat, nsnps, rg_vec,  rg=rg) - T0);
+    // Rcout <<  accept << "\n";
     if (R::runif(0, 1) < accept) {
       pars = newpars;
-      L0[i+1] = loglik(pars, lbf_mat, nsnps, rg_vec,  rg=rg);
-      T0[i+1] = L0[i+1] + logpriors(pars, rg=rg);
-      }
+      L0 = loglik(pars, lbf_mat, nsnps, rg_vec,  rg=rg);
+      T0 = L0 + logpriors(pars, rg=rg);
+    }
   }
   return Rcpp::List::create(Rcpp::Named("ll") = ll,
                             Rcpp::Named("params") = params);
 }
 
 // [[Rcpp::export]]
-List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false){
-  List post;
+List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
+  List post(k);
   for (int i = 0; i < k; i++){
-    post(i) = posterior(params.col(i),  lbf_mat, nsnps, rg_vec,  rg=rg);
+    post[i] = posterior(params.col(i),  lbf_mat, nsnps, rg_vec,  rg=rg);
   }
   return post;
 }
 
 // [[Rcpp::export]]
-List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec=0, bool rg=false){
-  List piks;
+List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
+  List piks(k);
   for (int i = 0; i < k; i++){
-    piks(i) = pars2pik(params.col(i), nsnps, rg_vec,  rg=rg);
+    piks[i] = pars2pik(params.col(i), nsnps, rg_vec,  rg=rg);
   }
   return piks;
+}
+
+// [[Rcpp::export]]
+arma::mat average_post(List posterior,int nits, int thin){
+  double st=(nits/thin/2+1);
+  double en=nits/thin;
+  arma::mat avpost = posterior[st];
+  for (int i = (st+1); i < en; i++){
+    arma::mat post = posterior[i];
+    avpost = avpost + post;
+  }
+  avpost=avpost/(en - st + 1);
+  return avpost;
 }

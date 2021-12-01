@@ -41,7 +41,6 @@ Collate:
     'singlevar.R'
     'multivarsusie.R'
     'impute.R'
-    'hello.R'
     'multitrait.R'
     'copheplots.R'
     'testdata.R'

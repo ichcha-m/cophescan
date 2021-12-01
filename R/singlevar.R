@@ -40,13 +40,13 @@ hypothesis.priors <- function(p2a, p12c, nsnps){
 combine.bf.kc <- function(l2, p2a, p12c, causalpos1) {
 
   lHn.bf <- 0
-  bf.a <- coloc:::logsum(l2[-causalpos1])
-  lHa.bf <- log(p2a) + bf.a
-  bf.c <- l2[causalpos1]
-  lHc.bf <- log(p12c) + bf.c
+  lbfak <- coloc:::logsum(l2[-causalpos1])
+  lHa.bf <- log(p2a) + lbfak
+  lbfck <- l2[causalpos1]
+  lHc.bf <- log(p12c) + lbfck
   # overall bf
-  bf <- c(bf.a, bf.c)
-  names(bf) <- c('bf.a', 'bf.c')
+  bf <- c(lbfak, lbfck)
+  names(bf) <- c('lbfak', 'lbfck')
 
   all.bf <- c(lHn.bf, lHa.bf, lHc.bf)
   my.denom.log.bf <- coloc:::logsum(all.bf)

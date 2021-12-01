@@ -281,6 +281,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// average_post
+arma::mat average_post(List posterior, int nits, int thin);
+RcppExport SEXP _cophescan_average_post(SEXP posteriorSEXP, SEXP nitsSEXP, SEXP thinSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type posterior(posteriorSEXP);
+    Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_post(posterior, nits, thin));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_cophescan_pars2pik_norg", (DL_FUNC) &_cophescan_pars2pik_norg, 2},
@@ -304,6 +317,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cophescan_metrop_run", (DL_FUNC) &_cophescan_metrop_run, 6},
     {"_cophescan_post_prob", (DL_FUNC) &_cophescan_post_prob, 5},
     {"_cophescan_piks", (DL_FUNC) &_cophescan_piks, 4},
+    {"_cophescan_average_post", (DL_FUNC) &_cophescan_average_post, 3},
     {NULL, NULL, 0}
 };
 

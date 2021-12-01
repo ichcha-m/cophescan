@@ -12,7 +12,7 @@
 #' @export
 #' @import matrixStats
 #' @examples
-run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin=1, posterior=F, pik=T){
+run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin=1, posterior=F, avg_posterior=T, pik=T){
   if (!is.data.frame(multi.dat)){
     pp_df <- multitrait.simplify(multi.dat)
     if (is.null(multi.dat)){return(NULL)}
@@ -28,7 +28,7 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin
     rg_vec <- 0
   }
 
-  lbf_mat <- as.matrix(pp_df[, c('bf.a', 'bf.c')])
+  lbf_mat <- as.matrix(pp_df[, c('lbfak', 'lbfck')])
   nsnps <- pp_df[, "nsnps"]
   res.metrop <- metrop_run(lbf_mat = lbf_mat, nsnps = nsnps, rg_vec = rg_vec, rg = rg, nits = nits, thin = thin)
   if (rg){
@@ -36,14 +36,20 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin
   }else{
   rownames(res.metrop$params) <- c("alpha","beta")}
   if (pik){
-    pik <- pars2pik(res.metrop$params, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
+    pik <- piks(res.metrop$params, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
     res.metrop$pik <- pik
   }
 
   if (posterior){
-    posterior <- posterior(res.metrop$params, lbf_mat, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
+    posterior <- post_prob(res.metrop$params, lbf_mat, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
     res.metrop$posterior <- posterior
   }
+
+  if (avg_posterior){
+    avg.posterior <- average_post(posterior, nits, thin)
+    res.metrop$avg_posterior <- avg.posterior
+  }
+
   return(res.metrop)
 }
 
