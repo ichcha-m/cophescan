@@ -77,10 +77,27 @@ metrop_run <- function(lbf_mat, nsnps, rg_vec, rg = FALSE, nits = 10000L, thin =
     .Call(`_cophescan_metrop_run`, lbf_mat, nsnps, rg_vec, rg, nits, thin)
 }
 
+#' post_prob
+#'
+#' Calculate the posterior probabilities of Hn, Ha and Hc from the output of piks
+#' @param params Matrix of hyperprior distributions
+#' @param lbf_mat Matrix of bayes factors
+#' @param nsnps Vector of number of snps
+#' @param rg_vec Vector of genetic correlation
+#' @param rg Include genetic correlation default:FALSE
+#' @return A list of posterior probabilities of Hn, Ha and Hc
 post_prob <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_post_prob`, params, lbf_mat, nsnps, rg_vec, rg)
 }
 
+#' piks
+#'
+#' Calculate the prior probabilities p0k, pak and pck from posteriors of alpha, beta and gamma
+#' @param params Matrix of hyperprior distributions
+#' @param nsnps Vector of number of snps
+#' @param rg_vec Vector of genetmic correlation
+#' @param rg Include genetic correlation default:FALSE
+#' @return A list of prior probabilities of p0k, pak and pck
 piks <- function(params, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_piks`, params, nsnps, rg_vec, rg)
 }

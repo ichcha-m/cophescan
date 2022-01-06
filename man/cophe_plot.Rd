@@ -2,9 +2,15 @@
 % Please edit documentation in R/copheplots.R
 \name{cophe_plot}
 \alias{cophe_plot}
-\title{cophe_plot}
+\title{cophe_plots showing the Ha and Hc of all traits and labelled above the specified threshold}
 \usage{
-cophe_plot(multi.dat, thresh = 0.5, addplot = NULL, adddat = NULL)
+cophe_plot(
+  multi.dat,
+  causal.snpid,
+  thresh_Hc = 0.5,
+  thresh_Ha = 0.5,
+  traits.dat = NULL
+)
 }
 \arguments{
 \item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
@@ -15,5 +21,5 @@ cophe_plot(multi.dat, thresh = 0.5, addplot = NULL, adddat = NULL)
 cophescan plots of Ha and Hc
 }
 \description{
-cophe_plot
+cophe_plots showing the Ha and Hc of all traits and labelled above the specified threshold
 }

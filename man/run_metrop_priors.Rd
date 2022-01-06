@@ -11,7 +11,7 @@ run_metrop_priors(
   nits = 10000,
   thin = 1,
   posterior = F,
-  avg_posterior = T,
+  avg_posterior = F,
   pik = T
 )
 }
@@ -26,9 +26,11 @@ run_metrop_priors(
 
 \item{thin}{burnin}
 
-\item{posterior}{estimated posterior probabilities of the hypotheses}
+\item{posterior}{default: F, estimate posterior probabilities of the hypotheses}
 
-\item{pik}{inferred prior probabilities}
+\item{avg_posterior}{default: F, estimate the average of the posterior probabilities of the hypotheses}
+
+\item{pik}{default: F, inferred prior probabilities}
 }
 \value{
 list containing posterior of the parameters

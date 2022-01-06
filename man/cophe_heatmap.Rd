@@ -2,9 +2,18 @@
 % Please edit documentation in R/copheplots.R
 \name{cophe_heatmap}
 \alias{cophe_heatmap}
-\title{Title}
+\title{Heatmap of multi-trait cophescan results}
 \usage{
-cophe_heatmap(multi.dat, thresh = 0.5)
+cophe_heatmap(
+  multi.dat,
+  thresh_Hc = 0.5,
+  thresh_Ha = 0.5,
+  cluster_columns = F,
+  cluster_rows = F,
+  cell_width = 20,
+  cell_height = 20,
+  ...
+)
 }
 \arguments{
 \item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
@@ -15,5 +24,5 @@ cophe_heatmap(multi.dat, thresh = 0.5)
 heatmap of posterior probabilities of the phentypes above the set threshold
 }
 \description{
-Title
+Heatmap of multi-trait cophescan results
 }

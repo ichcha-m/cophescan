@@ -219,6 +219,15 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bo
                             Rcpp::Named("params") = params);
 }
 
+//' post_prob
+//'
+//' Calculate the posterior probabilities of Hn, Ha and Hc from the output of piks
+//' @param params Matrix of hyperprior distributions
+//' @param lbf_mat Matrix of bayes factors
+//' @param nsnps Vector of number of snps
+//' @param rg_vec Vector of genetic correlation
+//' @param rg Include genetic correlation default:FALSE
+//' @return A list of posterior probabilities of Hn, Ha and Hc
 // [[Rcpp::export]]
 List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
@@ -229,6 +238,14 @@ List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, Numeric
   return post;
 }
 
+//' piks
+//'
+//' Calculate the prior probabilities p0k, pak and pck from posteriors of alpha, beta and gamma
+//' @param params Matrix of hyperprior distributions
+//' @param nsnps Vector of number of snps
+//' @param rg_vec Vector of genetmic correlation
+//' @param rg Include genetic correlation default:FALSE
+//' @return A list of prior probabilities of p0k, pak and pck
 // [[Rcpp::export]]
 List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
@@ -238,6 +255,7 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=f
   }
   return piks;
 }
+
 
 // [[Rcpp::export]]
 arma::mat average_post(List posterior,int nits, int thin){

@@ -9,5 +9,5 @@
 Coloc adapted Phenome-wide Scans
 }
 \references{
-utils::globalVariables(c(".","dfsane","dmvnorm","Hn","Ha","Hc","hit1","hit2","lABF.df2","lABF.h3","lbf1","lbf2","nsnps","snp","snp1","snp2","varbeta","z"))
+
 }

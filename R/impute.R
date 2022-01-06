@@ -5,7 +5,6 @@
 #' @param LD LD matrix including all SNPs to be imputed
 #' @param MAF Minimum allele frequency
 #' @param nsample number of samples from which the LD matrix is derived
-#' @import magrittr
 #' @return Imputed dataset
 #' @export
 #'

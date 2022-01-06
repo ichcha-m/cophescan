@@ -5,14 +5,13 @@
 #' @param rg_vec vector of genetic correlations
 #' @param nits number of iterations
 #' @param thin burnin
-#' @param posterior estimated posterior probabilities of the hypotheses
-#' @param pik inferred prior probabilities
+#' @param posterior default: F, estimate posterior probabilities of the hypotheses
+#' @param avg_posterior default: F, estimate the average of the posterior probabilities of the hypotheses
+#' @param pik default: F, inferred prior probabilities
 #'
 #' @return list containing posterior of the parameters
 #' @export
-#' @import matrixStats
-#' @examples
-run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin=1, posterior=F, avg_posterior=T, pik=T){
+run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin=1, posterior=F, avg_posterior=F, pik=T){
   if (!is.data.frame(multi.dat)){
     pp_df <- multitrait.simplify(multi.dat)
     if (is.null(multi.dat)){return(NULL)}
@@ -47,9 +46,9 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin
 
   if (avg_posterior){
     avg.posterior <- average_post(posterior, nits, thin)
-    res.metrop$avg_posterior <- avg.posterior
+    colnames(avg.posterior) <- c('Hn', 'Hc', 'Ha')
+    res.metrop$avg.posterior <- avg.posterior
   }
 
   return(res.metrop)
 }
-

@@ -17,6 +17,7 @@ BugReports: https://github.com/ichcha-m/cophescan
 Imports: 
     Rcpp (>= 1.0.7),
     data.table,
+    ggtern,
     ggplot2,
     ggrepel,
     pheatmap,
@@ -31,8 +32,10 @@ Imports:
     coloc
 Suggests:
     knitr,
-    testthat,
-    rmarkdown
+    testthat (>= 3.0.0),
+    rmarkdown,
+    RColorBrewer,
+    ggpubr
 Remotes: 
     github::stephenslab/susieR,
     github::chr1swallace/coloc
@@ -46,4 +49,6 @@ Collate:
     'testdata.R'
     'RcppExports.R'
     'metrop_hier_priors.R'
+    'zzz.R'
 LinkingTo: Rcpp, RcppArmadillo
+Config/testthat/edition: 3
