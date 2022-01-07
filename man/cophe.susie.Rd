@@ -12,7 +12,6 @@ cophe.susie(
   p12 = 1e-05,
   p2a = NULL,
   p12c = NULL,
-  back_calculate_lbf = FALSE,
   susie.args = list(),
   ...
 )
@@ -22,13 +21,23 @@ cophe.susie(
 \link{check_dataset}), or the result of running \link{runsusie} on such a
 dataset}
 
+\item{causal.snpid}{Id of the query variant}
+
+\item{p1}{prior probability a SNP is associated with trait 1, default 1e-4}
+
+\item{p2}{prior probability a SNP is associated with trait 2, default 1e-4}
+
+\item{p12}{prior probability a SNP is associated with both traits, default 1e-5}
+
+\item{p2a}{prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4}
+
+\item{p12c}{prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5}
+
 \item{susie.args}{a named list of additional arguments to be passed to
 \link{runsusie}}
 
 \item{...}{other arguments passed to \link{cophe.bf_bf}, in particular prior
 values for causal association with one trait (p1, p2) or both (p12)}
-
-\item{nref}{number of individuals from wHam the LD matrix was estimated}
 }
 \value{
 a list, containing elements

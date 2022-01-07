@@ -27,7 +27,6 @@
 #' @importFrom grDevices colorRampPalette palette rgb
 #' @importFrom stats pnorm uniroot
 #' @import magrittr
-#' @references
 
-utils::globalVariables(c(".","dfsane","dmvnorm","Hn","Ha","Hc","hit1","hit2","lbfak","lbfck","nsnps","snp","snp1","snp2","varbeta","z"))
+utils::globalVariables(c(".","pval_plot","beta_plot","Hn","Ha","Hc","ppHn","ppHa","ppHc","hit1","hit2","lbfak","lbfck","nsnps","snp","idx1","i","varbeta","z","x","y","points","j","df","causal.snpid"))
 NULL

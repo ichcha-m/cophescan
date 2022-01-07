@@ -4,7 +4,7 @@ Version: 0.1.0
 Authors@R: c(person("Ichcha", "Manipur", role=c("aut","cre"),
     email = "im504@cam.ac.uk"))
 Description: Coloc adapted Phenome-wide Scans.
-License: GPL
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
@@ -16,6 +16,8 @@ URL: https://github.com/ichcha-m/cophescan
 BugReports: https://github.com/ichcha-m/cophescan
 Imports: 
     Rcpp (>= 1.0.7),
+    coloc,
+    susieR,
     data.table,
     ggtern,
     ggplot2,
@@ -29,7 +31,7 @@ Imports:
     utils,
     RcppParallel (>= 5.0.1),
     RcppArmadillo,
-    coloc
+    matrixStats
 Suggests:
     knitr,
     testthat (>= 3.0.0),

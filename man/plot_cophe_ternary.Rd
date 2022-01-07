@@ -9,12 +9,19 @@ plot_cophe_ternary(
   traits.dat = NULL,
   plot_pval = F,
   thresh_Hc = 0.5,
-  thresh_Ha = 0.5,
-  ...
+  thresh_Ha = 0.5
 )
 }
 \arguments{
 \item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
+
+\item{traits.dat}{list of multi-trait coloc structured datasets}
+
+\item{plot_pval}{Map p_value of Queried variant}
+
+\item{thresh_Hc}{Hc threshold to be displayed}
+
+\item{thresh_Ha}{Ha threshold to be displayed}
 }
 \value{
 ternary plot of the posterior probabilities of Ha, Hc and Hn

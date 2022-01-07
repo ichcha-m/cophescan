@@ -1,6 +1,21 @@
 ##' Check if a variant causally associated in one trait might be causal in another trait
 ##'
 ##' @title run cophe.susie using susie to detect separate signals
+##' @param dataset2 a list with specifically named elements defining the dataset
+##'   to be analysed.
+##' @param causal.snpid Id of the query variant
+##' @param p2a prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4
+##' @param p12c prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5
+##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
+##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
+##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
+##' @param dataset2 *either* an input dataset (see
+##'   \link{check_dataset}), or the result of running \link{runsusie} on such a
+##'   dataset
+##' @param susie.args a named list of additional arguments to be passed to
+##'   \link{runsusie}
+##' @param ... other arguments passed to \link{cophe.bf_bf}, in particular prior
+##'   values for causal association with one trait (p1, p2) or both (p12)
 ##' @return a list, containing elements
 ##' * summary a data.table of posterior
 ##'   probabilities of each global hypothesis, one row per pairwise comparison
@@ -13,16 +28,8 @@
 ##' @importFrom coloc runsusie
 ##' @export
 ##' @author Ichcha Manipur
-##' @param dataset2 *either* an input dataset (see
-##'   \link{check_dataset}), or the result of running \link{runsusie} on such a
-##'   dataset
-##' @param nref number of individuals from wHam the LD matrix was estimated
-##' @param susie.args a named list of additional arguments to be passed to
-##'   \link{runsusie}
-##' @param ... other arguments passed to \link{cophe.bf_bf}, in particular prior
-##'   values for causal association with one trait (p1, p2) or both (p12)
 cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
-                       p2a=NULL, p12c=NULL,back_calculate_lbf=FALSE,
+                       p2a=NULL, p12c=NULL,
                        susie.args=list(),  ...) {
   if(!requireNamespace("susieR", quietly = TRUE)) {
     message("please install susieR https://github.com/stephenslab/susieR")
@@ -83,7 +90,7 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
 
     bf2=s2$lbf_variable[idx2,,drop=FALSE][,setdiff(colnames(s2$lbf_variable),"")]
 
-    ret=cophe.bf_bf(bf2,causal.snpid, p2a, p12c,...)
+    ret=cophe.bf_bf(bf2,causal.snpid, p2a, p12c,p1=p1,p2=p2,p12=p12)
     ## renumber index to match
     ret$summary[,idx2:=cs2$cs_index[idx2]]
     ret$summary[,idx1:=rep(1, length(ret$summary$idx2))]
@@ -96,10 +103,14 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
 ##' a dataset represented by Bayes factors
 ##' @title extract data through Bayes factors
 ##' @param bf2 named vector of BF, or matrix of BF with colnames (cols=snps, rows=signals)
-##' @return coloc.signals style result
-##' @export
-##' @author Ichcha Manipur
-cophe.bf_bf=function(bf2, causal.snpid, p2a=NULL, p12c=NULL,p1=1e-4, p2=1e-4, p12=5e-6) {
+##' @param causal.snpid Id of the query variant
+##' @param p2a prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4
+##' @param p12c prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5
+##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
+##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
+##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
+##' @return bayes factors of signals
+cophe.bf_bf=function(bf2, causal.snpid, p2a, p12c,p1, p2, p12) {
 
   if(is.vector(bf2))
     bf2=matrix(bf2,nrow=1,dimnames=list(NULL,names(bf2)))

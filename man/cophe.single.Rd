@@ -12,13 +12,14 @@ cophe.single(
   p2 = 1e-04,
   p12 = 1e-05,
   p2a = NULL,
-  p12c = NULL,
-  forhier = F
+  p12c = NULL
 )
 }
 \arguments{
 \item{dataset}{a list with specifically named elements defining the dataset
 to be analysed.}
+
+\item{causal.snpid}{Id of the query variant}
 
 \item{MAF}{Minor allele frequency vector to be used for  dataset, a sHarthand for supplying the same vector as parts of both datasets}
 
@@ -31,8 +32,6 @@ to be analysed.}
 \item{p2a}{prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4}
 
 \item{p12c}{prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5}
-
-\item{causalpos1}{Position of trait1 causal SNP}
 }
 \value{
 a list of two \code{data.frame}s:

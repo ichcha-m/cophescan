@@ -4,21 +4,17 @@
 \alias{cophe_heatmap}
 \title{Heatmap of multi-trait cophescan results}
 \usage{
-cophe_heatmap(
-  multi.dat,
-  thresh_Hc = 0.5,
-  thresh_Ha = 0.5,
-  cluster_columns = F,
-  cluster_rows = F,
-  cell_width = 20,
-  cell_height = 20,
-  ...
-)
+cophe_heatmap(multi.dat, thresh_Hc = 0.5, thresh_Ha = 0.5, ...)
 }
 \arguments{
 \item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
 
-\item{thresh}{Traits with posterior probabilities above this threshold for Hc and Ha will be displayed}
+\item{thresh_Hc}{Hc threshold to be displayed}
+
+\item{thresh_Ha}{Ha threshold to be displayed}
+
+\item{...}{additional arguments to be passed to
+\link{pheatmap}}
 }
 \value{
 heatmap of posterior probabilities of the phentypes above the set threshold

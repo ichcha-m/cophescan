@@ -73,9 +73,9 @@ combine.bf.kc <- function(l2, p2a, p12c, causalpos1) {
 ##' coefficients sHauld be used if available.
 ##'
 ##' @title Fully Bayesian cophe analysis using Bayes Factors
-##' @param causalpos1 Position of trait1 causal SNP
 ##' @param dataset a list with specifically named elements defining the dataset
 ##'   to be analysed.
+##' @param causal.snpid Id of the query variant
 ##' @param MAF Minor allele frequency vector to be used for  dataset, a sHarthand for supplying the same vector as parts of both datasets
 ##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
 ##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
@@ -91,7 +91,7 @@ combine.bf.kc <- function(l2, p2a, p12c, causalpos1) {
 ##' @author Ichcha Manipur
 ##' @export
 cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=1e-5,
-                           p2a=NULL, p12c=NULL, forhier=F) {
+                           p2a=NULL, p12c=NULL) {
 
 
   if(!("MAF" %in% names(dataset)) & !is.null(MAF))
