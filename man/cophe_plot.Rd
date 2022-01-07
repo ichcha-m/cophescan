@@ -15,7 +15,13 @@ cophe_plot(
 \arguments{
 \item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
 
-\item{thresh}{Traits with posterior probabilities above this threshold for Hc and Ha will be labelled}
+\item{causal.snpid}{query variant}
+
+\item{thresh_Hc}{Hc threshold to be displayed}
+
+\item{thresh_Ha}{Ha threshold to be displayed}
+
+\item{traits.dat}{list of multi-trait oloc structured datasets}
 }
 \value{
 cophescan plots of Ha and Hc

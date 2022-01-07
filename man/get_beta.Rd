@@ -12,7 +12,7 @@ get_beta(traits.dat, causal.snpid)
 \item{causal.snpid}{causal.snpid}
 }
 \value{
-
+data.frame with one column indicating beta direction and another column with -log10(pval) of the queried variant
 }
 \description{
 Extract beta and p-values of queried variant

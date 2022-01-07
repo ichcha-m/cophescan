@@ -12,6 +12,7 @@ You can install cophescan in R with:
 if(!require("remotes"))
    install.packages("remotes") # if necessary
 remotes::install_github("ichcha-m/cophescan")
+
 ```
 
 ### Usage

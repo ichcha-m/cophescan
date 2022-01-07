@@ -49,8 +49,8 @@ multitrait.simplify <- function(multi.dat){
     print('Please assign the names of the phenotypes to the dataset: names(multi.dat) = vector of phenotype names')
     return(NULL)
   }
-  print('Simplifying...')
-  print('Removing intermediate results...')
+  # print('Simplifying...')
+  # print('Removing intermediate results...')
   # v=unlist(sapply(multi.dat, function(x) any(names(x$summary)%in%'hit1') ))
   pp_df <- data.frame()
   for (trait in seq_along(multi.dat)){
@@ -68,6 +68,6 @@ multitrait.simplify <- function(multi.dat){
     }
   }
   colnames(pp_df) <- c('Hn' , 'Ha', 'Hc', 'nsnps', 'lbfak', 'lbfck', 'querysnp')
-  print('Done')
+  # print('Done')
   return(pp_df)
 }

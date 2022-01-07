@@ -4,25 +4,26 @@
 \alias{cophe.bf_bf}
 \title{extract data through Bayes factors}
 \usage{
-cophe.bf_bf(
-  bf2,
-  causal.snpid,
-  p2a = NULL,
-  p12c = NULL,
-  p1 = 1e-04,
-  p2 = 1e-04,
-  p12 = 5e-06
-)
+cophe.bf_bf(bf2, causal.snpid, p2a, p12c, p1, p2, p12)
 }
 \arguments{
 \item{bf2}{named vector of BF, or matrix of BF with colnames (cols=snps, rows=signals)}
+
+\item{causal.snpid}{Id of the query variant}
+
+\item{p2a}{prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4}
+
+\item{p12c}{prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5}
+
+\item{p1}{prior probability a SNP is associated with trait 1, default 1e-4}
+
+\item{p2}{prior probability a SNP is associated with trait 2, default 1e-4}
+
+\item{p12}{prior probability a SNP is associated with both traits, default 1e-5}
 }
 \value{
-coloc.signals style result
+bayes factors of signals
 }
 \description{
 a dataset represented by Bayes factors
-}
-\author{
-Ichcha Manipur
 }

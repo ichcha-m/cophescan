@@ -8,6 +8,3 @@
 \description{
 Coloc adapted Phenome-wide Scans
 }
-\references{
-
-}
