@@ -19,16 +19,17 @@ remotes::install_github("ichcha-m/cophescan")
 
 ``` r
 library(cophescan)
-## Load the cophescan simulated data for 30 traits
+## Load the simulated summary stats data of 30 traits
 data("cophe_multi_trait_data")
 attach(cophe_multi_trait_data)
-
+names(cophe_multi_trait_data)
 ```
 
 #### Single trait
 ```r
 trait1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
 causal.snpid <- cophe_multi_trait_data$causal.snpid
+print(causal.snpid)
 trait1$position <- sapply(trait1$snp, function(x) as.numeric(unlist(strsplit(x, "-"))[2]))
 plot_trait_manhat(trait1, causal.snpid)
 
