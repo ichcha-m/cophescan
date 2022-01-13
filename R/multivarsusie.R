@@ -95,6 +95,7 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
     ret$summary[,idx2:=cs2$cs_index[idx2]]
     ret$summary[,idx1:=rep(1, length(ret$summary$idx2))]
     ret$bf=bf2
+    ret$querysnp=causal.snpid
   }
   return(ret)
 }

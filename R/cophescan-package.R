@@ -12,7 +12,7 @@
 #' @import Rcpp
 #' @import RcppArmadillo
 #' @importFrom ggplot2 ggplot aes scale_color_viridis_c geom_point labs scale_shape_manual aes_string element_blank element_line element_rect element_text ylab xlab theme ggtitle unit ylim xlim
-#' @importFrom ggtern ggtern Tarrowlab Larrowlab Rarrowlab theme_arrowsmall theme_nomask theme_linedraw
+#' @importFrom ggtern ggtern Tarrowlab Larrowlab Rarrowlab theme_arrowsmall theme_nomask theme_linedraw position_nudge_tern position_jitter_tern
 #' @import ggrepel
 #' @import pheatmap
 #' @import matrixStats

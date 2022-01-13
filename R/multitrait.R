@@ -56,7 +56,7 @@ multitrait.simplify <- function(multi.dat){
   for (trait in seq_along(multi.dat)){
     dat <- multi.dat[[trait]]
     if (any(names(dat$summary)%in%'hit1')){
-      pp <-  as.data.frame(t(dat$summary[, c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'lbfak', 'lbfck')]))
+      pp <-  as.data.frame((dat$summary[, c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'lbfak', 'lbfck')]))
       pp$querysnp <-dat$querysnp
       rownames(pp) <- paste0(names(multi.dat)[trait], '_hit_', dat$summary$hit2)
       pp_df <- rbind(pp_df, pp)
