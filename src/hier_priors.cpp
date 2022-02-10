@@ -110,12 +110,14 @@ arma::vec sample_alpha(int n=1){
 
 // [[Rcpp::export]]
 arma::vec sample_beta(int n=1){
-  return(rgamma(n, 0.5, 2));
+  // return(rgamma(n, 0.5, 2));
+  return(rgamma(n, 0.5, 0.5));
 }
 
 // [[Rcpp::export]]
 arma::vec sample_gamma(int n=1){
-  return(rgamma(n, 0.5, 2));
+  // return(rgamma(n, 0.5, 2));
+  return(rgamma(n, 0.5, 0.5));
 }
 
 // [[Rcpp::export]]
@@ -127,12 +129,14 @@ double logd_alpha(double a, double mean=-10, double sd=0.5, bool log=true){
 double logd_beta(double b){
   // scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
   // Also for logd_gamma
-  return R::dgamma(b, 0.5, 2, true);
+  // return R::dgamma(b, 0.5, 2, true);
+  return R::dgamma(b, 0.5, 0.5, true);
 }
 
 // [[Rcpp::export]]
 double logd_gamma(double g){
-  return R::dgamma(g, 0.5, 2, true);
+  //return R::dgamma(g, 0.5, 2, true);
+  return R::dgamma(g, 0.5, 0.5, true);
 }
 
 // [[Rcpp::export]]
