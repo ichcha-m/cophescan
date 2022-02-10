@@ -52,3 +52,4 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin
 
   return(res.metrop)
 }
+
