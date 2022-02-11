@@ -8,10 +8,12 @@
 #' @param posterior default: F, estimate posterior probabilities of the hypotheses
 #' @param avg_posterior default: F, estimate the average of the posterior probabilities of the hypotheses
 #' @param pik default: F, inferred prior probabilities
+#' @param chains default: 1, number of chains
+#' @param cores default: 1, number of cores
 #'
 #' @return list containing posterior of the parameters
 #' @export
-run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin=1, posterior=F, avg_posterior=F, pik=T){
+run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin=1, posterior=F, avg_posterior=F, pik=T, chains=1, cores=1){
   if (!is.data.frame(multi.dat)){
     pp_df <- multitrait.simplify(multi.dat)
     if (is.null(multi.dat)){return(NULL)}
@@ -24,23 +26,23 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin
       stop('Length of rg_vec should be equal to the number of traits (length(multi.dat))')
     }
   } else if (is.null(rg_vec)){
-    rg_vec <- 0
+    rg_vec <- rep(1, nrow(pp_df))
   }
 
   lbf_mat <- as.matrix(pp_df[, c('lbfak', 'lbfck')])
   nsnps <- pp_df[, "nsnps"]
   res.metrop <- metrop_run(lbf_mat = lbf_mat, nsnps = nsnps, rg_vec = rg_vec, rg = rg, nits = nits, thin = thin)
   if (rg){
-  rownames(res.metrop$params) <- c("alpha","beta","gamma")
+    rownames(res.metrop$parameters) <- c("alpha","beta","gamma")
   }else{
-  rownames(res.metrop$params) <- c("alpha","beta")}
+    rownames(res.metrop$parameters) <- c("alpha","beta")}
   if (pik){
-    pik <- piks(res.metrop$params, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
+    pik <- piks(res.metrop$parameters, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
     res.metrop$pik <- pik
   }
 
   if (posterior){
-    posterior <- post_prob(res.metrop$params, lbf_mat, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
+    posterior <- post_prob(res.metrop$parameters, lbf_mat, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
     res.metrop$posterior <- posterior
   }
 

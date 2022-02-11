@@ -67,7 +67,7 @@ get_beta <- function(traits.dat, causal.snpid){
 #'
 cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, traits.dat=NULL){
   if (is.null(traits.dat)){
-      print('Trait summary stat data required for pval PheWAS plot')
+    print('Trait summary stat data required for pval PheWAS plot')
   }
   options(ggrepel.max.overlaps = Inf)
   plot_list <- list()
@@ -132,12 +132,12 @@ cophe_heatmap <- function(multi.dat, thresh_Hc=0.5, thresh_Ha=0.5, ...){
 #' @export
 #'
 plot_trait_manhat <- function(trait.dat, causal.snpid){
-    x <- trait.dat$position
-    cvidx <- which(trait.dat$snp%in%causal.snpid)
-    y <- -log10(pnorm(-abs(trait.dat$beta/sqrt(trait.dat$varbeta))) * 2)
-    plot(x, y, xlab = "Position", ylab = "-log10(p)", pch = 16,
-         col = "grey", sub=causal.snpid)
-    points(x[cvidx], y[cvidx], col="red", pch=16)
+  x <- trait.dat$position
+  cvidx <- which(trait.dat$snp%in%causal.snpid)
+  y <- -log10(pnorm(-abs(trait.dat$beta/sqrt(trait.dat$varbeta))) * 2)
+  plot(x, y, xlab = "Position", ylab = "-log10(p)", pch = 16,
+       col = "grey", sub=causal.snpid)
+  points(x[cvidx], y[cvidx], col="red", pch=16)
 }
 
 #' Ternary plots of multi-trait cophescan output
@@ -153,7 +153,7 @@ plot_trait_manhat <- function(trait.dat, causal.snpid){
 plot_cophe_ternary <- function(multi.dat, traits.dat=NULL, plot_pval=F, thresh_Hc=0.5, thresh_Ha=0.5){
   pp_df <- prepare_plot_data(multi.dat, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F)
 
-    if (is.null(traits.dat) & plot_pval){
+  if (is.null(traits.dat) & plot_pval){
     stop("Please provide traits.dat to plot p_val")
   } else if (!is.null(traits.dat) & plot_pval) {
     beta_p <- get_beta(traits.dat, causal.snpid)
@@ -166,7 +166,7 @@ plot_cophe_ternary <- function(multi.dat, traits.dat=NULL, plot_pval=F, thresh_H
     trn = ggtern(data=pp_df, aes_string(x="Hn",y="Hc",z="Ha"), aes(label=L1))
     trn = trn+geom_point(aes(color=Hc),fill='black',  size=4.5)+ theme_linedraw() + scale_color_viridis_c(alpha = 0.65, n.breaks = 6, option = "viridis") + theme_arrowsmall()+ labs(color="Hc", size=10)  + Tarrowlab("")+ Larrowlab("")+ Rarrowlab("")+  theme_nomask()+ theme(text = element_text(size=12)) #
     # + geom_label(mapping = aes(label=L1),position=position_nudge_tern(x=-0.2, y=0.3, z=0.2))
-      #geom_text(position = pn, aes(label=L1),size=5)
+    #geom_text(position = pn, aes(label=L1),size=5)
   }
 
   return(trn)

@@ -11,31 +11,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// pars2pik_norg
-arma::mat pars2pik_norg(arma::vec pars, NumericVector nsnps);
-RcppExport SEXP _cophescan_pars2pik_norg(SEXP parsSEXP, SEXP nsnpsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    rcpp_result_gen = Rcpp::wrap(pars2pik_norg(pars, nsnps));
-    return rcpp_result_gen;
-END_RCPP
-}
-// pars2pik_rg
-arma::mat pars2pik_rg(arma::vec pars, NumericVector nsnps, NumericVector rg_vec);
-RcppExport SEXP _cophescan_pars2pik_rg(SEXP parsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(pars2pik_rg(pars, nsnps, rg_vec));
-    return rcpp_result_gen;
-END_RCPP
-}
 // pars2pik
 arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec, bool rg);
 RcppExport SEXP _cophescan_pars2pik(SEXP parsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
@@ -225,17 +200,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// metrop_init
-arma::vec metrop_init(bool rg);
-RcppExport SEXP _cophescan_metrop_init(SEXP rgSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(metrop_init(rg));
-    return rcpp_result_gen;
-END_RCPP
-}
 // metrop_run
 List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg, int nits, int thin);
 RcppExport SEXP _cophescan_metrop_run(SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP, SEXP nitsSEXP, SEXP thinSEXP) {
@@ -296,8 +260,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_cophescan_pars2pik_norg", (DL_FUNC) &_cophescan_pars2pik_norg, 2},
-    {"_cophescan_pars2pik_rg", (DL_FUNC) &_cophescan_pars2pik_rg, 3},
     {"_cophescan_pars2pik", (DL_FUNC) &_cophescan_pars2pik, 4},
     {"_cophescan_logsumexp", (DL_FUNC) &_cophescan_logsumexp, 1},
     {"_cophescan_logpost", (DL_FUNC) &_cophescan_logpost, 5},
@@ -313,7 +275,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cophescan_target", (DL_FUNC) &_cophescan_target, 5},
     {"_cophescan_propose", (DL_FUNC) &_cophescan_propose, 2},
     {"_cophescan_pars_init", (DL_FUNC) &_cophescan_pars_init, 1},
-    {"_cophescan_metrop_init", (DL_FUNC) &_cophescan_metrop_init, 1},
     {"_cophescan_metrop_run", (DL_FUNC) &_cophescan_metrop_run, 6},
     {"_cophescan_post_prob", (DL_FUNC) &_cophescan_post_prob, 5},
     {"_cophescan_piks", (DL_FUNC) &_cophescan_piks, 4},

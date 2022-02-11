@@ -12,7 +12,9 @@ run_metrop_priors(
   thin = 1,
   posterior = F,
   avg_posterior = F,
-  pik = T
+  pik = T,
+  chains = 1,
+  cores = 1
 )
 }
 \arguments{
@@ -31,6 +33,10 @@ run_metrop_priors(
 \item{avg_posterior}{default: F, estimate the average of the posterior probabilities of the hypotheses}
 
 \item{pik}{default: F, inferred prior probabilities}
+
+\item{chains}{default: 1, number of chains}
+
+\item{cores}{default: 1, number of cores}
 }
 \value{
 list containing posterior of the parameters

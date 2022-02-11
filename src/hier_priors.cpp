@@ -5,51 +5,25 @@ using namespace Rcpp;
 // using namespace arma;
 
 // [[Rcpp::export]]
-arma::mat pars2pik_norg(arma::vec pars, NumericVector nsnps) {
-  // double alpha=pars[0];
-  // double beta=pars[1];
-
-  int k = nsnps.length();
-  arma::mat pik (1, 3);
-  pik.row(0) = {1, exp(pars[0]), exp(pars[0] + pars[1])};
-
-  arma::vec v = nsnps - 1;
-  arma::mat m2 = arma::ones(3, k);
-  m2.row(1) = arma::trans(v);
-  arma::vec denom = diagvec(pik * m2);
-  pik.each_col() /= denom ;
-  return pik;
-}
-
-// [[Rcpp::export]]
-arma::mat pars2pik_rg(arma::vec pars, NumericVector nsnps, NumericVector rg_vec) {
-  // double alpha=pars[0];
-  // double beta=pars[1];
-  // double gamma=pars[2];
-
+arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
+  double alpha=pars[0];
+  double beta=pars[1];
+  double gamma;
+  if (rg==false){
+    gamma=0;
+  } else {
+    gamma=pars[2];
+  }
   int k = nsnps.length();
   arma::mat pik = arma::ones(k , 3);
-  pik.col(1) =  arma::vec (rep( exp(pars[0]), k )) ;
-  pik.col(2) = arma::vec (exp(pars[0] + pars[1] + (pars[2]*rg_vec)));
+  pik.col(1) =  arma::vec (rep( exp(alpha), k )) ;
+  pik.col(2) = arma::vec (exp(alpha + beta + (gamma*rg_vec)));
 
   arma::vec v = nsnps - 1;
   arma::mat m2 = arma::ones(3, k);
   m2.row(1) = arma::trans(v);
   arma::vec denom = diagvec(pik * m2);
   pik.each_col() /= denom ;
-  return pik;
-}
-
-// [[Rcpp::export]]
-arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  arma::mat pik;
-  if (rg==false){
-    pik = pars2pik_norg(pars, nsnps);
-  } else if ( rg_vec.length() == nsnps.length()) {
-    pik = pars2pik_rg(pars, nsnps, rg_vec);
-  } else{
-    stop("Required rg vector when rg=TRUE.\n");
-  }
   return pik;
 }
 
@@ -64,15 +38,11 @@ arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, Numeri
   int k = nsnps.length();
   arma::mat logpost = arma::ones(k , 3);
   arma::mat logpik = log(pik);
-  if (rg == false){
-    logpost.col(0).fill(arma::as_scalar(logpik.col(0)));
-    logpost.col(1) =  arma::as_scalar(logpik.col(1)) + lbf_mat.col(0);
-    logpost.col(2) =  arma::as_scalar(logpik.col(2)) + lbf_mat.col(1);
-  } else {
-    logpost.col(0) =  logpik.col(0);
-    logpost.col(1) =  logpik.col(1) + lbf_mat.col(0);
-    logpost.col(2) =  logpik.col(2) + lbf_mat.col(1);
-  }
+
+  logpost.col(0) =  logpik.col(0);
+  logpost.col(1) =  logpik.col(1) + lbf_mat.col(0);
+  logpost.col(2) =  logpik.col(2) + lbf_mat.col(1);
+
   return logpost;
 }
 
@@ -179,21 +149,6 @@ arma::vec pars_init(bool rg=false){
 }
 
 // [[Rcpp::export]]
-arma::vec metrop_init(bool rg=false){
-  double alpha = arma::as_scalar(sample_alpha());
-  double beta = arma::as_scalar(sample_beta());
-  arma::vec pars;
-
-  if(rg==true) {
-    double gamma = arma::as_scalar(sample_gamma());
-    pars = {alpha, beta, gamma};
-  } else{
-    pars = {alpha, beta};
-  }
-  return pars;
-}
-
-// [[Rcpp::export]]
 List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false, int nits=10000,
                 int thin=1){
   arma::vec pars = pars_init(rg=rg);
@@ -220,18 +175,9 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bo
     }
   }
   return Rcpp::List::create(Rcpp::Named("ll") = ll,
-                            Rcpp::Named("params") = params);
+                            Rcpp::Named("parameters") = params);
 }
 
-//' post_prob
-//'
-//' Calculate the posterior probabilities of Hn, Ha and Hc from the output of piks
-//' @param params Matrix of hyperprior distributions
-//' @param lbf_mat Matrix of bayes factors
-//' @param nsnps Vector of number of snps
-//' @param rg_vec Vector of genetic correlation
-//' @param rg Include genetic correlation default:FALSE
-//' @return A list of posterior probabilities of Hn, Ha and Hc
 // [[Rcpp::export]]
 List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
@@ -242,14 +188,6 @@ List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, Numeric
   return post;
 }
 
-//' piks
-//'
-//' Calculate the prior probabilities p0k, pak and pck from posteriors of alpha, beta and gamma
-//' @param params Matrix of hyperprior distributions
-//' @param nsnps Vector of number of snps
-//' @param rg_vec Vector of genetmic correlation
-//' @param rg Include genetic correlation default:FALSE
-//' @return A list of prior probabilities of p0k, pak and pck
 // [[Rcpp::export]]
 List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
@@ -259,7 +197,6 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=f
   }
   return piks;
 }
-
 
 // [[Rcpp::export]]
 arma::mat average_post(List posterior,int nits, int thin){
