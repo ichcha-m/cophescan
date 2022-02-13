@@ -77,3 +77,7 @@ average_post <- function(posterior, nits, thin) {
     .Call(`_cophescan_average_post`, posterior, nits, thin)
 }
 
+average_pik <- function(params, nsnps, rg_vec, nits, thin, rg = FALSE) {
+    .Call(`_cophescan_average_pik`, params, nsnps, rg_vec, nits, thin, rg)
+}
+

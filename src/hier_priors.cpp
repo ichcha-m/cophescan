@@ -75,24 +75,26 @@ arma::mat posterior(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, Nume
 
 // [[Rcpp::export]]
 arma::vec sample_alpha(int n=1){
-  return(rnorm(n, -10, 0.5));
+  return rnorm(n, -10, 0.5);
 }
 
 // [[Rcpp::export]]
 arma::vec sample_beta(int n=1){
+  // scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
   // return(rgamma(n, 0.5, 2));
-  return(rgamma(n, 0.5, 0.5));
+  return rgamma(n, 2, 2);
 }
 
 // [[Rcpp::export]]
 arma::vec sample_gamma(int n=1){
+  // scale converted from  required rate(0.5)
   // return(rgamma(n, 0.5, 2));
-  return(rgamma(n, 0.5, 0.5));
+  return rgamma(n, 2, 2);
 }
 
 // [[Rcpp::export]]
 double logd_alpha(double a, double mean=-10, double sd=0.5, bool log=true){
-  return(R::dnorm(a, mean, sd, log));
+  return R::dnorm(a, mean, sd, log);
 }
 
 // [[Rcpp::export]]
@@ -100,13 +102,13 @@ double logd_beta(double b){
   // scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
   // Also for logd_gamma
   // return R::dgamma(b, 0.5, 2, true);
-  return R::dgamma(b, 0.5, 0.5, true);
+  return R::dgamma(b, 2, 2, true);
 }
 
 // [[Rcpp::export]]
 double logd_gamma(double g){
-  //return R::dgamma(g, 0.5, 2, true);
-  return R::dgamma(g, 0.5, 0.5, true);
+  // return R::dgamma(g, 0.5, 2, true);
+  return R::dgamma(g, 2, 2, true);
 }
 
 // [[Rcpp::export]]
@@ -209,4 +211,19 @@ arma::mat average_post(List posterior,int nits, int thin){
   }
   avpost=avpost/(en - st + 1);
   return avpost;
+}
+
+// [[Rcpp::export]]
+arma::mat average_pik(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
+  double st=(nits/thin/2+1);
+  double en=nits/thin;
+  List piks_list;
+  piks_list = piks(params, nsnps, rg_vec, rg=rg);
+  arma::mat avpik = piks_list[st];
+  for (int i = (st+1); i < en; i++){
+    arma::mat piks_mat = piks_list[i];
+    avpik = avpik + piks_mat;
+  }
+  avpik=avpik/(en - st + 1);
+  return avpik;
 }

@@ -9,7 +9,8 @@ cophe.multitrait(
   causal.snpid,
   LDmat = NULL,
   method = "single",
-  simplify = F
+  simplify = F,
+  ...
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ cophe.multitrait(
 \item{method}{either 'single' for cophe.single or 'susie' for cophe.susie}
 
 \item{simplify}{if True removes intermediate results from output}
+
+\item{...}{additional arguments for coloc.susie or coloc.single}
 }
 \value{
 if simplify is False returns multi-trait list of lists, each with two \code{data.frame}s:

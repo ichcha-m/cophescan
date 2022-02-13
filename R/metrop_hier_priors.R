@@ -48,7 +48,7 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000, thin
 
   if (avg_posterior){
     avg.posterior <- average_post(posterior, nits, thin)
-    colnames(avg.posterior) <- c('Hn', 'Hc', 'Ha')
+    colnames(avg.posterior) <- c('Hn', 'Ha', 'Hc')
     res.metrop$avg.posterior <- avg.posterior
   }
 

@@ -258,6 +258,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// average_pik
+arma::mat average_pik(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
+RcppExport SEXP _cophescan_average_pik(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_pik(params, nsnps, rg_vec, nits, thin, rg));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_cophescan_pars2pik", (DL_FUNC) &_cophescan_pars2pik, 4},
@@ -279,6 +295,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cophescan_post_prob", (DL_FUNC) &_cophescan_post_prob, 5},
     {"_cophescan_piks", (DL_FUNC) &_cophescan_piks, 4},
     {"_cophescan_average_post", (DL_FUNC) &_cophescan_average_post, 3},
+    {"_cophescan_average_pik", (DL_FUNC) &_cophescan_average_pik, 6},
     {NULL, NULL, 0}
 };
 

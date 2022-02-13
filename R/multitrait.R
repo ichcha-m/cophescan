@@ -5,6 +5,7 @@
 #' @param method either 'single' for cophe.single or 'susie' for cophe.susie
 #' @param LDmat LD matrix
 #' @param simplify if True removes intermediate results from output
+#' @param ... additional arguments for coloc.susie or coloc.single
 #' @return if simplify is False returns multi-trait list of lists, each with two \code{data.frame}s:
 ##' \itemize{
 ##' \item summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)
@@ -13,8 +14,8 @@
 ##' if simplify is False only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
 #' @export
 ##' @author Ichcha Manipur
-cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single', simplify=F){
-  if (!is.null(LDmat) & method == 'susie'){
+cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single', simplify=F, ...){
+  if (is.null(LDmat) & method == 'susie'){
       print('Please provide the LD matrix')
       return(NULL)
   }
@@ -24,10 +25,10 @@ cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single
     if (causal.snpid%in%dat$snp){
       if (method=='susie'){
         rownames(LD) <- colnames(LD) <- dat$snp
-        dat$LD <- LD
-        cophe_results[[idx]] <- cophe.susie(dat, causal.snpid)
+        dat$LD <- LDmat
+        cophe_results[[idx]] <- cophe.susie(dat, causal.snpid, ...)
       } else{
-        cophe_results[[idx]] <- cophe.single(dat, causal.snpid)
+        cophe_results[[idx]] <- cophe.single(dat, causal.snpid, ...)
       }
     }
   }
