@@ -1,11 +1,11 @@
-#' cophe.multitrait
+#' Run cophescan on multiple traits at once
 #'
-#' @param trait.dat  List of coloc structured data for n_traits (Total number of traits)
+#' @param trait.dat  Named(traits) list of coloc structured data for n_traits (Total number of traits)
 #' @param causal.snpid query variant id
 #' @param method either 'single' for cophe.single or 'susie' for cophe.susie
 #' @param LDmat LD matrix
 #' @param simplify if True removes intermediate results from output
-#' @param ... additional arguments for coloc.susie or coloc.single
+#' @param ... additional arguments of priors for cophe.susie or cophe.single
 #' @return if simplify is False returns multi-trait list of lists, each with two \code{data.frame}s:
 ##' \itemize{
 ##' \item summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)
@@ -15,6 +15,10 @@
 #' @export
 ##' @author Ichcha Manipur
 cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single', simplify=F, ...){
+  if (is.null(names(trait.dat))){
+    print('Assign names of the traits: names(trait.dat) = vector of phenotype names')
+    return(NULL)
+  }
   if (is.null(LDmat) & method == 'susie'){
       print('Please provide the LD matrix')
       return(NULL)
@@ -24,8 +28,8 @@ cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single
     dat <- trait.dat[[idx]]
     if (causal.snpid%in%dat$snp){
       if (method=='susie'){
-        rownames(LD) <- colnames(LD) <- dat$snp
         dat$LD <- LDmat
+        rownames(dat$LD) <- colnames(dat$LD) <- dat$snp
         cophe_results[[idx]] <- cophe.susie(dat, causal.snpid, ...)
       } else{
         cophe_results[[idx]] <- cophe.single(dat, causal.snpid, ...)
@@ -36,6 +40,7 @@ cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single
   if (simplify){
     cophe_results <- multitrait.simplify(cophe_results)
   }
+  names(cophe_results) <- names(trait.dat)
   return(cophe_results)
 }
 
@@ -45,14 +50,6 @@ cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single
 #' @param multi.dat output obtained from cophe.multitrait
 #' @return  dataframe with posterior probabilties of Hn, Hc and Ha
 multitrait.simplify <- function(multi.dat){
-  if (is.null(names(multi.dat))){
-    options(ggrepel.max.overlaps = Inf)
-    print('Please assign the names of the phenotypes to the dataset: names(multi.dat) = vector of phenotype names')
-    return(NULL)
-  }
-  # print('Simplifying...')
-  # print('Removing intermediate results...')
-  # v=unlist(sapply(multi.dat, function(x) any(names(x$summary)%in%'hit1') ))
   pp_df <- data.frame()
   for (trait in seq_along(multi.dat)){
     dat <- multi.dat[[trait]]
@@ -69,6 +66,5 @@ multitrait.simplify <- function(multi.dat){
     }
   }
   colnames(pp_df) <- c('Hn' , 'Ha', 'Hc', 'nsnps', 'lbfak', 'lbfck', 'querysnp')
-  # print('Done')
   return(pp_df)
 }

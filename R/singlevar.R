@@ -31,19 +31,20 @@ hypothesis.priors <- function(p2a, p12c, nsnps){
 ##' Internal function, calculate posterior probabilities for configurations, given logABFs for each SNP and prior probs and position of known causal variant of trait 1
 ##'
 ##' @title combine.bf.kc
-##' @param l2 df$lABF.df2
-##' @param p2a prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4
-##' @param p12c prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5
+##' @param labf log approximate bayes factors
+##' @param p1c prior probability a SNP other than the causal variant is associated with trait 1
+##' @param p2a prior probability a SNP other than the causal variant is associated with trait 2
+##' @param p12c prior probability the causal SNP of trait 1 is associated with both traits
 ##' @param causalpos1 Position of trait1 causal SNP
 ##' @return named numeric vector of posterior probabilities and bayes factors
 ##' @author Ichcha Manipur
-combine.bf.kc <- function(l2, p2a, p12c, causalpos1) {
+combine.bf.kc <- function(labf, p1c, p2a, p12c, causalpos1) {
 
   lHn.bf <- 0
-  lbfak <- coloc:::logsum(l2[-causalpos1])
-  lHa.bf <- log(p2a) + lbfak
-  lbfck <- l2[causalpos1]
-  lHc.bf <- log(p12c) + lbfck
+  lbfak <- coloc:::logsum(labf[-causalpos1])
+  lHa.bf <- (log(p2a) - log(p1c)) + lbfak
+  lbfck <- labf[causalpos1]
+  lHc.bf <- (log(p12c) - log(p1c)) + lbfck
   # overall bf
   bf <- c(lbfak, lbfck)
   names(bf) <- c('lbfak', 'lbfck')
@@ -59,8 +60,7 @@ combine.bf.kc <- function(l2, p2a, p12c, causalpos1) {
   return(list(pp=pp, bf=bf))
 }
 
-##' Bayesian cophe analysis for single causal variant assumption
-##' Not to be used
+##' Bayesian cophescan analysis under single causal variant assumption
 ##'
 ##' This function calculates posterior probabilities of different
 ##' causal variant configurations under the assumption of a single
@@ -70,18 +70,19 @@ combine.bf.kc <- function(l2, p2a, p12c, causalpos1) {
 ##' calculates Bayes factors for association at each SNP.  If only p
 ##' values are available, it uses an approximation that depends on the
 ##' SNP's MAF and ignores any uncertainty in imputation.  Regression
-##' coefficients sHauld be used if available.
+##' coefficients should be used if available. Find more input data structure details
+##' in the coloc package
 ##'
-##' @title Fully Bayesian cophe analysis using Bayes Factors
+##' @title  Bayesian cophescan analysis using Approximate Bayes Factors
 ##' @param dataset a list with specifically named elements defining the dataset
 ##'   to be analysed.
 ##' @param causal.snpid Id of the query variant
-##' @param MAF Minor allele frequency vector to be used for  dataset, a sHarthand for supplying the same vector as parts of both datasets
+##' @param MAF Minor allele frequency vector
 ##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
 ##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
 ##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
-##' @param p2a prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4
-##' @param p12c prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5
+##' @param p2a prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{p1c = 1- p12c}
+##' @param p12c prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{p12c =  p12/p1+p12}
 ##' @return a list of two \code{data.frame}s:
 ##' \itemize{
 ##' \item summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)
@@ -103,7 +104,7 @@ cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=
     return(NULL)
   }
   print('Running cophe.single...')
-  df2 <- coloc:::process.dataset(d=dataset, suffix="df2")
+  df <- coloc:::process.dataset(d=dataset, suffix="df")
   ##############################
 
   p2c <- p0c <- 0
@@ -122,16 +123,29 @@ cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=
   psp <- c(p1c=p1c, p2a=p2a, p12c=p12c)
   print('SNP Priors')
   print(psp)
-  common.snps <- nrow(df2)
+  common.snps <- nrow(df)
   hp <- hypothesis.priors(p2a, p12c, common.snps)
   print('Hypothesis Priors')
   print(hp)
 
-  pp.bf <- combine.bf.kc(df2$lABF.df2, p2a, p12c, causalpos1)
+  pp.bf <- combine.bf.kc(df$lABF.df, p1c=p1c, p2a=p2a, p12c=p12c, causalpos1 = causalpos1)
   results <- c(nsnps=common.snps, pp.bf$pp, pp.bf$bf)
   output <- list(summary=results,
-                 results=df2,
+                 results=df,
                  priors=psp, querysnp=causal.snpid)
-  # class(output) <- c("cophe_abf",class(output))
+  attr(output, "class") <- "cophe"
+  # class(output) <- c("cophe",class(output))
   return(output)
+}
+
+#' Title
+#'
+#' @param cophe.res Result from either cophe.susie or cophe.single
+#'
+#' @return log bayes and posterior probabilities
+#' @export
+#'
+#' @examples
+summary.cophe <- function(cophe.res){
+  print(cophe.res$summary)
 }

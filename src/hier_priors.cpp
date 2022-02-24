@@ -4,15 +4,22 @@
 using namespace Rcpp;
 // using namespace arma;
 
+//' Conversion of parameters α, β and γ to p0k, pak and pck
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param rg logical: should the covariate information be used? default: False
+//' @return pik matrix of priors: p0k, pak and pck
 // [[Rcpp::export]]
-arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  double alpha=pars[0];
-  double beta=pars[1];
+arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
+  double alpha = params[0];
+  double beta = params[1];
   double gamma;
   if (rg==false){
     gamma=0;
   } else {
-    gamma=pars[2];
+    gamma=params[2];
   }
   int k = nsnps.length();
   arma::mat pik = arma::ones(k , 3);
@@ -27,14 +34,24 @@ arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec, bo
   return pik;
 }
 
+//' Log sum
+//' @param x vector of log scale values to be added
 // [[Rcpp::export]]
 double logsumexp(arma::rowvec x) {
   return(log(sum(exp(x - x.max()))) + x.max());
 }
 
+//' Log posterior calculation
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param rg logical: should the covariate inflormation be used? default: False
+//' @return logpost flog of the posteriors
 // [[Rcpp::export]]
-arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  arma::mat pik = pars2pik(pars, nsnps, rg_vec=rg_vec, rg=rg);
+arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
+  arma::mat pik = pars2pik(params, nsnps, rg_vec=rg_vec, rg=rg);
   int k = nsnps.length();
   arma::mat logpost = arma::ones(k , 3);
   arma::mat logpik = log(pik);
@@ -46,9 +63,17 @@ arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, Numeri
   return logpost;
 }
 
+//' Log likelihood calculation
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param rg logical: should the covariate inflormation be used? default: False
+//' @return logpost flog of the posteriors
 // [[Rcpp::export]]
-double loglik(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  arma::mat logpos = logpost(pars, lbf_mat, nsnps, rg_vec, rg=rg);
+double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
+  arma::mat logpos = logpost(params, lbf_mat, nsnps, rg_vec, rg=rg);
   int k = nsnps.length();
   arma::vec ll_k(k);
   for (int i = 0; i < k; i++){
@@ -59,101 +84,152 @@ double loglik(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVec
   return loglik;
 }
 
+//' Calculation of the posterior prob of Hn, Ha and Hc
+//'
+//' @param pars Vector of parameters: α, β and γ
+//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param rg logical: should the covariate inflormation be used? default: False
+//' @return posterior prob of Hn, Ha and Hc
 // [[Rcpp::export]]
-arma::mat posterior(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  arma::mat logpos = logpost(pars, lbf_mat, nsnps, rg_vec, rg=rg);
+arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
+  arma::mat pik = pars2pik(params, nsnps, rg_vec=rg_vec, rg=rg);
   int k = nsnps.length();
+  arma::mat logpost = arma::ones(k , 3);
+  arma::mat logpik = log(pik);
+
+  logpost.col(0) =  logpik.col(0);
+  logpost.col(1) =  (logpik.col(1) - logpik.col(0)) + lbf_mat.col(0);
+  logpost.col(2) =  (logpik.col(2) - logpik.col(0)) + lbf_mat.col(1);
+
   arma::vec denom(k);
   for (int i = 0; i < k; i++){
-    arma::rowvec y = logpos.row(i);
+    arma::rowvec y = logpost.row(i);
     denom(i) = logsumexp(y);
   }
-  logpos.each_col() -= denom ;
-  arma::mat post = exp(logpos);
-  return post;
+  logpost.each_col() -= denom ;
+  arma::mat post_prob = exp(logpost);
+  return post_prob;
 }
 
+//' sample alpha
+//' @param alpha_mean prior for the mean of  alpha
+//' @param alpha_sd prior for the standard deviation of  alpha
 // [[Rcpp::export]]
-arma::vec sample_alpha(int n=1){
-  return rnorm(n, -10, 0.5);
+arma::vec sample_alpha(int n=1, double alpha_mean=-10, double alpha_sd=-0.5){
+  return rnorm(n, alpha_mean, alpha_sd);
 }
 
+//' sample beta
+//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_scale prior for the scale of beta
 // [[Rcpp::export]]
-arma::vec sample_beta(int n=1){
+arma::vec sample_beta(int n=1,  double beta_shape=2, double beta_scale=2){
   // scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
-  // return(rgamma(n, 0.5, 2));
-  return rgamma(n, 2, 2);
+  return rgamma(n, beta_shape, beta_scale);
 }
 
+//' sample gamma
+//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_scale prior for the scale of gamma
 // [[Rcpp::export]]
-arma::vec sample_gamma(int n=1){
+arma::vec sample_gamma(int n=1, double gamma_shape=2, double gamma_scale=2){
   // scale converted from  required rate(0.5)
-  // return(rgamma(n, 0.5, 2));
-  return rgamma(n, 2, 2);
+  return rgamma(n, gamma_shape, gamma_scale);
 }
 
+//' dnorm for alpha
+//' @param alpha_mean prior for the mean of  alpha
+//' @param alpha_sd prior for the standard deviation of  alpha
 // [[Rcpp::export]]
 double logd_alpha(double a, double mean=-10, double sd=0.5, bool log=true){
   return R::dnorm(a, mean, sd, log);
 }
 
+//' dgamma for beta
+//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_scale prior for the scale of beta
 // [[Rcpp::export]]
-double logd_beta(double b){
+double logd_beta(double b, double beta_shape=2, double beta_scale=2){
   // scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
   // Also for logd_gamma
-  // return R::dgamma(b, 0.5, 2, true);
-  return R::dgamma(b, 2, 2, true);
+  return R::dgamma(b, beta_shape, beta_scale, true);
 }
 
+//' dgamma for gamma
+//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_scale prior for the scale of gamma
 // [[Rcpp::export]]
-double logd_gamma(double g){
-  // return R::dgamma(g, 0.5, 2, true);
-  return R::dgamma(g, 2, 2, true);
+double logd_gamma(double g, double gamma_shape=2, double gamma_scale=2){
+  return R::dgamma(g, gamma_shape, gamma_scale, true);
 }
 
+//' Proposal distribution
 // [[Rcpp::export]]
-double logpriors(arma::vec pars, bool rg=false) {
+double logpriors(arma::vec params, bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
+                 double gamma_shape=2, double gamma_scale=2) {
   double loggamma;
   if (rg == false){
     loggamma = 0;
   } else{
-    loggamma = logd_gamma(pars[2]);
+    loggamma = logd_gamma(params[2], gamma_shape, gamma_scale);
   }
-  double logprior = logd_alpha(pars[0]) + logd_beta(pars[1]) + loggamma;
+  double logprior = logd_alpha(params[0],  alpha_mean, alpha_sd) + logd_beta(params[1], beta_shape, beta_scale) + loggamma;
   return logprior;
 }
 
+//' Target distribution
 // [[Rcpp::export]]
-double target(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  double target = loglik(pars, lbf_mat, nsnps, rg_vec, rg) + logpriors(pars, rg);
+double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
+  double target = loglik(params, lbf_mat, nsnps, rg_vec, rg) + logpriors(params, rg);
   return target;
 }
 
+//' Proposal distribution
 // [[Rcpp::export]]
-arma::vec propose(arma::vec pars, double propsd=0.5){
-  arma::vec propose = pars + arma::vec(rnorm(pars.n_elem, 0, propsd));
+arma::vec propose(arma::vec params, double propsd=0.5){
+  arma::vec propose = params + arma::vec(rnorm(params.n_elem, 0, propsd));
   return propose;
 }
 
 // [[Rcpp::export]]
-arma::vec pars_init(bool rg=false){
-  double alpha = arma::as_scalar(sample_alpha());
-  double beta = arma::as_scalar(sample_beta());
-  arma::vec pars;
+arma::vec pars_init(bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
+                    double gamma_shape=2, double gamma_scale=2){
+  double alpha = arma::as_scalar(sample_alpha(1, alpha_mean, alpha_sd));
+  double beta = arma::as_scalar(sample_beta(1, beta_shape, beta_scale));
+  arma::vec params;
 
   if(rg==true) {
-    double gamma = arma::as_scalar(sample_gamma());
-    pars = {alpha, beta, gamma};
+    double gamma = arma::as_scalar(sample_gamma(1, gamma_shape, gamma_scale));
+    params = {alpha, beta, gamma};
   } else{
-    pars = {alpha, beta};
+    params = {alpha, beta};
   }
-  return pars;
+  return params;
 }
 
+//' Run the hierarchical mcmc model to infer priors
+//' @param params Vector of parameters: α, β and γ
+//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param nits Number of iterations run in mcmc
+//' @param thin thinning
+//' @param rg logical: Should the covariate inflormation be used? default: False
+//' @param alpha_mean prior for the mean of  alpha
+//' @param alpha_sd prior for the standard deviation of  alpha
+//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_scale prior for the scale of beta
+//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_scale prior for the scale of gamma
+//' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 // [[Rcpp::export]]
 List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false, int nits=10000,
-                int thin=1){
-  arma::vec pars = pars_init(rg=rg);
+                int thin=1, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
+                double gamma_shape=2, double gamma_scale=2){
+  arma::vec pars = pars_init(rg=rg, alpha_mean, alpha_sd, beta_shape, beta_scale,
+                            gamma_shape, gamma_scale);
   arma::mat params = arma::zeros(pars.n_elem, nits/thin);
   arma::vec ll(nits/thin);
   double L0;
@@ -180,41 +256,78 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bo
                             Rcpp::Named("parameters") = params);
 }
 
+//' Average of posterior probabilities: Hn, Ha and Hc
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param rg logical: was the covariate inflormation  used? default: False
+//' @return params List of posterior probabilties (len: iterations): Hn, Ha and Hc
 // [[Rcpp::export]]
-List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
+List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
   List post(k);
   for (int i = 0; i < k; i++){
-    post[i] = posterior(params.col(i),  lbf_mat, nsnps, rg_vec,  rg=rg);
+    post[i] = get_posterior_prob(params.col(i),  lbf_mat, nsnps, rg_vec,  rg=rg);
+    colnames(post[i]) = CharacterVector::create("Hn", "Ha", "Hc");
   }
   return post;
 }
 
+//' Average of posterior probabilities: Hn, Ha and Hc
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param rg logical: was the covariate inflormation  used? default: False
+//' @return List of priors (len: iterations): p0k, pak and pck
 // [[Rcpp::export]]
 List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
   List piks(k);
   for (int i = 0; i < k; i++){
     piks[i] = pars2pik(params.col(i), nsnps, rg_vec,  rg=rg);
+    colnames(piks[i]) = CharacterVector::create("p0k", "pak", "pck");
   }
   return piks;
 }
 
+//' Average of posterior probabilities: Hn, Ha and Hc
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param nits Number of iterations run in mcmc
+//' @param thin thinning
+//' @param rg logical: was the covariate inflormation  used? default: False
+//' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 // [[Rcpp::export]]
-arma::mat average_post(List posterior,int nits, int thin){
+arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  arma::mat avpost = posterior[st];
+  List posterior_prob_mat = posterior_prob(params, lbf_mat, nsnps, rg_vec, rg=rg);
+  arma::mat avpost = posterior_prob_mat[st];
   for (int i = (st+1); i < en; i++){
-    arma::mat post = posterior[i];
+    arma::mat post = posterior_prob_mat[i];
     avpost = avpost + post;
   }
-  avpost=avpost/(en - st + 1);
+  avpost = avpost/(en - st + 1);
   return avpost;
 }
 
+//' Average of priors: p0k, pak and pck
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param nits Number of iterations run in mcmc
+//' @param thin thinning
+//' @param rg logical: was the covariate inflormation  used? default: False
+//' @return average pik matrix of priors: p0k, pak and pck
 // [[Rcpp::export]]
-arma::mat average_pik(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
+arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
   List piks_list;

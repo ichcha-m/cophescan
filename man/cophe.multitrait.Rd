@@ -14,7 +14,7 @@ cophe.multitrait(
 )
 }
 \arguments{
-\item{trait.dat}{List of coloc structured data for n_traits (Total number of traits)}
+\item{trait.dat}{Named(traits) list of coloc structured data for n_traits (Total number of traits)}
 
 \item{causal.snpid}{query variant id}
 
@@ -24,7 +24,7 @@ cophe.multitrait(
 
 \item{simplify}{if True removes intermediate results from output}
 
-\item{...}{additional arguments for coloc.susie or coloc.single}
+\item{...}{additional arguments of priors for cophe.susie or cophe.single}
 }
 \value{
 if simplify is False returns multi-trait list of lists, each with two \code{data.frame}s:

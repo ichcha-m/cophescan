@@ -2,7 +2,7 @@
 % Please edit documentation in R/metrop_hier_priors.R
 \name{run_metrop_priors}
 \alias{run_metrop_priors}
-\title{run_metrop_priors}
+\title{Run the hierarchical model to infer priors}
 \usage{
 run_metrop_priors(
   multi.dat,
@@ -11,10 +11,17 @@ run_metrop_priors(
   nits = 10000,
   thin = 1,
   posterior = F,
-  avg_posterior = F,
-  pik = T,
+  avg_pik = T,
+  avg_posterior = T,
+  pik = F,
   chains = 1,
-  cores = 1
+  cores = 1,
+  alpha_mean = -10,
+  alpha_sd = 0.5,
+  beta_shape = 2,
+  beta_scale = 2,
+  gamma_shape = 2,
+  gamma_scale = 2
 )
 }
 \arguments{
@@ -30,6 +37,8 @@ run_metrop_priors(
 
 \item{posterior}{default: F, estimate posterior probabilities of the hypotheses}
 
+\item{avg_pik}{default: F, estimate the average of the pik}
+
 \item{avg_posterior}{default: F, estimate the average of the posterior probabilities of the hypotheses}
 
 \item{pik}{default: F, inferred prior probabilities}
@@ -37,10 +46,24 @@ run_metrop_priors(
 \item{chains}{default: 1, number of chains}
 
 \item{cores}{default: 1, number of cores}
+
+\item{alpha_mean}{prior for the mean of  alpha}
+
+\item{alpha_sd}{prior for the standard deviation of  alpha}
+
+\item{beta_shape}{prior for the shape (gamma distibution) of beta}
+
+\item{beta_scale}{prior for the scale of beta}
+
+\item{gamma_shape}{prior for the shape (gamma distibution) of gamma}
+
+\item{gamma_scale}{prior for the scale of gamma}
 }
 \value{
+matrix with average of all the posterior probabilities: Hn, Ha and Hc
+
 list containing posterior of the parameters
 }
 \description{
-run_metrop_priors
+Run the hierarchical model to infer priors
 }

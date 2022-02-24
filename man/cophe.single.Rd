@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlevar.R
 \name{cophe.single}
 \alias{cophe.single}
-\title{Fully Bayesian cophe analysis using Bayes Factors}
+\title{Bayesian cophescan analysis using Approximate Bayes Factors}
 \usage{
 cophe.single(
   dataset,
@@ -21,7 +21,7 @@ to be analysed.}
 
 \item{causal.snpid}{Id of the query variant}
 
-\item{MAF}{Minor allele frequency vector to be used for  dataset, a sHarthand for supplying the same vector as parts of both datasets}
+\item{MAF}{Minor allele frequency vector}
 
 \item{p1}{prior probability a SNP is associated with trait 1, default 1e-4}
 
@@ -29,9 +29,9 @@ to be analysed.}
 
 \item{p12}{prior probability a SNP is associated with both traits, default 1e-5}
 
-\item{p2a}{prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4}
+\item{p2a}{prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{p1c = 1- p12c}}
 
-\item{p12c}{prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5}
+\item{p12c}{prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{p12c =  p12/p1+p12}}
 }
 \value{
 a list of two \code{data.frame}s:
@@ -41,8 +41,7 @@ a list of two \code{data.frame}s:
 }
 }
 \description{
-Bayesian cophe analysis for single causal variant assumption
-Not to be used
+Bayesian cophescan analysis under single causal variant assumption
 }
 \details{
 This function calculates posterior probabilities of different
@@ -53,7 +52,8 @@ If regression coefficients and variances are available, it
 calculates Bayes factors for association at each SNP.  If only p
 values are available, it uses an approximation that depends on the
 SNP's MAF and ignores any uncertainty in imputation.  Regression
-coefficients sHauld be used if available.
+coefficients should be used if available. Find more input data structure details
+in the coloc package
 }
 \author{
 Ichcha Manipur

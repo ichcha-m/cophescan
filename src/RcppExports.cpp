@@ -12,16 +12,16 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // pars2pik
-arma::mat pars2pik(arma::vec pars, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_pars2pik(SEXP parsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_pars2pik(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(pars2pik(pars, nsnps, rg_vec, rg));
+    rcpp_result_gen = Rcpp::wrap(pars2pik(params, nsnps, rg_vec, rg));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -37,80 +37,86 @@ BEGIN_RCPP
 END_RCPP
 }
 // logpost
-arma::mat logpost(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_logpost(SEXP parsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_logpost(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(logpost(pars, lbf_mat, nsnps, rg_vec, rg));
+    rcpp_result_gen = Rcpp::wrap(logpost(params, lbf_mat, nsnps, rg_vec, rg));
     return rcpp_result_gen;
 END_RCPP
 }
 // loglik
-double loglik(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_loglik(SEXP parsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_loglik(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(loglik(pars, lbf_mat, nsnps, rg_vec, rg));
+    rcpp_result_gen = Rcpp::wrap(loglik(params, lbf_mat, nsnps, rg_vec, rg));
     return rcpp_result_gen;
 END_RCPP
 }
-// posterior
-arma::mat posterior(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_posterior(SEXP parsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+// get_posterior_prob
+arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_get_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(posterior(pars, lbf_mat, nsnps, rg_vec, rg));
+    rcpp_result_gen = Rcpp::wrap(get_posterior_prob(params, lbf_mat, nsnps, rg_vec, rg));
     return rcpp_result_gen;
 END_RCPP
 }
 // sample_alpha
-arma::vec sample_alpha(int n);
-RcppExport SEXP _cophescan_sample_alpha(SEXP nSEXP) {
+arma::vec sample_alpha(int n, double alpha_mean, double alpha_sd);
+RcppExport SEXP _cophescan_sample_alpha(SEXP nSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_alpha(n));
+    Rcpp::traits::input_parameter< double >::type alpha_mean(alpha_meanSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha_sd(alpha_sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_alpha(n, alpha_mean, alpha_sd));
     return rcpp_result_gen;
 END_RCPP
 }
 // sample_beta
-arma::vec sample_beta(int n);
-RcppExport SEXP _cophescan_sample_beta(SEXP nSEXP) {
+arma::vec sample_beta(int n, double beta_shape, double beta_scale);
+RcppExport SEXP _cophescan_sample_beta(SEXP nSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_beta(n));
+    Rcpp::traits::input_parameter< double >::type beta_shape(beta_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_scale(beta_scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_beta(n, beta_shape, beta_scale));
     return rcpp_result_gen;
 END_RCPP
 }
 // sample_gamma
-arma::vec sample_gamma(int n);
-RcppExport SEXP _cophescan_sample_gamma(SEXP nSEXP) {
+arma::vec sample_gamma(int n, double gamma_shape, double gamma_scale);
+RcppExport SEXP _cophescan_sample_gamma(SEXP nSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_gamma(n));
+    Rcpp::traits::input_parameter< double >::type gamma_shape(gamma_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma_scale(gamma_scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_gamma(n, gamma_shape, gamma_scale));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -129,80 +135,96 @@ BEGIN_RCPP
 END_RCPP
 }
 // logd_beta
-double logd_beta(double b);
-RcppExport SEXP _cophescan_logd_beta(SEXP bSEXP) {
+double logd_beta(double b, double beta_shape, double beta_scale);
+RcppExport SEXP _cophescan_logd_beta(SEXP bSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type b(bSEXP);
-    rcpp_result_gen = Rcpp::wrap(logd_beta(b));
+    Rcpp::traits::input_parameter< double >::type beta_shape(beta_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_scale(beta_scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(logd_beta(b, beta_shape, beta_scale));
     return rcpp_result_gen;
 END_RCPP
 }
 // logd_gamma
-double logd_gamma(double g);
-RcppExport SEXP _cophescan_logd_gamma(SEXP gSEXP) {
+double logd_gamma(double g, double gamma_shape, double gamma_scale);
+RcppExport SEXP _cophescan_logd_gamma(SEXP gSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type g(gSEXP);
-    rcpp_result_gen = Rcpp::wrap(logd_gamma(g));
+    Rcpp::traits::input_parameter< double >::type gamma_shape(gamma_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma_scale(gamma_scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(logd_gamma(g, gamma_shape, gamma_scale));
     return rcpp_result_gen;
 END_RCPP
 }
 // logpriors
-double logpriors(arma::vec pars, bool rg);
-RcppExport SEXP _cophescan_logpriors(SEXP parsSEXP, SEXP rgSEXP) {
+double logpriors(arma::vec params, bool rg, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
+RcppExport SEXP _cophescan_logpriors(SEXP paramsSEXP, SEXP rgSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(logpriors(pars, rg));
+    Rcpp::traits::input_parameter< double >::type alpha_mean(alpha_meanSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha_sd(alpha_sdSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_shape(beta_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_scale(beta_scaleSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma_shape(gamma_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma_scale(gamma_scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(logpriors(params, rg, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
     return rcpp_result_gen;
 END_RCPP
 }
 // target
-double target(arma::vec pars, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_target(SEXP parsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_target(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(target(pars, lbf_mat, nsnps, rg_vec, rg));
+    rcpp_result_gen = Rcpp::wrap(target(params, lbf_mat, nsnps, rg_vec, rg));
     return rcpp_result_gen;
 END_RCPP
 }
 // propose
-arma::vec propose(arma::vec pars, double propsd);
-RcppExport SEXP _cophescan_propose(SEXP parsSEXP, SEXP propsdSEXP) {
+arma::vec propose(arma::vec params, double propsd);
+RcppExport SEXP _cophescan_propose(SEXP paramsSEXP, SEXP propsdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< double >::type propsd(propsdSEXP);
-    rcpp_result_gen = Rcpp::wrap(propose(pars, propsd));
+    rcpp_result_gen = Rcpp::wrap(propose(params, propsd));
     return rcpp_result_gen;
 END_RCPP
 }
 // pars_init
-arma::vec pars_init(bool rg);
-RcppExport SEXP _cophescan_pars_init(SEXP rgSEXP) {
+arma::vec pars_init(bool rg, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
+RcppExport SEXP _cophescan_pars_init(SEXP rgSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(pars_init(rg));
+    Rcpp::traits::input_parameter< double >::type alpha_mean(alpha_meanSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha_sd(alpha_sdSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_shape(beta_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_scale(beta_scaleSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma_shape(gamma_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma_scale(gamma_scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(pars_init(rg, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
     return rcpp_result_gen;
 END_RCPP
 }
 // metrop_run
-List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg, int nits, int thin);
-RcppExport SEXP _cophescan_metrop_run(SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP, SEXP nitsSEXP, SEXP thinSEXP) {
+List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg, int nits, int thin, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
+RcppExport SEXP _cophescan_metrop_run(SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -212,13 +234,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
     Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
-    rcpp_result_gen = Rcpp::wrap(metrop_run(lbf_mat, nsnps, rg_vec, rg, nits, thin));
+    Rcpp::traits::input_parameter< double >::type alpha_mean(alpha_meanSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha_sd(alpha_sdSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_shape(beta_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_scale(beta_scaleSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma_shape(gamma_shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma_scale(gamma_scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(metrop_run(lbf_mat, nsnps, rg_vec, rg, nits, thin, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
     return rcpp_result_gen;
 END_RCPP
 }
-// post_prob
-List post_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_post_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+// posterior_prob
+List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
+RcppExport SEXP _cophescan_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -227,7 +255,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(post_prob(params, lbf_mat, nsnps, rg_vec, rg));
+    rcpp_result_gen = Rcpp::wrap(posterior_prob(params, lbf_mat, nsnps, rg_vec, rg));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -245,22 +273,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// average_post
-arma::mat average_post(List posterior, int nits, int thin);
-RcppExport SEXP _cophescan_average_post(SEXP posteriorSEXP, SEXP nitsSEXP, SEXP thinSEXP) {
+// average_posterior_prob
+arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
+RcppExport SEXP _cophescan_average_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type posterior(posteriorSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
     Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
-    rcpp_result_gen = Rcpp::wrap(average_post(posterior, nits, thin));
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_posterior_prob(params, lbf_mat, nsnps, rg_vec, nits, thin, rg));
     return rcpp_result_gen;
 END_RCPP
 }
-// average_pik
-arma::mat average_pik(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
-RcppExport SEXP _cophescan_average_pik(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
+// average_piks
+arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
+RcppExport SEXP _cophescan_average_piks(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -270,7 +302,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(average_pik(params, nsnps, rg_vec, nits, thin, rg));
+    rcpp_result_gen = Rcpp::wrap(average_piks(params, nsnps, rg_vec, nits, thin, rg));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -280,22 +312,22 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cophescan_logsumexp", (DL_FUNC) &_cophescan_logsumexp, 1},
     {"_cophescan_logpost", (DL_FUNC) &_cophescan_logpost, 5},
     {"_cophescan_loglik", (DL_FUNC) &_cophescan_loglik, 5},
-    {"_cophescan_posterior", (DL_FUNC) &_cophescan_posterior, 5},
-    {"_cophescan_sample_alpha", (DL_FUNC) &_cophescan_sample_alpha, 1},
-    {"_cophescan_sample_beta", (DL_FUNC) &_cophescan_sample_beta, 1},
-    {"_cophescan_sample_gamma", (DL_FUNC) &_cophescan_sample_gamma, 1},
+    {"_cophescan_get_posterior_prob", (DL_FUNC) &_cophescan_get_posterior_prob, 5},
+    {"_cophescan_sample_alpha", (DL_FUNC) &_cophescan_sample_alpha, 3},
+    {"_cophescan_sample_beta", (DL_FUNC) &_cophescan_sample_beta, 3},
+    {"_cophescan_sample_gamma", (DL_FUNC) &_cophescan_sample_gamma, 3},
     {"_cophescan_logd_alpha", (DL_FUNC) &_cophescan_logd_alpha, 4},
-    {"_cophescan_logd_beta", (DL_FUNC) &_cophescan_logd_beta, 1},
-    {"_cophescan_logd_gamma", (DL_FUNC) &_cophescan_logd_gamma, 1},
-    {"_cophescan_logpriors", (DL_FUNC) &_cophescan_logpriors, 2},
+    {"_cophescan_logd_beta", (DL_FUNC) &_cophescan_logd_beta, 3},
+    {"_cophescan_logd_gamma", (DL_FUNC) &_cophescan_logd_gamma, 3},
+    {"_cophescan_logpriors", (DL_FUNC) &_cophescan_logpriors, 8},
     {"_cophescan_target", (DL_FUNC) &_cophescan_target, 5},
     {"_cophescan_propose", (DL_FUNC) &_cophescan_propose, 2},
-    {"_cophescan_pars_init", (DL_FUNC) &_cophescan_pars_init, 1},
-    {"_cophescan_metrop_run", (DL_FUNC) &_cophescan_metrop_run, 6},
-    {"_cophescan_post_prob", (DL_FUNC) &_cophescan_post_prob, 5},
+    {"_cophescan_pars_init", (DL_FUNC) &_cophescan_pars_init, 7},
+    {"_cophescan_metrop_run", (DL_FUNC) &_cophescan_metrop_run, 12},
+    {"_cophescan_posterior_prob", (DL_FUNC) &_cophescan_posterior_prob, 5},
     {"_cophescan_piks", (DL_FUNC) &_cophescan_piks, 4},
-    {"_cophescan_average_post", (DL_FUNC) &_cophescan_average_post, 3},
-    {"_cophescan_average_pik", (DL_FUNC) &_cophescan_average_pik, 6},
+    {"_cophescan_average_posterior_prob", (DL_FUNC) &_cophescan_average_posterior_prob, 7},
+    {"_cophescan_average_piks", (DL_FUNC) &_cophescan_average_piks, 6},
     {NULL, NULL, 0}
 };
 

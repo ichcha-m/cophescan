@@ -12,8 +12,7 @@ cophe.susie(
   p12 = 1e-05,
   p2a = NULL,
   p12c = NULL,
-  susie.args = list(),
-  ...
+  susie.args = list()
 )
 }
 \arguments{
@@ -35,9 +34,6 @@ dataset}
 
 \item{susie.args}{a named list of additional arguments to be passed to
 \link{runsusie}}
-
-\item{...}{other arguments passed to \link{cophe.bf_bf}, in particular prior
-values for causal association with one trait (p1, p2) or both (p12)}
 }
 \value{
 a list, containing elements
