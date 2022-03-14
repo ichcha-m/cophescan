@@ -99,7 +99,7 @@ arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector 
   arma::mat logpost = arma::ones(k , 3);
   arma::mat logpik = log(pik);
 
-  logpost.col(0) =  logpik.col(0);
+  logpost.col(0) =   logpik.col(0) - logpik.col(0);
   logpost.col(1) =  (logpik.col(1) - logpik.col(0)) + lbf_mat.col(0);
   logpost.col(2) =  (logpik.col(2) - logpik.col(0)) + lbf_mat.col(1);
 

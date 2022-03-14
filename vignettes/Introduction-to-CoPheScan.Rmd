@@ -51,7 +51,7 @@ res.susie <- cophe.susie(trait1, causal.snpid = causal.snpid)
 
 #### Multi-trait analysis
 ```{r message=F, warning=F, results='hide'}
-res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'single')
+res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'single')|
 # res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'susie', LDmat = cophe_multi_trait_data$LD)
 ```
 
@@ -76,7 +76,7 @@ cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, p
 loglik <- cophe.hier.res$ll
 parameters <- cophe.hier.res$parameters
 col <- rgb(red = 0.4, green = 0.7, blue = 0.5, alpha = 0.8)
-par(mfrow=c(2,2))
+par++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 plot(1:length(loglik), loglik, main="loglik",type="l", col=col, ylab = "ll", xlab="")
 plot(1:ncol(parameters), parameters[1,], main="alpha",type="l", col=col, ylab = "alpha", xlab="")
 plot(1:ncol(parameters), parameters[2,], main="beta",type="l", col=col, ylab = "beta", xlab="")
