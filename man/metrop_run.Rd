@@ -43,8 +43,6 @@ metrop_run(
 \item{gamma_shape}{prior for the shape (gamma distibution) of gamma}
 
 \item{gamma_scale}{prior for the scale of gamma}
-
-\item{params}{Vector of parameters: α, β and γ}
 }
 \value{
 matrix with average of all the posterior probabilities: Hn, Ha and Hc

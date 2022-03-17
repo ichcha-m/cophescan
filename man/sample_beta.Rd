@@ -4,7 +4,7 @@
 \alias{sample_beta}
 \title{sample beta}
 \usage{
-sample_beta(n = 1L, beta_shape = 2, beta_scale = 2)
+sample_beta(beta_shape = 2, beta_scale = 2)
 }
 \arguments{
 \item{beta_shape}{prior for the shape (gamma distibution) of beta}

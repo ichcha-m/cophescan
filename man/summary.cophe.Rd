@@ -2,9 +2,9 @@
 % Please edit documentation in R/singlevar.R
 \name{summary.cophe}
 \alias{summary.cophe}
-\title{Title}
+\title{print the summary of results from cophescan single or susie}
 \usage{
-\method{summary}{cophe}(cophe.res)
+\method{summary}{cophe}(cophe.res, ...)
 }
 \arguments{
 \item{cophe.res}{Result from either cophe.susie or cophe.single}
@@ -13,5 +13,5 @@
 log bayes and posterior probabilities
 }
 \description{
-Title
+print the summary of results from cophescan single or susie
 }

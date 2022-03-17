@@ -4,7 +4,7 @@
 \alias{sample_gamma}
 \title{sample gamma}
 \usage{
-sample_gamma(n = 1L, gamma_shape = 2, gamma_scale = 2)
+sample_gamma(gamma_shape = 2, gamma_scale = 2)
 }
 \arguments{
 \item{gamma_shape}{prior for the shape (gamma distibution) of gamma}

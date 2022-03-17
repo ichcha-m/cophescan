@@ -39,7 +39,6 @@ hypothesis.priors <- function(p2a, p12c, nsnps){
 ##' @return named numeric vector of posterior probabilities and bayes factors
 ##' @author Ichcha Manipur
 combine.bf.kc <- function(labf, p1c, p2a, p12c, causalpos1) {
-
   lHn.bf <- 0
   lbfak <- coloc:::logsum(labf[-causalpos1])
   lHa.bf <- (log(p2a) - log(p1c)) + lbfak
@@ -138,14 +137,13 @@ cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=
   return(output)
 }
 
-#' Title
+#' print the summary of results from cophescan single or susie
 #'
 #' @param cophe.res Result from either cophe.susie or cophe.single
 #'
 #' @return log bayes and posterior probabilities
 #' @export
 #'
-#' @examples
-summary.cophe <- function(cophe.res){
+summary.cophe <- function(cophe.res, ...){
   print(cophe.res$summary)
 }

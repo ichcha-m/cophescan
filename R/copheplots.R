@@ -57,27 +57,29 @@ get_beta <- function(traits.dat, causal.snpid){
 
 #' cophe_plots showing the Ha and Hc of all traits and labelled above the specified threshold
 #'
-#' @param multi.dat multi trait cophescan results returned from cophe.multitrait
+#' @param multi.dat multi trait cophescan results returned from cophe.multitrait (Takes row names as the phenotypes if you want an alternative naming pass a vector to pheno_names)
 #' @param causal.snpid query variant
 #' @param thresh_Ha Ha threshold to be displayed
 #' @param thresh_Hc Hc threshold to be displayed
 #' @param traits.dat list of multi-trait oloc structured datasets
+#' @param pheno_names list of phenotype names
+#' @param group_pheno Vector with additional grouping of phenotypes
 #' @return cophescan plots of Ha and Hc
 #' @export
 #'
-cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, traits.dat=NULL){
+cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, traits.dat=NULL, pheno_names=NULL, group_pheno=NULL){
   if (is.null(traits.dat)){
     print('Trait summary stat data required for pval PheWAS plot')
   }
   options(ggrepel.max.overlaps = Inf)
   plot_list <- list()
-  pp_df <- prepare_plot_data(multi.dat, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F)
+  pp_df <- prepare_plot_data(multi.dat,causal.snpid = causal.snpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F)
   L1 <- pp_df$L1
   L2 <- pp_df$L2
   g1 <- suppressWarnings(ggplot(aes(x=x, y=Hc, label=L1), data=pp_df) +
                            geom_point(col='royalblue',alpha=0.7, size=5, aes(shape=ppHc)) +
                            scale_shape_manual('    ', values = c('ppHc'=18)) +
-                           ylab("Hc") +
+                           ylab("ppHc") +
                            xlab("Phenotypes") +
                            theme(axis.title=element_text(size=11, face = 'bold'), legend.title = element_text(size=11), panel.background = element_rect(fill = 'white'), axis.text.x = element_blank(), legend.text = element_text(size=11),axis.ticks.x = element_blank(), axis.text.y = element_text(size=11), axis.line = element_line(color='grey22')) + ggrepel::geom_label_repel(size=3,box.padding = unit(0.7, "lines"), max.iter  = 100000)+
                            ylim(0, 1))
@@ -85,7 +87,7 @@ cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tr
   g2 <- suppressWarnings(ggplot(aes(x=x, y=Ha, label=L2), data=pp_df) +
                            geom_point(col='forestgreen',alpha=0.8, size=5, aes(shape=ppHa)) +
                            scale_shape_manual('    ', values = c('ppHa'=18))+
-                           ylab("Ha") + xlab("Phenotypes") +
+                           ylab("ppHa") + xlab("Phenotypes") +
                            theme(axis.title=element_text(size=11, face = 'bold'), legend.title = element_text(size=11), panel.background = element_rect(fill = 'white'), axis.text.x = element_blank(), legend.text = element_text(size=11), axis.ticks.x = element_blank(), axis.text.y = element_text(size=11), axis.line = element_line(color='grey22')) + ggrepel::geom_label_repel(size=3,box.padding = unit(0.8, "lines"), max.iter  = 100000)+   ylim(0, 1))
   plot_list[['ppHc']] <- g1
   plot_list[['ppHa']] <- g2
@@ -118,7 +120,7 @@ cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tr
 #' @export
 #'
 cophe_heatmap <- function(multi.dat, thresh_Hc=0.5, thresh_Ha=0.5, ...){
-  pp_dfcat <-  prepare_plot_data(multi.dat, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = F, hmp=T)
+  pp_dfcat <-  prepare_plot_data(multi.dat, causal.snpid = causal.snpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = F, hmp=T)
   hmp <- pheatmap::pheatmap(pp_dfcat[, c('Hn', 'Ha', 'Hc') ], ...)
   return(hmp)
 }
@@ -161,7 +163,7 @@ plot_cophe_ternary <- function(multi.dat, traits.dat=NULL, plot_pval=F, thresh_H
     pp_df<- cbind(pp_df, beta_p)
 
     trn = ggtern(data=pp_df, aes_string(x="Hn",y="Hc",z="Ha"))
-    trn = trn+geom_point(aes(color=pval_plot, shape=beta_plot),fill='black', size=4)+ theme_linedraw() + scale_color_viridis_c(alpha = 0.5, n.breaks = 6) + theme_arrowsmall()+ labs(color="-log10(pval)",shape="beta", size=10) + Tarrowlab("")+ Larrowlab("")+ Rarrowlab("") +  theme_nomask()+  scale_shape_manual(values= c("\u25BC", "\u25B2"))
+    trn = trn+geom_point(aes(color=pval_plot, shape=beta_plot),fill='black', size=4)+ ggtern::theme_linedraw() + scale_color_viridis_c(alpha = 0.5, n.breaks = 6) + theme_arrowsmall()+ labs(color="-log10(pval)",shape="beta", size=10) + Tarrowlab("")+ Larrowlab("")+ Rarrowlab("") +  theme_nomask()+  scale_shape_manual(values= c("\u25BC", "\u25B2"))
   } else {
     trn = ggtern(data=pp_df, aes_string(x="Hn",y="Hc",z="Ha"), aes(label=L1))
     trn = trn+geom_point(aes(color=Hc),fill='black',  size=4.5)+ theme_linedraw() + scale_color_viridis_c(alpha = 0.65, n.breaks = 6, option = "viridis") + theme_arrowsmall()+ labs(color="Hc", size=10)  + Tarrowlab("")+ Larrowlab("")+ Rarrowlab("")+  theme_nomask()+ theme(text = element_text(size=12)) #

@@ -4,9 +4,11 @@
 \alias{logd_alpha}
 \title{dnorm for alpha}
 \usage{
-logd_alpha(a, mean = -10, sd = 0.5, log = TRUE)
+logd_alpha(a, alpha_mean = -10, alpha_sd = 0.5)
 }
 \arguments{
+\item{a}{current alpha}
+
 \item{alpha_mean}{prior for the mean of  alpha}
 
 \item{alpha_sd}{prior for the standard deviation of  alpha}

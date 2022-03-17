@@ -92,7 +92,7 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000,
 ##'
 ##' @title combine.bf.kc.hier
 ##' @param pik_vec named vector (p0k, pak, pck)
-##' @param lbfk_vector named log bayes factor vector (lbfak, lbfck)
+##' @param lbfk_vec named log bayes factor vector (lbfak, lbfck)
 ##' @return named numeric vector of posterior probabilities and bayes factors
 ##' @author Ichcha Manipur
 ##' @export

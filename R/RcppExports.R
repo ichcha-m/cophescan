@@ -44,7 +44,7 @@ loglik <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
 
 #' Calculation of the posterior prob of Hn, Ha and Hc
 #'
-#' @param pars Vector of parameters: α, β and γ
+#' @param params Vector of parameters: α, β and γ
 #' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
 #' @param nsnps number of snps
 #' @param rg_vec Vector of the covariate
@@ -57,32 +57,34 @@ get_posterior_prob <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
 #' sample alpha
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
-sample_alpha <- function(n = 1L, alpha_mean = -10, alpha_sd = -0.5) {
-    .Call(`_cophescan_sample_alpha`, n, alpha_mean, alpha_sd)
+sample_alpha <- function(alpha_mean = -10, alpha_sd = -0.5) {
+    .Call(`_cophescan_sample_alpha`, alpha_mean, alpha_sd)
 }
 
 #' sample beta
 #' @param beta_shape prior for the shape (gamma distibution) of beta
 #' @param beta_scale prior for the scale of beta
-sample_beta <- function(n = 1L, beta_shape = 2, beta_scale = 2) {
-    .Call(`_cophescan_sample_beta`, n, beta_shape, beta_scale)
+sample_beta <- function(beta_shape = 2, beta_scale = 2) {
+    .Call(`_cophescan_sample_beta`, beta_shape, beta_scale)
 }
 
 #' sample gamma
 #' @param gamma_shape prior for the shape (gamma distibution) of gamma
 #' @param gamma_scale prior for the scale of gamma
-sample_gamma <- function(n = 1L, gamma_shape = 2, gamma_scale = 2) {
-    .Call(`_cophescan_sample_gamma`, n, gamma_shape, gamma_scale)
+sample_gamma <- function(gamma_shape = 2, gamma_scale = 2) {
+    .Call(`_cophescan_sample_gamma`, gamma_shape, gamma_scale)
 }
 
 #' dnorm for alpha
+#' @param a current alpha
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
-logd_alpha <- function(a, mean = -10, sd = 0.5, log = TRUE) {
-    .Call(`_cophescan_logd_alpha`, a, mean, sd, log)
+logd_alpha <- function(a, alpha_mean = -10, alpha_sd = 0.5) {
+    .Call(`_cophescan_logd_alpha`, a, alpha_mean, alpha_sd)
 }
 
 #' dgamma for beta
+#' @param b current beta
 #' @param beta_shape prior for the shape (gamma distibution) of beta
 #' @param beta_scale prior for the scale of beta
 logd_beta <- function(b, beta_shape = 2, beta_scale = 2) {
@@ -90,33 +92,14 @@ logd_beta <- function(b, beta_shape = 2, beta_scale = 2) {
 }
 
 #' dgamma for gamma
+#' @param g current gamma
 #' @param gamma_shape prior for the shape (gamma distibution) of gamma
 #' @param gamma_scale prior for the scale of gamma
 logd_gamma <- function(g, gamma_shape = 2, gamma_scale = 2) {
     .Call(`_cophescan_logd_gamma`, g, gamma_shape, gamma_scale)
 }
 
-#' Proposal distribution
-logpriors <- function(params, rg = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
-    .Call(`_cophescan_logpriors`, params, rg, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale)
-}
-
-#' Target distribution
-target <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
-    .Call(`_cophescan_target`, params, lbf_mat, nsnps, rg_vec, rg)
-}
-
-#' Proposal distribution
-propose <- function(params, propsd = 0.5) {
-    .Call(`_cophescan_propose`, params, propsd)
-}
-
-pars_init <- function(rg = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
-    .Call(`_cophescan_pars_init`, rg, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale)
-}
-
 #' Run the hierarchical mcmc model to infer priors
-#' @param params Vector of parameters: α, β and γ
 #' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
 #' @param nsnps number of snps
 #' @param rg_vec Vector of the covariate

@@ -9,11 +9,13 @@ cophe_plot(
   causal.snpid,
   thresh_Hc = 0.5,
   thresh_Ha = 0.5,
-  traits.dat = NULL
+  traits.dat = NULL,
+  pheno_names = NULL,
+  group_pheno = NULL
 )
 }
 \arguments{
-\item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
+\item{multi.dat}{multi trait cophescan results returned from cophe.multitrait (Takes row names as the phenotypes if you want an alternative naming pass a vector to pheno_names)}
 
 \item{causal.snpid}{query variant}
 
@@ -22,6 +24,10 @@ cophe_plot(
 \item{thresh_Ha}{Ha threshold to be displayed}
 
 \item{traits.dat}{list of multi-trait oloc structured datasets}
+
+\item{pheno_names}{list of phenotype names}
+
+\item{group_pheno}{Vector with additional grouping of phenotypes}
 }
 \value{
 cophescan plots of Ha and Hc

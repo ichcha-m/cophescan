@@ -2,7 +2,7 @@
 % Please edit documentation in R/metrop_hier_priors.R
 \name{run_metrop_priors}
 \alias{run_metrop_priors}
-\title{Run the hierarchical model to infer priors}
+\title{Run the hierarchical metropolis hastings model to infer priors}
 \usage{
 run_metrop_priors(
   multi.dat,
@@ -65,5 +65,5 @@ matrix with average of all the posterior probabilities: Hn, Ha and Hc
 list containing posterior of the parameters
 }
 \description{
-Run the hierarchical model to infer priors
+Run the hierarchical metropolis hastings model to infer priors
 }

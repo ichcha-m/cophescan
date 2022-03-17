@@ -4,7 +4,7 @@ Version: 0.1.0
 Authors@R: c(person("Ichcha", "Manipur", role=c("aut","cre"),
     email = "im504@cam.ac.uk"))
 Description: Coloc adapted Phenome-wide Scans.
-License: GPL-3
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr

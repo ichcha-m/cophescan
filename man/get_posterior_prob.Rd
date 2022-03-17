@@ -7,6 +7,8 @@
 get_posterior_prob(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
 }
 \arguments{
+\item{params}{Vector of parameters: α, β and γ}
+
 \item{lbf_mat}{matrix of log bayes factors: lbfak and lbfck}
 
 \item{nsnps}{number of snps}
@@ -14,8 +16,6 @@ get_posterior_prob(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
 \item{rg_vec}{Vector of the covariate}
 
 \item{rg}{logical: should the covariate inflormation be used? default: False}
-
-\item{pars}{Vector of parameters: α, β and γ}
 }
 \value{
 posterior prob of Hn, Ha and Hc

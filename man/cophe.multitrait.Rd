@@ -2,7 +2,7 @@
 % Please edit documentation in R/multitrait.R
 \name{cophe.multitrait}
 \alias{cophe.multitrait}
-\title{cophe.multitrait}
+\title{Run cophescan on multiple traits at once}
 \usage{
 cophe.multitrait(
   trait.dat,
@@ -35,7 +35,7 @@ if simplify is False returns multi-trait list of lists, each with two \code{data
 if simplify is False only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
 }
 \description{
-cophe.multitrait
+Run cophescan on multiple traits at once
 }
 \author{
 Ichcha Manipur
