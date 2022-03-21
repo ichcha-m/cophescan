@@ -1,6 +1,6 @@
 #' Run the hierarchical metropolis hastings model to infer priors
 #'
-#' @param multi.dat matrix of bf values
+#' @param multi.dat matrix of bf values, rows=traits, named columns=("lbfak","lbfck","nsnps")
 #' @param rg whether to run rg
 #' @param rg_vec vector of genetic correlations
 #' @param nits number of iterations
