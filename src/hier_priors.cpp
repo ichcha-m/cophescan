@@ -44,7 +44,7 @@ double logsumexp(arma::rowvec x) {
 //' Log posterior calculation
 //'
 //' @param params Vector of parameters: α, β and γ
-//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param rg_vec Vector of the covariate
 //' @param rg logical: should the covariate inflormation be used? default: False
@@ -66,7 +66,7 @@ arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, Nume
 //' Log likelihood calculation
 //'
 //' @param params Vector of parameters: α, β and γ
-//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param rg_vec Vector of the covariate
 //' @param rg logical: should the covariate inflormation be used? default: False
@@ -87,7 +87,7 @@ double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericV
 //' Calculation of the posterior prob of Hn, Ha and Hc
 //'
 //' @param params Vector of parameters: α, β and γ
-//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param rg_vec Vector of the covariate
 //' @param rg logical: should the covariate inflormation be used? default: False
@@ -168,6 +168,7 @@ double logd_gamma(double g, double gamma_shape=2, double gamma_scale=2){
   return R::dgamma(g, gamma_shape, gamma_scale, true);
 }
 
+// [[Rcpp::export]]
 double logpriors(arma::vec params, bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
                  double gamma_shape=2, double gamma_scale=2) {
   double loggamma;
@@ -180,17 +181,20 @@ double logpriors(arma::vec params, bool rg=false, double alpha_mean =-10, double
   return logprior;
 }
 
+// [[Rcpp::export]]
 double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
   // Target distribution
   double target = loglik(params, lbf_mat, nsnps, rg_vec, rg) + logpriors(params, rg);
   return target;
 }
 
+// [[Rcpp::export]]
 arma::vec propose(arma::vec params, double propsd=0.5){
   arma::vec propose = params + arma::vec(rnorm(params.n_elem, 0, propsd));
   return propose;
 }
 
+// [[Rcpp::export]]
 arma::vec pars_init(bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
                     double gamma_shape=2, double gamma_scale=2){
   double alpha = arma::as_scalar(sample_alpha(alpha_mean, alpha_sd));
@@ -207,7 +211,7 @@ arma::vec pars_init(bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, 
 }
 
 //' Run the hierarchical mcmc model to infer priors
-//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param rg_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
@@ -255,7 +259,7 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bo
 //' Average of posterior probabilities: Hn, Ha and Hc
 //'
 //' @param params Vector of parameters: α, β and γ
-//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param rg_vec Vector of the covariate
 //' @param rg logical: was the covariate inflormation  used? default: False
@@ -292,7 +296,7 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=f
 //' Average of posterior probabilities: Hn, Ha and Hc
 //'
 //' @param params Vector of parameters: α, β and γ
-//' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+//' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param rg_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc

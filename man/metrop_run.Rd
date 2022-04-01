@@ -20,7 +20,7 @@ metrop_run(
 )
 }
 \arguments{
-\item{lbf_mat}{matrix of log bayes factors: lbfak and lbfck}
+\item{lbf_mat}{matrix of log bayes factors: lBF.Ha and lBF.Hc}
 
 \item{nsnps}{number of snps}
 

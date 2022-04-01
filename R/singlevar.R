@@ -8,23 +8,23 @@
 ##' @author Ichcha Manipur
 
 causal.priors <- function(p1, p12){
-  p12c <-  p12/(p1+p12)
-  p1c <- 1- p12c
-  priors=c(p1c=p1c, p12c=p12c)
+  pc <-  p12/(p1+p12)
+  pn <- 1- pc
+  priors=c(pn=pn, pc=pc)
   return(priors)
 }
 
 ##' hypothesis.priors
 ##'
-##' @param p2a prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4
-##' @param p12c prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5
+##' @param pa prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4
+##' @param pc prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5
 ##' @param nsnps number of SNPs
 ##' @return hypotheses priors
 ##' @export
 ##' @author Ichcha Manipur
-hypothesis.priors <- function(p2a, p12c, nsnps){
-  Hn <- 1 - (p2a*(nsnps-1)) - p12c
-  hp <- c(Hn=Hn, Ha=(p2a*(nsnps-1)), Hc=p12c)
+hypothesis.priors <- function(pa, pc, nsnps){
+  Hn <- 1 - (pa*(nsnps-1)) - pc
+  hp <- c(Hn=Hn, Ha=(pa*(nsnps-1)), Hc=pc)
   return(hp)
 }
 
@@ -32,21 +32,21 @@ hypothesis.priors <- function(p2a, p12c, nsnps){
 ##'
 ##' @title combine.bf.kc
 ##' @param labf log approximate bayes factors
-##' @param p1c prior probability a SNP other than the causal variant is associated with trait 1
-##' @param p2a prior probability a SNP other than the causal variant is associated with trait 2
-##' @param p12c prior probability the causal SNP of trait 1 is associated with both traits
+##' @param pn prior probability a SNP other than the causal variant is associated with trait 1
+##' @param pa prior probability a SNP other than the causal variant is associated with trait 2
+##' @param pc prior probability the causal SNP of trait 1 is associated with both traits
 ##' @param causalpos1 Position of trait1 causal SNP
 ##' @return named numeric vector of posterior probabilities and bayes factors
 ##' @author Ichcha Manipur
-combine.bf.kc <- function(labf, p1c, p2a, p12c, causalpos1) {
+combine.bf.kc <- function(labf, pn, pa, pc, causalpos1) {
   lHn.bf <- 0
-  lbfak <- coloc:::logsum(labf[-causalpos1])
-  lHa.bf <- (log(p2a) - log(p1c)) + lbfak
-  lbfck <- labf[causalpos1]
-  lHc.bf <- (log(p12c) - log(p1c)) + lbfck
+  lBF.Ha <- coloc:::logsum(labf[-causalpos1])
+  lHa.bf <- (log(pa) - log(pn)) + lBF.Ha
+  lBF.Hc <- labf[causalpos1]
+  lHc.bf <- (log(pc) - log(pn)) + lBF.Hc
   # overall bf
-  bf <- c(lbfak, lbfck)
-  names(bf) <- c('lbfak', 'lbfck')
+  bf <- c(lBF.Ha, lBF.Hc)
+  names(bf) <- c('lBF.Ha', 'lBF.Hc')
 
   all.bf <- c(lHn.bf, lHa.bf, lHc.bf)
   my.denom.log.bf <- coloc:::logsum(all.bf)
@@ -80,8 +80,8 @@ combine.bf.kc <- function(labf, p1c, p2a, p12c, causalpos1) {
 ##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
 ##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
 ##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
-##' @param p2a prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{p1c = 1- p12c}
-##' @param p12c prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{p12c =  p12/p1+p12}
+##' @param pa prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pn = 1- pc}
+##' @param pc prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}
 ##' @return a list of two \code{data.frame}s:
 ##' \itemize{
 ##' \item summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)
@@ -91,7 +91,7 @@ combine.bf.kc <- function(labf, p1c, p2a, p12c, causalpos1) {
 ##' @author Ichcha Manipur
 ##' @export
 cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=1e-5,
-                           p2a=NULL, p12c=NULL) {
+                           pa=NULL, pc=NULL) {
 
 
   if(!("MAF" %in% names(dataset)) & !is.null(MAF))
@@ -108,26 +108,26 @@ cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=
 
   p2c <- p0c <- 0
   p1a <- p12a <- 0
-  if (is.null(p12c)){
+  if (is.null(pc)){
     cp  <-  causal.priors(p1, p12)
-    p1c  <-  cp[["p1c"]]
-    p12c  <-  cp[["p12c"]]
+    pn  <-  cp[["pn"]]
+    pc  <-  cp[["pc"]]
   }else{
-    p1c <- 1 - p12c
+    pn <- 1 - pc
   }
-  if (is.null(p2a)){
-    p2a <- p2
+  if (is.null(pa)){
+    pa <- p2
   }
 
-  psp <- c(p1c=p1c, p2a=p2a, p12c=p12c)
+  psp <- c(pn=pn, pa=pa, pc=pc)
   print('SNP Priors')
   print(psp)
   common.snps <- nrow(df)
-  hp <- hypothesis.priors(p2a, p12c, common.snps)
+  hp <- hypothesis.priors(pa, pc, common.snps)
   print('Hypothesis Priors')
   print(hp)
 
-  pp.bf <- combine.bf.kc(df$lABF.df, p1c=p1c, p2a=p2a, p12c=p12c, causalpos1 = causalpos1)
+  pp.bf <- combine.bf.kc(df$lABF.df, pn=pn, pa=pa, pc=pc, causalpos1 = causalpos1)
   results <- c(nsnps=common.snps, pp.bf$pp, pp.bf$bf)
   output <- list(summary=results,
                  results=df,

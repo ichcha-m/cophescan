@@ -28,5 +28,5 @@
 #' @importFrom stats pnorm uniroot
 #' @import magrittr
 
-utils::globalVariables(c(".","pval_plot","beta_plot","Hn","Ha","Hc","ppHn","ppHa","ppHc","hit1","hit2","lbfak","lbfck","nsnps","snp","idx1","i","varbeta","z","x","y","points","j","df","causal.snpid","L1","L2"))
+utils::globalVariables(c(".","pval_plot","beta_plot","Hn","Ha","Hc","ppHn","ppHa","ppHc","hit1","hit2","lBF.Ha","lBF.Hc","nsnps","snp","idx1","i","varbeta","z","x","y","points","j","df","causal.snpid","L1","L2"))
 NULL

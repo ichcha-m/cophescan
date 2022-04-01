@@ -41,14 +41,14 @@ testthat::expect_equal(pik_Rcpp_cov, pik_R_cov)
 loglik_Rf=function(pars, lbf_mat, nsnps, rg_vec, rg=FALSE) {
   pik=pars2pik_R(pars, nsnps, rg_vec, rg=rg)
   tmp=cbind(log(pik[,1]),
-            log(pik[,2]) + lbf_mat$lbfak,
-            log(pik[,3]) + lbf_mat$lbfck)
+            log(pik[,2]) + lbf_mat$lBF.Ha,
+            log(pik[,3]) + lbf_mat$lBF.Hc)
   ll_k=apply(tmp,1, coloc:::logsum)
   sum(ll_k)
   return(ll_k)
 }
 
-lbf_mat = data.frame(lbfak=3, lbfck=10)
+lbf_mat = data.frame(lBF.Ha=3, lBF.Hc=10)
 loglik_R = loglik_Rf(pars, lbf_mat, nsnps, rg_vec, rg=FALSE)
 loglik_Rcpp = loglik(pars, as.matrix(lbf_mat), nsnps, rg_vec, rg=FALSE)
 loglik_R_cov = loglik_Rf(pars, lbf_mat, nsnps, rg_vec, rg=TRUE)

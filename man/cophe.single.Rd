@@ -11,8 +11,8 @@ cophe.single(
   p1 = 1e-04,
   p2 = 1e-04,
   p12 = 1e-05,
-  p2a = NULL,
-  p12c = NULL
+  pa = NULL,
+  pc = NULL
 )
 }
 \arguments{
@@ -29,9 +29,9 @@ to be analysed.}
 
 \item{p12}{prior probability a SNP is associated with both traits, default 1e-5}
 
-\item{p2a}{prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{p1c = 1- p12c}}
+\item{pa}{prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pn = 1- pc}}
 
-\item{p12c}{prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{p12c =  p12/p1+p12}}
+\item{pc}{prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}}
 }
 \value{
 a list of two \code{data.frame}s:

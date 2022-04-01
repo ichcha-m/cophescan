@@ -1,6 +1,6 @@
 #' Run the hierarchical metropolis hastings model to infer priors
 #'
-#' @param multi.dat matrix of bf values, rows=traits, named columns=("lbfak","lbfck","nsnps")
+#' @param multi.dat matrix of bf values, rows=traits, named columns=("lBF.Ha","lBF.Hc","nsnps")
 #' @param rg whether to run rg
 #' @param rg_vec vector of genetic correlations
 #' @param nits number of iterations
@@ -44,7 +44,7 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000,
       rg_vec <- rep(1, nrow(pp_df))
   }
 
-  lbf_mat <- as.matrix(pp_df[, c('lbfak', 'lbfck')])
+  lbf_mat <- as.matrix(pp_df[, c('lBF.Ha', 'lBF.Hc')])
   nsnps <- pp_df[, "nsnps"]
 
   ## Run hierarchical model
@@ -92,15 +92,15 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000,
 ##'
 ##' @title combine.bf.kc.hier
 ##' @param pik_vec named vector (p0k, pak, pck)
-##' @param lbfk_vec named log bayes factor vector (lbfak, lbfck)
+##' @param lbfk_vec named log bayes factor vector (lBF.Ha, lBF.Hc)
 ##' @return named numeric vector of posterior probabilities and bayes factors
 ##' @author Ichcha Manipur
 ##' @export
 combine.bf.kc.hier <- function(pik_vec, lbfk_vec) {
 
   lHn.bf <- 0
-  lHa.bf <- (log(pik_vec$pak) - log(pik_vec$p0k)) +  lbfk_vec$lbfak
-  lHc.bf <- (log(pik_vec$pck) - log(pik_vec$p0k)) + lbfk_vec$lbfck
+  lHa.bf <- (log(pik_vec$pak) - log(pik_vec$p0k)) +  lbfk_vec$lBF.Ha
+  lHc.bf <- (log(pik_vec$pck) - log(pik_vec$p0k)) + lbfk_vec$lBF.Hc
 
   all.bf <- c(lHn.bf, lHa.bf, lHc.bf)
   my.denom.log.bf <- coloc:::logsum(all.bf)

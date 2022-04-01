@@ -25,7 +25,7 @@ run_metrop_priors(
 )
 }
 \arguments{
-\item{multi.dat}{matrix of bf values}
+\item{multi.dat}{matrix of bf values, rows=traits, named columns=("lBF.Ha","lBF.Hc","nsnps")}
 
 \item{rg}{whether to run rg}
 

@@ -21,7 +21,7 @@ logsumexp <- function(x) {
 #' Log posterior calculation
 #'
 #' @param params Vector of parameters: α, β and γ
-#' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+#' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param rg_vec Vector of the covariate
 #' @param rg logical: should the covariate inflormation be used? default: False
@@ -33,7 +33,7 @@ logpost <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
 #' Log likelihood calculation
 #'
 #' @param params Vector of parameters: α, β and γ
-#' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+#' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param rg_vec Vector of the covariate
 #' @param rg logical: should the covariate inflormation be used? default: False
@@ -45,7 +45,7 @@ loglik <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
 #' Calculation of the posterior prob of Hn, Ha and Hc
 #'
 #' @param params Vector of parameters: α, β and γ
-#' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+#' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param rg_vec Vector of the covariate
 #' @param rg logical: should the covariate inflormation be used? default: False
@@ -99,8 +99,24 @@ logd_gamma <- function(g, gamma_shape = 2, gamma_scale = 2) {
     .Call(`_cophescan_logd_gamma`, g, gamma_shape, gamma_scale)
 }
 
+logpriors <- function(params, rg = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
+    .Call(`_cophescan_logpriors`, params, rg, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale)
+}
+
+target <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
+    .Call(`_cophescan_target`, params, lbf_mat, nsnps, rg_vec, rg)
+}
+
+propose <- function(params, propsd = 0.5) {
+    .Call(`_cophescan_propose`, params, propsd)
+}
+
+pars_init <- function(rg = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
+    .Call(`_cophescan_pars_init`, rg, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale)
+}
+
 #' Run the hierarchical mcmc model to infer priors
-#' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+#' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param rg_vec Vector of the covariate
 #' @param nits Number of iterations run in mcmc
@@ -120,7 +136,7 @@ metrop_run <- function(lbf_mat, nsnps, rg_vec, rg = FALSE, nits = 10000L, thin =
 #' Average of posterior probabilities: Hn, Ha and Hc
 #'
 #' @param params Vector of parameters: α, β and γ
-#' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+#' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param rg_vec Vector of the covariate
 #' @param rg logical: was the covariate inflormation  used? default: False
@@ -143,7 +159,7 @@ piks <- function(params, nsnps, rg_vec, rg = FALSE) {
 #' Average of posterior probabilities: Hn, Ha and Hc
 #'
 #' @param params Vector of parameters: α, β and γ
-#' @param lbf_mat matrix of log bayes factors: lbfak and lbfck
+#' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param rg_vec Vector of the covariate
 #' @param nits Number of iterations run in mcmc

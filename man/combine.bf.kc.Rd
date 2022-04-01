@@ -4,16 +4,16 @@
 \alias{combine.bf.kc}
 \title{combine.bf.kc}
 \usage{
-combine.bf.kc(labf, p1c, p2a, p12c, causalpos1)
+combine.bf.kc(labf, pn, pa, pc, causalpos1)
 }
 \arguments{
 \item{labf}{log approximate bayes factors}
 
-\item{p1c}{prior probability a SNP other than the causal variant is associated with trait 1}
+\item{pn}{prior probability a SNP other than the causal variant is associated with trait 1}
 
-\item{p2a}{prior probability a SNP other than the causal variant is associated with trait 2}
+\item{pa}{prior probability a SNP other than the causal variant is associated with trait 2}
 
-\item{p12c}{prior probability the causal SNP of trait 1 is associated with both traits}
+\item{pc}{prior probability the causal SNP of trait 1 is associated with both traits}
 
 \item{causalpos1}{Position of trait1 causal SNP}
 }

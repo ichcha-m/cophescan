@@ -10,7 +10,7 @@ bf=matrix(c(rep(c(sum(fm_causal[-idx.causal,4][1:99]),fm_causal[idx.causal,4], 1
             rep(c(sum(fm_causal[-500,4]), fm_causal[500,4], nrow(fm_causal)),10), # Ha
             rep(c(sum(fm_null[-500,4]), fm_null[500,4], nrow(fm_null)),80)), # Ha
           100,3,byrow=TRUE,
-          dimnames=list(NULL,c("lbfak","lbfck","nsnps")))
+          dimnames=list(NULL,c("lBF.Ha","lBF.Hc","nsnps")))
 lbf=as.data.frame(bf)
 alpha=-10
 beta=4
@@ -40,9 +40,9 @@ my_pik2ph=function(pik,nsnps) {
   ph/rowSums(ph)
 }
 mypik=my_pars2pik(alpha,beta,nsnps)
-piks=my_pars2pik( result$parameters["alpha",], result$parameters["beta",], nsnps)
-ph=piks * matrix(c(1,nsnps,1), nrow=nrow(piks), ncol=ncol(piks), byrow=TRUE)
-ph=ph/matrix(rowSums(ph),nrow(ph), ncol(ph))
+# piks=my_pars2pik( result$parameters["alpha",], result$parameters["beta",], nsnps)
+# ph=piks * matrix(c(1,nsnps,1), nrow=nrow(piks), ncol=ncol(piks), byrow=TRUE)
+# ph=ph/matrix(rowSums(ph),nrow(ph), ncol(ph))
 
 ## compare them to cpp
 test_that("pars2pik", {

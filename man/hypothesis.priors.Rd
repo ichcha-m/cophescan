@@ -4,12 +4,12 @@
 \alias{hypothesis.priors}
 \title{hypothesis.priors}
 \usage{
-hypothesis.priors(p2a, p12c, nsnps)
+hypothesis.priors(pa, pc, nsnps)
 }
 \arguments{
-\item{p2a}{prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4}
+\item{pa}{prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4}
 
-\item{p12c}{prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5}
+\item{pc}{prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5}
 
 \item{nsnps}{number of SNPs}
 }
