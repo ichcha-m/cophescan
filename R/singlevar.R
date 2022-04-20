@@ -1,19 +1,19 @@
 ##' per.snp.priors
 ##'
 ##' Estimate per snp priors
+##' @param nsnps number of SNPs
 ##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
 ##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
 ##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
 ##' @param pn prior probability that none of the SNPS are associated with the queried trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc}
 ##' @param pa prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pa = p2}
 ##' @param pc prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}
-##' @param nsnps number of SNPs
 ##' @return priors at the causal variant
 ##' @export
 ##' @author Ichcha Manipur
 
-per.snp.priors <- function(p1=1e-4, p2=1e-4, p12=1e-5,
-                           pa=NULL, pc=NULL, nsnps){
+per.snp.priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
+                           pa=NULL, pc=NULL){
   if (is.null(pc)){
     pc <- p12/(p1+p12)
   }
@@ -27,14 +27,14 @@ per.snp.priors <- function(p1=1e-4, p2=1e-4, p12=1e-5,
 
 ##' hypothesis.priors
 ##'
+##' @param nsnps number of SNPs
 ##' @param pn prior probability none of the SNPS are associated with the queried trait
 ##' @param pa prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait
 ##' @param pc prior probability that the known causal variant (for a different trait) is associated with the queried trait
-##' @param nsnps number of SNPs
 ##' @return hypotheses priors
 ##' @export
 ##' @author Ichcha Manipur
-hypothesis.priors <- function(pn, pa, pc, nsnps){
+hypothesis.priors <- function(nsnps, pn, pa, pc){
   hp <- c(Hn=pn, Ha=(pa*(nsnps-1)), Hc=pc)
   return(hp)
 }
@@ -119,11 +119,11 @@ cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=
     # number of snps in the region
   common.snps <- nrow(df)
 
-  psp  <-  per.snp.priors(p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc, nsnps = common.snps)
+  psp  <-  per.snp.priors(nsnps = common.snps, p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc)
   print('SNP Priors')
   print(psp)
 
-  hp <- hypothesis.priors(pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]], nsnps = common.snps)
+  hp <- hypothesis.priors(nsnps = common.snps, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
   print('Hypothesis Priors')
   print(hp)
 

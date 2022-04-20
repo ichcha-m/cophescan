@@ -45,11 +45,11 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
   # number of snps in the region
   common.snps <- ncol(s2$alpha) - 1
 
-  psp  <-  per.snp.priors(p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc, nsnps = common.snps)
+  psp  <-  per.snp.priors(nsnps = common.snps, p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc)
   print('SNP Priors')
   print(psp)
 
-  hp <- hypothesis.priors(pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]], nsnps = common.snps)
+  hp <- hypothesis.priors(nsnps = common.snps, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
   print('Hypothesis Priors')
   print(hp)
 
