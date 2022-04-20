@@ -5,10 +5,15 @@
 \title{simplify.multitrait
 Simplifying the output obtained from cophe.multitrait}
 \usage{
-multitrait.simplify(multi.dat)
+multitrait.simplify(multi.dat, query_trait_names = NULL)
 }
 \arguments{
 \item{multi.dat}{output obtained from cophe.multitrait}
+
+\item{query_trait_names}{vector of names of the query traits, if the names of
+the multi.dat list contain the trait names please pass query_trait_names=names(multi.dat)
+default NULL
+to keep track of the querysnp-trait combinations}
 }
 \value{
 dataframe with posterior probabilties of Hn, Hc and Ha

@@ -10,7 +10,8 @@ prepare_plot_data(
   thresh_Ha = 0.5,
   thresh_Hc = 0.5,
   hmp = F,
-  cophe.plot = T
+  cophe.plot = T,
+  query_trait_names = NULL
 )
 }
 \arguments{
@@ -25,6 +26,10 @@ prepare_plot_data(
 \item{hmp}{return for heatmap}
 
 \item{cophe.plot}{return for cophe.plots}
+
+\item{query_trait_names}{vector of names of the query traits, if the names of
+the multi.dat list contain the trait names please pass query_trait_names=names(multi.dat)
+default NULL}
 }
 \value{
 plot list

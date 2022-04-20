@@ -1,16 +1,19 @@
 #' Prepare data for plotting
 #'
 #' @param multi.dat multi trait cophescan results returned from cophe.multitrait
+#' @param causal.snpid query variant
 #' @param thresh_Ha Ha threshold to be displayed
 #' @param thresh_Hc Hc threshold to be displayed
 #' @param hmp return for heatmap
 #' @param cophe.plot return for cophe.plots
-#' @param causal.snpid query variant
+#' @param query_trait_names vector of names of the query traits, if the names of
+#' the multi.dat list contain the trait names please pass query_trait_names=names(multi.dat)
+#' default NULL
 #'
 #' @return plot list
-prepare_plot_data <- function(multi.dat, causal.snpid, thresh_Ha=0.5, thresh_Hc=0.5, hmp=F, cophe.plot=T){
+prepare_plot_data <- function(multi.dat, causal.snpid, thresh_Ha=0.5, thresh_Hc=0.5, hmp=F, cophe.plot=T, query_trait_names=NULL){
   if (!is.data.frame(multi.dat)){
-    pp_df <- multitrait.simplify(multi.dat)
+    pp_df <- multitrait.simplify(multi.dat, query_trait_names)
     if (is.null(multi.dat)){return(NULL)}
   } else {
     pp_df <- multi.dat
@@ -73,7 +76,7 @@ cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tr
   }
   options(ggrepel.max.overlaps = Inf)
   plot_list <- list()
-  pp_df <- prepare_plot_data(multi.dat,causal.snpid = causal.snpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F)
+  pp_df <- prepare_plot_data(multi.dat,causal.snpid = causal.snpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F, query_trait_names=pheno_names)
   L1 <- pp_df$L1
   L2 <- pp_df$L2
   g1 <- suppressWarnings(ggplot(aes(x=x, y=Hc, label=L1), data=pp_df) +

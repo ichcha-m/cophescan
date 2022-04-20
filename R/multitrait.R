@@ -48,23 +48,27 @@ cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single
 #' simplify.multitrait
 #' Simplifying the output obtained from cophe.multitrait
 #' @param multi.dat output obtained from cophe.multitrait
+#' @param query_trait_names vector of names of the query traits, if the names of
+#' the multi.dat list contain the trait names please pass query_trait_names=names(multi.dat)
+#' default NULL
+#' to keep track of the querysnp-trait combinations
 #' @return  dataframe with posterior probabilties of Hn, Hc and Ha
-multitrait.simplify <- function(multi.dat){
+multitrait.simplify <- function(multi.dat, query_trait_names=NULL){
   pp_df <- data.frame()
   for (trait in seq_along(multi.dat)){
     dat <- multi.dat[[trait]]
+    pp <-  as.data.frame((dat$summary[, c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'lBF.Ha', 'lBF.Hc', 'querysnp')]))
+    pp$querysnp <-dat$querysnp
     if (any(names(dat$summary)%in%'hit1')){
-      pp <-  as.data.frame((dat$summary[, c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'lBF.Ha', 'lBF.Hc')]))
-      pp$querysnp <-dat$querysnp
       rownames(pp) <- paste0(names(multi.dat)[trait], '_hit_', dat$summary$hit2)
-      pp_df <- rbind(pp_df, pp)
     } else {
-      pp <- as.data.frame(t(dat$summary[c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'lBF.Ha', 'lBF.Hc')]))
-      pp$querysnp <-dat$querysnp
       rownames(pp) <-names(multi.dat)[trait]
-      pp_df <- rbind(pp_df, pp)
     }
+      pp_df <- rbind(pp_df, pp)
   }
   colnames(pp_df) <- c('Hn' , 'Ha', 'Hc', 'nsnps', 'lBF.Ha', 'lBF.Hc', 'querysnp')
+  if (!is.null(query_trait_names)){
+    pp_df$querytrait <- query_trait_names
+  }
   return(pp_df)
 }
