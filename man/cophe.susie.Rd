@@ -28,9 +28,9 @@ dataset}
 
 \item{p12}{prior probability a SNP is associated with both traits, default 1e-5}
 
-\item{pa}{prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4}
+\item{pa}{prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pn = 1- pc}}
 
-\item{pc}{prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5}
+\item{pc}{prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}}
 
 \item{susie.args}{a named list of additional arguments to be passed to
 \link{runsusie}}

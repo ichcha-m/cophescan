@@ -4,11 +4,11 @@
 ##' @param dataset2 a list with specifically named elements defining the dataset
 ##'   to be analysed.
 ##' @param causal.snpid Id of the query variant
-##' @param pa prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4
-##' @param pc prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5
 ##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
 ##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
 ##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
+##' @param pa prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pn = 1- pc}
+##' @param pc prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}
 ##' @param dataset2 *either* an input dataset (see
 ##'   \link{check_dataset}), or the result of running \link{runsusie} on such a
 ##'   dataset
@@ -42,25 +42,14 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
     message("please check your dataset, given trait 1 causal snp not present in trait 2 cs")
     return(NULL)
   }
+  # number of snps in the region
+  common.snps <- ncol(s2$alpha) - 1
 
-  p2c <- p0c <- 0
-  p1a <- p12a <- 0
-  if (is.null(pc)){
-    cp  <-  causal.priors(p1, p12)
-    pn  <-  cp[["pn"]]
-    pc  <-  cp[["pc"]]
-  }else{
-    pn <- 1 - pc
-  }
-  if (is.null(pa)){
-    pa <- p2
-  }
-
-  psp <- c(pn=pn, pa=pa, pc=pc)
+  psp  <-  per.snp.priors(p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc, nsnps = common.snps)
   print('SNP Priors')
   print(psp)
-  common.snps <- ncol(s2$alpha) - 1
-  hp <- hypothesis.priors(pa, pc, common.snps)
+
+  hp <- hypothesis.priors(pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]], nsnps = common.snps)
   print('Hypothesis Priors')
   print(hp)
 
@@ -88,7 +77,7 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
 
     bf2=s2$lbf_variable[idx2,,drop=FALSE][,setdiff(colnames(s2$lbf_variable),"")]
 
-    ret=cophe.bf_bf(bf2,causal.snpid, pn=pn, pa=pa, pc=pc,p1=p1,p2=p2,p12=p12)
+    ret=cophe.bf_bf(bf2, causal.snpid, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
     ## renumber index to match
     ret$summary[,idx2:=cs2$cs_index[idx2]]
     ret$summary[,idx1:=rep(1, length(ret$summary$idx2))]
@@ -104,14 +93,11 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
 ##' @title extract data through Bayes factors
 ##' @param bf2 named vector of BF, or matrix of BF with colnames (cols=snps, rows=signals)
 ##' @param causal.snpid Id of the query variant
-##' @param pn prior probability that the causal SNP  is associated with trait 1
+##' @param pn prior probability that none of the SNPS are associated with the queried trait
 ##' @param pa prior probability a SNP other than the causal variant is associated with trait 2
 ##' @param pc prior probability the causal SNP of trait 1 is associated with both traits
-##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
-##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
-##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
 ##' @return bayes factors of signals
-cophe.bf_bf=function(bf2, causal.snpid, pn, pa, pc,p1, p2, p12) {
+cophe.bf_bf=function(bf2, causal.snpid, pn, pa, pc) {
 
   if(is.vector(bf2))
     bf2=matrix(bf2,nrow=1,dimnames=list(NULL,names(bf2)))
@@ -150,6 +136,6 @@ cophe.bf_bf=function(bf2, causal.snpid, pn, pa, pc,p1, p2, p12) {
     results=results[!duplicated(hits)]
   }
   list(summary=results,
-       priors=c(p1=p1,p2=p2,p12=p12, pn=pn,pa=pa, pc=pc))
+       priors=c(pn=pn,pa=pa, pc=pc))
 }
 

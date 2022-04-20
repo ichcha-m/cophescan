@@ -4,12 +4,14 @@
 \alias{hypothesis.priors}
 \title{hypothesis.priors}
 \usage{
-hypothesis.priors(pa, pc, nsnps)
+hypothesis.priors(pn, pa, pc, nsnps)
 }
 \arguments{
-\item{pa}{prior probability a SNP other than the causal variant is associated with trait 2, default 1e-4}
+\item{pn}{prior probability none of the SNPS are associated with the queried trait}
 
-\item{pc}{prior probability the causal SNP of trait 1 is associated with both traits, default 1e-5}
+\item{pa}{prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait}
+
+\item{pc}{prior probability that the known causal variant (for a different trait) is associated with the queried trait}
 
 \item{nsnps}{number of SNPs}
 }
