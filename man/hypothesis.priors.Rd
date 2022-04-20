@@ -4,16 +4,16 @@
 \alias{hypothesis.priors}
 \title{hypothesis.priors}
 \usage{
-hypothesis.priors(pn, pa, pc, nsnps)
+hypothesis.priors(nsnps, pn, pa, pc)
 }
 \arguments{
+\item{nsnps}{number of SNPs}
+
 \item{pn}{prior probability none of the SNPS are associated with the queried trait}
 
 \item{pa}{prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait}
 
 \item{pc}{prior probability that the known causal variant (for a different trait) is associated with the queried trait}
-
-\item{nsnps}{number of SNPs}
 }
 \value{
 hypotheses priors

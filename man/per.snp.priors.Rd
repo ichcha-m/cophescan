@@ -5,15 +5,17 @@
 \title{per.snp.priors}
 \usage{
 per.snp.priors(
+  nsnps,
   p1 = 1e-04,
   p2 = 1e-04,
   p12 = 1e-05,
   pa = NULL,
-  pc = NULL,
-  nsnps
+  pc = NULL
 )
 }
 \arguments{
+\item{nsnps}{number of SNPs}
+
 \item{p1}{prior probability a SNP is associated with trait 1, default 1e-4}
 
 \item{p2}{prior probability a SNP is associated with trait 2, default 1e-4}
@@ -23,8 +25,6 @@ per.snp.priors(
 \item{pa}{prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pa = p2}}
 
 \item{pc}{prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}}
-
-\item{nsnps}{number of SNPs}
 
 \item{pn}{prior probability that none of the SNPS are associated with the queried trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc}}
 }

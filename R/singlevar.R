@@ -128,7 +128,7 @@ cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=
   print(hp)
 
   pp.bf <- combine.bf.kc(df$lABF.df, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]], causalpos1 = causalpos1)
-  results <- c(nsnps=common.snps, pp.bf$pp, pp.bf$bf)
+  results <- do.call("data.frame",c(list(nsnps=common.snps), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=causal.snpid))
   output <- list(summary=results,
                  results=df,
                  priors=psp, querysnp=causal.snpid)
