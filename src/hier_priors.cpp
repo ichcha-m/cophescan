@@ -117,7 +117,7 @@ arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector 
 //' @param alpha_mean prior for the mean of  alpha
 //' @param alpha_sd prior for the standard deviation of  alpha
 // [[Rcpp::export]]
-arma::vec sample_alpha(double alpha_mean=-10, double alpha_sd=-0.5){
+arma::vec sample_alpha(double alpha_mean=-10, double alpha_sd=0.5){
   return rnorm(1, alpha_mean, alpha_sd);
 }
 
@@ -136,7 +136,7 @@ arma::vec sample_beta(double beta_shape=2, double beta_scale=2){
 // [[Rcpp::export]]
 arma::vec sample_gamma( double gamma_shape=2, double gamma_scale=2){
   // scale converted from  required rate(0.5)
-  return rgamma(gamma_shape, gamma_scale);
+  return rgamma(1, gamma_shape, gamma_scale);
 }
 
 //' dnorm for alpha

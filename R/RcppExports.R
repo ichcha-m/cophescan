@@ -57,7 +57,7 @@ get_posterior_prob <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
 #' sample alpha
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
-sample_alpha <- function(alpha_mean = -10, alpha_sd = -0.5) {
+sample_alpha <- function(alpha_mean = -10, alpha_sd = 0.5) {
     .Call(`_cophescan_sample_alpha`, alpha_mean, alpha_sd)
 }
 

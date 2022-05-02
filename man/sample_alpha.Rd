@@ -4,7 +4,7 @@
 \alias{sample_alpha}
 \title{sample alpha}
 \usage{
-sample_alpha(alpha_mean = -10, alpha_sd = -0.5)
+sample_alpha(alpha_mean = -10, alpha_sd = 0.5)
 }
 \arguments{
 \item{alpha_mean}{prior for the mean of  alpha}
