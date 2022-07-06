@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```{r setup, message=F, warning=F}
 library(cophescan)
 library(ggplot2)
-library(ggpubr)
+#library(ggpubr)
 ```
 
 #### Load data  
