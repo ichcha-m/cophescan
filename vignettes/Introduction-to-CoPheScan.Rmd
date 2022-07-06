@@ -25,7 +25,9 @@ library(ggpubr)
 ```{r message=F, warning=F, }
 data("cophe_multi_trait_data")
 attach(cophe_multi_trait_data)
-names(cophe_multi_trait_data)
+   
+
+  names(cophe_multi_trait_data)
 ```
 
 The dataset contains the summary statistics of 30 traits with 10 traits each simulated to have high posterior probability of Hc (shared causal variant), Ha and Hn.
@@ -34,7 +36,7 @@ The query variant is `r toString(causal.snpid)`
 
 #### Single trait
 ```{r fig.width = 4, fig.height=4, fig.align = "center"}
-trait1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+trait1 <- cophe_multi_trait_data$summ_stat[['Trait_1']] 
 causal.snpid <- cophe_multi_trait_data$causal.snpid
 trait1$position <- sapply(trait1$snp, function(x) as.numeric(unlist(strsplit(x, "-"))[2]))
 plot_trait_manhat(trait1, causal.snpid)
@@ -51,7 +53,7 @@ res.susie <- cophe.susie(trait1, causal.snpid = causal.snpid)
 
 #### Multi-trait analysis
 ```{r message=F, warning=F, results='hide'}
-res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'single')
+res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'single', simplify = T)
 # res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'susie', LDmat = cophe_multi_trait_data$LD)
 ```
 
@@ -73,8 +75,8 @@ plot_cophe_ternary(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, plo
 #### Run hierarchical model for priors
 ```{r warning=F, message=F, fig.width = 5, fig.height=5, fig.align = "center"}
 rg=F
-# rg=T
-cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, pik=T, avg_pik = T, rg_vec = cophe_multi_trait_data$rg_vec, rg = rg) 
+ rg=T
+cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, pik=T, avg_pik = T, rg_vec = cophe_multi_trait_data$rg_vec, rg = rg, nits = 30000) 
 loglik <- cophe.hier.res$ll
 parameters <- cophe.hier.res$parameters
 col <- rgb(red = 0.4, green = 0.7, blue = 0.5, alpha = 0.8)
@@ -84,5 +86,5 @@ plot(1:ncol(parameters), parameters[1,], main="alpha",type="l", col=col, ylab = 
 plot(1:ncol(parameters), parameters[2,], main="beta",type="l", col=col, ylab = "beta", xlab="")
 if (rg == T)
   plot(1:ncol(parameters), parameters[3,], main="gamma",type="l", col=col, ylab = "gamma", xlab="")
- # summary(cophe.hier.res$avg.pik)
+ summary(cophe.hier.res$avg.pik)
 ```
