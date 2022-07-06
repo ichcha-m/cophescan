@@ -25,9 +25,7 @@ library(ggpubr)
 ```{r message=F, warning=F, }
 data("cophe_multi_trait_data")
 attach(cophe_multi_trait_data)
-   
-
-  names(cophe_multi_trait_data)
+names(cophe_multi_trait_data)
 ```
 
 The dataset contains the summary statistics of 30 traits with 10 traits each simulated to have high posterior probability of Hc (shared causal variant), Ha and Hn.
@@ -75,7 +73,7 @@ plot_cophe_ternary(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, plo
 #### Run hierarchical model for priors
 ```{r warning=F, message=F, fig.width = 5, fig.height=5, fig.align = "center"}
 rg=F
- rg=T
+# rg=T
 cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, pik=T, avg_pik = T, rg_vec = cophe_multi_trait_data$rg_vec, rg = rg, nits = 30000) 
 loglik <- cophe.hier.res$ll
 parameters <- cophe.hier.res$parameters
