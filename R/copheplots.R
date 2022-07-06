@@ -47,7 +47,8 @@ prepare_plot_data <- function(multi.dat, causal.snpid, thresh_Ha=0.5, thresh_Hc=
 #'
 #' @return data.frame with one column indicating beta direction and another column with -log10(pval) of the queried variant
 get_beta <- function(traits.dat, causal.snpid){
-  pval_plot <- sapply(traits.dat, function(d) - log10(pnorm(-abs(d$beta[causal.snpid]/sqrt(d$varbeta[causal.snpid]))) * 2))
+  pval_plot <- sapply(traits.dat, function(d) -(pnorm(-abs(trait.dat$beta)/sqrt(trait.dat$varbeta), log.p = TRUE) +
+                                                  log(2))/log(10))
   names(pval_plot) <- names(traits.dat)
 
   betap <- sapply(traits.dat, function(d) d$beta[causal.snpid])
@@ -70,7 +71,7 @@ get_beta <- function(traits.dat, causal.snpid){
 #' @return cophescan plots of Ha and Hc
 #' @export
 #'
-cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, traits.dat=NULL, pheno_names=NULL, group_pheno=NULL){
+cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, traits.dat=NULL, pheno_names=NULL, group_pheno=NULL, beta_p=NULL){
   if (is.null(traits.dat)){
     print('Trait summary stat data required for pval PheWAS plot')
   }
@@ -95,11 +96,14 @@ cophe_plot <- function(multi.dat, causal.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tr
   plot_list[['ppHc']] <- g1
   plot_list[['ppHa']] <- g2
 
-  if (!is.null(traits.dat)){
-    beta_p <- get_beta(traits.dat, causal.snpid)
-    pval_plot <- beta_p$pval_plot
-    beta_plot <- beta_p$beta_plot
-
+  if ((!is.null(traits.dat)) | (!is.null(beta_p))){
+    if (is.null(beta_p)){
+      beta_p <- get_beta(traits.dat, causal.snpid)
+    }
+    L1 <- rownames(pp_df)
+    L1[beta_p$pval_plot<4] <- NA
+      pval_plot <- beta_p$pval_plot
+      beta_plot <- beta_p$beta_plot
     df_p <- data.frame(x=1:nrow(pp_df), y=pval_plot, label=L1, beta=as.factor(as.character(beta_plot)))
     g3 <- ggplot(aes(x=x, y=y, label=L1), data=df_p) +
       geom_point(col='maroon',alpha=0.7, aes(shape=beta), size=5) +
@@ -139,7 +143,8 @@ cophe_heatmap <- function(multi.dat, thresh_Hc=0.5, thresh_Ha=0.5, ...){
 plot_trait_manhat <- function(trait.dat, causal.snpid){
   x <- trait.dat$position
   cvidx <- which(trait.dat$snp%in%causal.snpid)
-  y <- -log10(pnorm(-abs(trait.dat$beta/sqrt(trait.dat$varbeta))) * 2)
+  y <- -(pnorm(-abs(trait.dat$beta)/sqrt(trait.dat$varbeta), log.p = TRUE) +
+           log(2))/log(10)
   plot(x, y, xlab = "Position", ylab = "-log10(p)", pch = 16,
        col = "grey", sub=causal.snpid)
   points(x[cvidx], y[cvidx], col="red", pch=16)

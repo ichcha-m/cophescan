@@ -11,7 +11,8 @@ cophe_plot(
   thresh_Ha = 0.5,
   traits.dat = NULL,
   pheno_names = NULL,
-  group_pheno = NULL
+  group_pheno = NULL,
+  beta_p = NULL
 )
 }
 \arguments{

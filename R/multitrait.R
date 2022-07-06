@@ -40,7 +40,6 @@ cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single
   if (simplify){
     cophe_results <- multitrait.simplify(cophe_results)
   }
-  names(cophe_results) <- names(trait.dat)
   return(cophe_results)
 }
 
@@ -55,6 +54,7 @@ cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single
 #' @return  dataframe with posterior probabilties of Hn, Hc and Ha
 multitrait.simplify <- function(multi.dat, query_trait_names=NULL){
   pp_df <- data.frame()
+
   for (trait in seq_along(multi.dat)){
     dat <- multi.dat[[trait]]
     pp <-  as.data.frame((dat$summary[, c('PP.Hn' , 'PP.Ha', 'PP.Hc', 'nsnps', 'lBF.Ha', 'lBF.Hc', 'querysnp')]))
