@@ -47,7 +47,7 @@ prepare_plot_data <- function(multi.dat, causal.snpid, thresh_Ha=0.5, thresh_Hc=
 #'
 #' @return data.frame with one column indicating beta direction and another column with -log10(pval) of the queried variant
 get_beta <- function(traits.dat, causal.snpid){
-  pval_plot <- sapply(traits.dat, function(d) -(pnorm(-abs(trait.dat$beta)/sqrt(trait.dat$varbeta), log.p = TRUE) +
+  pval_plot <- sapply(traits.dat, function(d) -(pnorm(-abs(d$beta[causal.snpid])/sqrt(d$varbeta[causal.snpid]), log.p = TRUE) +
                                                   log(2))/log(10))
   names(pval_plot) <- names(traits.dat)
 
@@ -135,19 +135,24 @@ cophe_heatmap <- function(multi.dat, thresh_Hc=0.5, thresh_Ha=0.5, ...){
 #' Plot region Manhattan for a trait highlighting the queried variant
 #'
 #' @param trait.dat dataset used as input for running cophescan
-#' @param causal.snpid the id of the causal variant as present in trait.dat$snp
+#' @param causal.snpid the id of the causal variant as present in trait.dat$snp, , plotted in red
+#' @param alt.snpid the id of the other variants as a vector to be plotted, plotted in blue
 #'
 #' @return region manhattan plot
 #' @export
 #'
-plot_trait_manhat <- function(trait.dat, causal.snpid){
+plot_trait_manhat <- function(trait.dat, causal.snpid, alt.snpid=NULL){
   x <- trait.dat$position
   cvidx <- which(trait.dat$snp%in%causal.snpid)
   y <- -(pnorm(-abs(trait.dat$beta)/sqrt(trait.dat$varbeta), log.p = TRUE) +
            log(2))/log(10)
   plot(x, y, xlab = "Position", ylab = "-log10(p)", pch = 16,
        col = "grey", sub=causal.snpid)
-  points(x[cvidx], y[cvidx], col="red", pch=16)
+  points(x[cvidx], y[cvidx], col="red", pch=16, cex=1.2)
+  if (!is.null(alt.snpid)){
+    altidx <- which(trait.dat$snp%in%alt.snpid)
+    points(x[altidx], y[altidx], col="blue", pch=16, cex=1.2)
+  }
 }
 
 #' Ternary plots of multi-trait cophescan output
