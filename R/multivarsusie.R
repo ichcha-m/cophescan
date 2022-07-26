@@ -58,11 +58,11 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
   if (is.null(cs2$cs) || length(cs2$cs)==0 ){
     print('No credible sets found ...')
     print('Switching to cophe.single ...')
-    ret <- cophe.single(dataset2, causal.snpid)
+    ret <- cophe.single(dataset2, causal.snpid, pa=psp[["pa"]], pc=psp[["pc"]])
   } else if (!any(sub(".*[.]","",names(unlist(s2$sets$cs))) %in% causal.snpid) & length(s2$sets$cs) < 2){
     print('Queried SNP not in the susie credible set ...')
     print('Switching to cophe.single ...')
-    ret <- cophe.single(dataset2, causal.snpid)
+    ret <- cophe.single(dataset2, causal.snpid, pa=psp[["pa"]], pc=psp[["pc"]])
   } else {
     if (!any(sub(".*[.]","",names(unlist(s2$sets$cs))) %in% causal.snpid)){
       print('Queried SNP not in the susie credible sets ...')
