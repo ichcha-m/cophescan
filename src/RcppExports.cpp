@@ -269,6 +269,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// average_posterior_prob_list
+arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
+RcppExport SEXP _cophescan_average_posterior_prob_list(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_posterior_prob_list(params, lbf_mat, nsnps, rg_vec, nits, thin, rg));
+    return rcpp_result_gen;
+END_RCPP
+}
 // average_posterior_prob
 arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
 RcppExport SEXP _cophescan_average_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
@@ -283,6 +300,22 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
     rcpp_result_gen = Rcpp::wrap(average_posterior_prob(params, lbf_mat, nsnps, rg_vec, nits, thin, rg));
+    return rcpp_result_gen;
+END_RCPP
+}
+// average_piks_list
+arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
+RcppExport SEXP _cophescan_average_piks_list(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
+    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_piks_list(params, nsnps, rg_vec, nits, thin, rg));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -322,7 +355,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cophescan_metrop_run", (DL_FUNC) &_cophescan_metrop_run, 12},
     {"_cophescan_posterior_prob", (DL_FUNC) &_cophescan_posterior_prob, 5},
     {"_cophescan_piks", (DL_FUNC) &_cophescan_piks, 4},
+    {"_cophescan_average_posterior_prob_list", (DL_FUNC) &_cophescan_average_posterior_prob_list, 7},
     {"_cophescan_average_posterior_prob", (DL_FUNC) &_cophescan_average_posterior_prob, 7},
+    {"_cophescan_average_piks_list", (DL_FUNC) &_cophescan_average_piks_list, 6},
     {"_cophescan_average_piks", (DL_FUNC) &_cophescan_average_piks, 6},
     {NULL, NULL, 0}
 };

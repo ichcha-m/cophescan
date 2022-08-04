@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{posterior_prob}
 \alias{posterior_prob}
-\title{Average of posterior probabilities: Hn, Ha and Hc}
+\title{List of posterior probabilities: Hn, Ha and Hc over all iterations}
 \usage{
 posterior_prob(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
 }
@@ -21,5 +21,5 @@ posterior_prob(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
 params List of posterior probabilties (len: iterations): Hn, Ha and Hc
 }
 \description{
-Average of posterior probabilities: Hn, Ha and Hc
+List of posterior probabilities: Hn, Ha and Hc over all iterations
 }

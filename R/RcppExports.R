@@ -133,7 +133,7 @@ metrop_run <- function(lbf_mat, nsnps, rg_vec, rg = FALSE, nits = 10000L, thin =
     .Call(`_cophescan_metrop_run`, lbf_mat, nsnps, rg_vec, rg, nits, thin, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale)
 }
 
-#' Average of posterior probabilities: Hn, Ha and Hc
+#' List of posterior probabilities: Hn, Ha and Hc over all iterations
 #'
 #' @param params Vector of parameters: α, β and γ
 #' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
@@ -145,7 +145,7 @@ posterior_prob <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_posterior_prob`, params, lbf_mat, nsnps, rg_vec, rg)
 }
 
-#' Average of posterior probabilities: Hn, Ha and Hc
+#' List of posterior probabilities: Hn, Ha and Hc over all iterations
 #'
 #' @param params Vector of parameters: α, β and γ
 #' @param nsnps number of snps
@@ -154,6 +154,20 @@ posterior_prob <- function(params, lbf_mat, nsnps, rg_vec, rg = FALSE) {
 #' @return List of priors (len: iterations): p0k, pak and pck
 piks <- function(params, nsnps, rg_vec, rg = FALSE) {
     .Call(`_cophescan_piks`, params, nsnps, rg_vec, rg)
+}
+
+#' Average of posterior probabilities: Hn, Ha and Hc from list (memory intensive)
+#'
+#' @param params Vector of parameters: α, β and γ
+#' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
+#' @param nsnps number of snps
+#' @param rg_vec Vector of the covariate
+#' @param nits Number of iterations run in mcmc
+#' @param thin thinning
+#' @param rg logical: was the covariate inflormation  used? default: False
+#' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
+average_posterior_prob_list <- function(params, lbf_mat, nsnps, rg_vec, nits, thin, rg = FALSE) {
+    .Call(`_cophescan_average_posterior_prob_list`, params, lbf_mat, nsnps, rg_vec, nits, thin, rg)
 }
 
 #' Average of posterior probabilities: Hn, Ha and Hc
@@ -168,6 +182,19 @@ piks <- function(params, nsnps, rg_vec, rg = FALSE) {
 #' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 average_posterior_prob <- function(params, lbf_mat, nsnps, rg_vec, nits, thin, rg = FALSE) {
     .Call(`_cophescan_average_posterior_prob`, params, lbf_mat, nsnps, rg_vec, nits, thin, rg)
+}
+
+#' Average of priors: p0k, pak and pck from list (memory intensive)
+#'
+#' @param params Vector of parameters: α, β and γ
+#' @param nsnps number of snps
+#' @param rg_vec Vector of the covariate
+#' @param nits Number of iterations run in mcmc
+#' @param thin thinning
+#' @param rg logical: was the covariate inflormation  used? default: False
+#' @return average pik matrix of priors: p0k, pak and pck
+average_piks_list <- function(params, nsnps, rg_vec, nits, thin, rg = FALSE) {
+    .Call(`_cophescan_average_piks_list`, params, nsnps, rg_vec, nits, thin, rg)
 }
 
 #' Average of priors: p0k, pak and pck

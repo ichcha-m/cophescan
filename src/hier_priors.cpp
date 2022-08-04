@@ -256,7 +256,7 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bo
                             Rcpp::Named("parameters") = params);
 }
 
-//' Average of posterior probabilities: Hn, Ha and Hc
+//' List of posterior probabilities: Hn, Ha and Hc over all iterations
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
@@ -275,7 +275,7 @@ List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, Nu
   return post;
 }
 
-//' Average of posterior probabilities: Hn, Ha and Hc
+//' List of posterior probabilities: Hn, Ha and Hc over all iterations
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps
@@ -293,6 +293,30 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=f
   return piks;
 }
 
+//' Average of posterior probabilities: Hn, Ha and Hc from list (memory intensive)
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param nits Number of iterations run in mcmc
+//' @param thin thinning
+//' @param rg logical: was the covariate inflormation  used? default: False
+//' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
+// [[Rcpp::export]]
+arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
+  double st=(nits/thin/2+1);
+  double en=nits/thin;
+  List posterior_prob_mat = posterior_prob(params, lbf_mat, nsnps, rg_vec, rg=rg);
+  arma::mat avpost = posterior_prob_mat[st];
+  for (int i = (st+1); i < en; i++){
+    arma::mat post = posterior_prob_mat[i];
+    avpost = avpost + post;
+  }
+  avpost = avpost/(en - st + 1);
+  return avpost;
+}
+
 //' Average of posterior probabilities: Hn, Ha and Hc
 //'
 //' @param params Vector of parameters: α, β and γ
@@ -307,14 +331,37 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=f
 arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  List posterior_prob_mat = posterior_prob(params, lbf_mat, nsnps, rg_vec, rg=rg);
-  arma::mat avpost = posterior_prob_mat[st];
+  arma::mat avpost = get_posterior_prob(params.col(st),  lbf_mat, nsnps, rg_vec,  rg=rg);
   for (int i = (st+1); i < en; i++){
-    arma::mat post = posterior_prob_mat[i];
+    arma::mat post = get_posterior_prob(params.col(i),  lbf_mat, nsnps, rg_vec,  rg=rg);
     avpost = avpost + post;
   }
   avpost = avpost/(en - st + 1);
   return avpost;
+}
+
+//' Average of priors: p0k, pak and pck from list (memory intensive)
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param nsnps number of snps
+//' @param rg_vec Vector of the covariate
+//' @param nits Number of iterations run in mcmc
+//' @param thin thinning
+//' @param rg logical: was the covariate inflormation  used? default: False
+//' @return average pik matrix of priors: p0k, pak and pck
+// [[Rcpp::export]]
+arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
+  double st=(nits/thin/2+1);
+  double en=nits/thin;
+  List piks_list;
+  piks_list = piks(params, nsnps, rg_vec, rg=rg);
+  arma::mat avpik = piks_list[st];
+  for (int i = (st+1); i < en; i++){
+    arma::mat piks_mat = piks_list[i];
+    avpik = avpik + piks_mat;
+  }
+  avpik=avpik/(en - st + 1);
+  return avpik;
 }
 
 //' Average of priors: p0k, pak and pck
@@ -330,11 +377,9 @@ arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVec
 arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  List piks_list;
-  piks_list = piks(params, nsnps, rg_vec, rg=rg);
-  arma::mat avpik = piks_list[st];
+  arma::mat avpik = pars2pik(params.col(st), nsnps, rg_vec,  rg=rg);
   for (int i = (st+1); i < en; i++){
-    arma::mat piks_mat = piks_list[i];
+    arma::mat piks_mat = pars2pik(params.col(i), nsnps, rg_vec,  rg=rg);
     avpik = avpik + piks_mat;
   }
   avpik=avpik/(en - st + 1);
