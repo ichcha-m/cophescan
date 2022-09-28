@@ -45,13 +45,13 @@ res.single <- cophe.single(trait1, causal.snpid = causal.snpid)
 # Run cophescan with susie (multiple variants) by providing the snpid of the known causal variant for trait 1 = causal.snpid
 trait1$LD <- LD
 res.susie <- cophe.susie(trait1, causal.snpid = causal.snpid)
-
 ```
 
 
 #### Multi-trait analysis
 ```{r message=F, warning=F, results='hide'}
-res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'single', simplify = T)
+## Hide print messages from coloc
+co <-  capture.output(res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'single', simplify = T))
 # res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'susie', LDmat = cophe_multi_trait_data$LD)
 ```
 
@@ -84,5 +84,5 @@ plot(1:ncol(parameters), parameters[1,], main="alpha",type="l", col=col, ylab = 
 plot(1:ncol(parameters), parameters[2,], main="beta",type="l", col=col, ylab = "beta", xlab="")
 if (rg == T)
   plot(1:ncol(parameters), parameters[3,], main="gamma",type="l", col=col, ylab = "gamma", xlab="")
- summary(cophe.hier.res$avg.pik)
+ # summary(cophe.hier.res$avg.pik)
 ```

@@ -5,7 +5,7 @@
 \title{run cophe.susie using susie to detect separate signals}
 \usage{
 cophe.susie(
-  dataset2,
+  dataset,
   causal.snpid,
   p1 = 1e-04,
   p2 = 1e-04,
@@ -16,7 +16,7 @@ cophe.susie(
 )
 }
 \arguments{
-\item{dataset2}{\emph{either} an input dataset (see
+\item{dataset}{\emph{either} an input dataset (see
 \link{check_dataset}), or the result of running \link{runsusie} on such a
 dataset}
 

@@ -1,7 +1,7 @@
 ##' Check if a variant causally associated in one trait might be causal in another trait
 ##'
 ##' @title run cophe.susie using susie to detect separate signals
-##' @param dataset2 a list with specifically named elements defining the dataset
+##' @param dataset a list with specifically named elements defining the dataset
 ##'   to be analysed.
 ##' @param causal.snpid Id of the query variant
 ##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
@@ -9,7 +9,7 @@
 ##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
 ##' @param pa prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pn = 1- pc}
 ##' @param pc prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}
-##' @param dataset2 *either* an input dataset (see
+##' @param dataset *either* an input dataset (see
 ##'   \link{check_dataset}), or the result of running \link{runsusie} on such a
 ##'   dataset
 ##' @param susie.args a named list of additional arguments to be passed to
@@ -26,20 +26,27 @@
 ##' @importFrom coloc runsusie
 ##' @export
 ##' @author Ichcha Manipur
-cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
+cophe.susie=function(dataset, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
                        pa=NULL, pc=NULL,
                        susie.args=list()) {
   if(!requireNamespace("susieR", quietly = TRUE)) {
     message("please install susieR https://github.com/stephenslab/susieR")
     return(NULL)
   }
+  if (!"pvalues" %in% names(dataset)){
+    dataset$pvalues=pnorm(-abs(dataset$beta/sqrt(dataset$varbeta)))*2
+  }
+  ## N Required in latest SuSIE update
+  if (!"N" %in% names(dataset)){
+    stop('N (sample size) of the dataset not provided')
+  }
 
-  if("susie" %in% class(dataset2))
-    s2=dataset2
+  if("susie" %in% class(dataset))
+    s2=dataset
   else
-    s2=do.call("runsusie", c(list(d=dataset2,suffix=1),susie.args))
+    s2=do.call("runsusie", c(list(d=dataset,suffix=1),susie.args))
   if(!causal.snpid %in% colnames(s2$alpha)) {
-    message("please check your dataset, given trait 1 causal snp not present in trait 2 cs")
+    message("Please check your dataset, given trait 1 causal snp not present in trait 2 cs")
     return(NULL)
   }
   # number of snps in the region
@@ -53,17 +60,29 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
   print('Hypothesis Priors')
   print(hp)
 
+  ## Remove credible sets with all variants having p-value > 0.1. Once such a set is detected,
+  ## all subsequent sets are also removed
   cs2=s2$sets
+  for (cs_id in seq_along(cs2$cs)){
+     if (all(dataset$pvalues[cs2$cs[[cs_id]]] > 0.1)){
+       print('Removing credible sets with snp p-vals > 0.1')
+       cs2$cs_index <- cs2$cs_index[!cs2$cs_index %in% cs_id:length(cs2$cs)]
+       cs2$cs[cs_id:length(cs2$cs)] <- NULL
+       break
+     }
+  }
 
   if (is.null(cs2$cs) || length(cs2$cs)==0 ){
     print('No credible sets found ...')
     print('Switching to cophe.single ...')
-    ret <- cophe.single(dataset2, causal.snpid, pa=psp[["pa"]], pc=psp[["pc"]])
-  } else if (!any(sub(".*[.]","",names(unlist(s2$sets$cs))) %in% causal.snpid) & length(s2$sets$cs) < 2){
-    print('Queried SNP not in the susie credible set ...')
-    print('Switching to cophe.single ...')
-    ret <- cophe.single(dataset2, causal.snpid, pa=psp[["pa"]], pc=psp[["pc"]])
-  } else {
+    ret <- cophe.single(dataset, causal.snpid, pa=psp[["pa"]], pc=psp[["pc"]])
+  }
+  # else if (!any(sub(".*[.]","",names(unlist(s2$sets$cs))) %in% causal.snpid) & length(s2$sets$cs) < 2){
+  #   print('Queried SNP not in the susie credible set ...')
+  #   print('Switching to cophe.single ...')
+  #   ret <- cophe.single(dataset, causal.snpid, pa=psp[["pa"]], pc=psp[["pc"]])
+  # }
+  else {
     if (!any(sub(".*[.]","",names(unlist(s2$sets$cs))) %in% causal.snpid)){
       print('Queried SNP not in the susie credible sets ...')
     }
@@ -73,11 +92,12 @@ cophe.susie=function(dataset2, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
       return(data.table(nsnps=NA))
     message("Using ",length(isnps), " and ",ncol(s2$alpha)-1," available")
 
-    idx2=cs2$cs_index #sapply(names(cs2$cs), get_idx)
-
+     #sapply(names(cs2$cs), get_idx)
+    idx2=cs2$cs_index
     bf2=s2$lbf_variable[idx2,,drop=FALSE][,setdiff(colnames(s2$lbf_variable),"")]
 
     ret=cophe.bf_bf(bf2, causal.snpid, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
+
     ## renumber index to match
     ret$summary[,idx2:=cs2$cs_index[idx2]]
     ret$summary[,idx1:=rep(1, length(ret$summary$idx2))]
