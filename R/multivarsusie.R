@@ -34,7 +34,9 @@ cophe.susie=function(dataset, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
     return(NULL)
   }
   if (!"pvalues" %in% names(dataset)){
-    dataset$pvalues=pnorm(-abs(dataset$beta/sqrt(dataset$varbeta)))*2
+    pvalues=pnorm(-abs(dataset$beta/sqrt(dataset$varbeta)))*2
+  } else{
+    pvalues=dataset$pvalues
   }
   ## N Required in latest SuSIE update
   if (!"N" %in% names(dataset)){
@@ -64,7 +66,7 @@ cophe.susie=function(dataset, causal.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
   ## all subsequent sets are also removed
   cs2=s2$sets
   for (cs_id in seq_along(cs2$cs)){
-     if (all(dataset$pvalues[cs2$cs[[cs_id]]] > 0.1)){
+     if (all(pvalues[cs2$cs[[cs_id]]] > 0.1)){
        print('Removing credible sets with snp p-vals > 0.1')
        cs2$cs_index <- cs2$cs_index[!cs2$cs_index %in% cs_id:length(cs2$cs)]
        cs2$cs[cs_id:length(cs2$cs)] <- NULL
