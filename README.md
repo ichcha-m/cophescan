@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
 <!-- badges: end -->
+<img src="man/figures/logo.png" align="right" height="200" style="float:right; height:200px;">
 
 ### Installation
 

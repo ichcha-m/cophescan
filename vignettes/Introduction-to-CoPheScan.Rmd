@@ -10,7 +10,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.path = "figure/Intro-"
 )
 ```
 
@@ -22,7 +23,7 @@ library(ggplot2)
 
 #### Load data  
 
-```{r message=F, warning=F, }
+```{r message=F, warning=F }
 data("cophe_multi_trait_data")
 attach(cophe_multi_trait_data)
 names(cophe_multi_trait_data)

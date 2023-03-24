@@ -87,15 +87,15 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000,
   return(res.metrop)
 }
 
-##' Calculate posterior probabilities from priors, given logABFs for each SNP
-##' and priors inferred from the hierarchical model
-##'
-##' @title combine.bf.kc.hier
-##' @param pik_vec named vector (p0k, pak, pck)
-##' @param lbfk_vec named log bayes factor vector (lBF.Ha, lBF.Hc)
-##' @return named numeric vector of posterior probabilities and bayes factors
-##' @author Ichcha Manipur
-##' @export
+#' Calculate posterior probabilities from priors, given logABFs for each SNP
+#' and priors inferred from the hierarchical model
+#'
+#' @title combine.bf.kc.hier
+#' @param pik_vec named vector (p0k, pak, pck)
+#' @param lbfk_vec named log bayes factor vector (lBF.Ha, lBF.Hc)
+#' @return named numeric vector of posterior probabilities and bayes factors
+#' @author Ichcha Manipur
+#' @export
 combine.bf.kc.hier <- function(pik_vec, lbfk_vec) {
 
   lHn.bf <- 0

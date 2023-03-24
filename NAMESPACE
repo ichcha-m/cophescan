@@ -2,7 +2,6 @@
 
 S3method(summary,cophe)
 export(combine.bf.kc.hier)
-export(cophe.impute)
 export(cophe.multitrait)
 export(cophe.single)
 export(cophe.susie)

@@ -48,6 +48,7 @@ hypothesis.priors <- function(nsnps, pn, pa, pc){
 ##' @param pc prior probability the causal SNP of trait 1 is associated with both traits
 ##' @param causalpos1 Position of trait1 causal SNP
 ##' @return named numeric vector of posterior probabilities and bayes factors
+##' @noRd
 ##' @author Ichcha Manipur
 combine.bf.kc <- function(labf, pn, pa, pc, causalpos1) {
   lHn.bf <- 0
