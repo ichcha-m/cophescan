@@ -30,18 +30,18 @@ names(cophe_multi_trait_data)
 
 ##### Single trait
 ```r
-trait1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
 query.snpid <- cophe_multi_trait_data$query.snpid
 print(query.snpid)
-trait1$position <- sapply(trait1$snp, function(x) as.numeric(unlist(strsplit(x, "-"))[2]))
-plot_trait_manhat(trait1, query.snpid)
+query_trait_1$position <- sapply(query_trait_1$snp, function(x) as.numeric(unlist(strsplit(x, "-"))[2]))
+plot_trait_manhat(query_trait_1, query.snpid)
 
-# Run cophescan under a single causal variant assumption by providing the snpid of the query variant for the query trait = query.snpid
-res.single <- cophe.single(trait1, query.snpid = query.snpid)
+# Run cophescan under a single causal variant assumption by providing the snpid of the query variant (query.snpid) for the query trait.
+res.single <- cophe.single(query_trait_1, query.snpid = query.snpid)
 
-# Run cophescan with susie (multiple variants) by providing the snpid of the query variant for the query trait
-trait1$LD <- LD
-res.susie <- cophe.susie(trait1, query.snpid = query.snpid)
+# Run cophescan with susie (multiple variants) by providing the snpid of the query variant (query.snpid) for the query trait
+query_trait_1$LD <- LD
+res.susie <- cophe.susie(query_trait_1, query.snpid = query.snpid)
 
 ```
 
