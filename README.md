@@ -36,10 +36,10 @@ print(query.snpid)
 trait1$position <- sapply(trait1$snp, function(x) as.numeric(unlist(strsplit(x, "-"))[2]))
 plot_trait_manhat(trait1, query.snpid)
 
-# Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = query.snpid
+# Run cophescan under a single causal variant assumption by providing the snpid of the query variant for the query trait = query.snpid
 res.single <- cophe.single(trait1, query.snpid = query.snpid)
 
-# Run cophescan with susie (multiple variants) by providing the snpid of the known causal variant for trait 1 = query.snpid
+# Run cophescan with susie (multiple variants) by providing the snpid of the query variant for the query trait
 trait1$LD <- LD
 res.susie <- cophe.susie(trait1, query.snpid = query.snpid)
 
