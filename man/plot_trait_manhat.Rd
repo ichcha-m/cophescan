@@ -4,12 +4,12 @@
 \alias{plot_trait_manhat}
 \title{Plot region Manhattan for a trait highlighting the queried variant}
 \usage{
-plot_trait_manhat(trait.dat, causal.snpid, alt.snpid = NULL)
+plot_trait_manhat(trait.dat, query.snpid, alt.snpid = NULL)
 }
 \arguments{
 \item{trait.dat}{dataset used as input for running cophescan}
 
-\item{causal.snpid}{the id of the causal variant as present in trait.dat$snp, , plotted in red}
+\item{query.snpid}{the id of the causal variant as present in trait.dat$snp, , plotted in red}
 
 \item{alt.snpid}{the id of the other variants as a vector to be plotted, plotted in blue}
 }

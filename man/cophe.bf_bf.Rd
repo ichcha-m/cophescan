@@ -4,18 +4,18 @@
 \alias{cophe.bf_bf}
 \title{extract data through Bayes factors}
 \usage{
-cophe.bf_bf(bf2, causal.snpid, pn, pa, pc)
+cophe.bf_bf(bf2, query.snpid, pn, pa, pc)
 }
 \arguments{
 \item{bf2}{named vector of BF, or matrix of BF with colnames (cols=snps, rows=signals)}
 
-\item{causal.snpid}{Id of the query variant}
+\item{query.snpid}{Id of the query variant}
 
-\item{pn}{prior probability that none of the SNPS are associated with the queried trait}
+\item{pn}{prior probability that none of the SNPs/variants in the region are associated with the query trait}
 
-\item{pa}{prior probability a SNP other than the causal variant is associated with trait 2}
+\item{pa}{prior probability that a non-query variant is causally associated with the query trait}
 
-\item{pc}{prior probability the causal SNP of trait 1 is associated with both traits}
+\item{pc}{prior probability that the query variant is causally associated with the query trait}
 }
 \value{
 bayes factors of signals

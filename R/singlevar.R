@@ -2,13 +2,13 @@
 ##'
 ##' Estimate per snp priors
 ##' @param nsnps number of SNPs
-##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
-##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
-##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
-##' @param pn prior probability that none of the SNPS are associated with the queried trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc}
-##' @param pa prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pa = p2}
-##' @param pc prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}
-##' @return priors at the causal variant
+##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
+##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
+##' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
+##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc} (cophescan prior)
+##' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
+##' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
+##' @return priors at the query variant
 ##' @export
 ##' @author Ichcha Manipur
 
@@ -28,9 +28,9 @@ per.snp.priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
 ##' hypothesis.priors
 ##'
 ##' @param nsnps number of SNPs
-##' @param pn prior probability none of the SNPS are associated with the queried trait
-##' @param pa prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait
-##' @param pc prior probability that the known causal variant (for a different trait) is associated with the queried trait
+##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
+##' @param pa prior probability that a non-query variant is causally associated with the query trait
+##' @param pc prior probability that the query variant is causally associated with the query trait
 ##' @return hypotheses priors
 ##' @export
 ##' @author Ichcha Manipur
@@ -39,22 +39,22 @@ hypothesis.priors <- function(nsnps, pn, pa, pc){
   return(hp)
 }
 
-##' Internal function, calculate posterior probabilities for configurations, given logABFs for each SNP and prior probs and position of known causal variant of trait 1
+##' Internal function, calculate posterior probabilities for configurations, given logABFs for each SNP and prior probs and position of known query variant of trait 1
 ##'
 ##' @title combine.bf.kc
 ##' @param labf log approximate bayes factors
-##' @param pn prior probability a SNP other than the causal variant is associated with trait 1
-##' @param pa prior probability a SNP other than the causal variant is associated with trait 2
-##' @param pc prior probability the causal SNP of trait 1 is associated with both traits
-##' @param causalpos1 Position of trait1 causal SNP
+##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
+##' @param pa prior probability that a non-query variant is causally associated with the query trait
+##' @param pc prior probability that the query variant is causally associated with the query trait
+##' @param querypos Position of trait1 causal SNP
 ##' @return named numeric vector of posterior probabilities and bayes factors
 ##' @noRd
 ##' @author Ichcha Manipur
-combine.bf.kc <- function(labf, pn, pa, pc, causalpos1) {
+combine.bf.kc <- function(labf, pn, pa, pc, querypos) {
   lHn.bf <- 0
-  lBF.Ha <- coloc:::logsum(labf[-causalpos1])
+  lBF.Ha <- coloc:::logsum(labf[-querypos])
   lHa.bf <- (log(pa) - log(pn)) + lBF.Ha
-  lBF.Hc <- labf[causalpos1]
+  lBF.Hc <- labf[querypos]
   lHc.bf <- (log(pc) - log(pn)) + lBF.Hc
   # overall bf
   bf <- c(lBF.Ha, lBF.Hc)
@@ -87,13 +87,14 @@ combine.bf.kc <- function(labf, pn, pa, pc, causalpos1) {
 ##' @title  Bayesian cophescan analysis using Approximate Bayes Factors
 ##' @param dataset a list with specifically named elements defining the dataset
 ##'   to be analysed.
-##' @param causal.snpid Id of the query variant
+##' @param query.snpid Id of the query variant, (id in dataset$snp)
 ##' @param MAF Minor allele frequency vector
-##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4
-##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4
-##' @param p12 prior probability a SNP is associated with both traits, default 1e-5
-##' @param pa prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pn = 1- pc}
-##' @param pc prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}
+##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
+##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
+##' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
+##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc} (cophescan prior)
+##' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
+##' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
 ##' @return a list of two \code{data.frame}s:
 ##' \itemize{
 ##' \item summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)
@@ -102,15 +103,15 @@ combine.bf.kc <- function(labf, pn, pa, pc, causalpos1) {
 ##' @importFrom coloc check_dataset
 ##' @author Ichcha Manipur
 ##' @export
-cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=1e-5,
+cophe.single <- function(dataset, query.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=1e-5,
                            pa=NULL, pc=NULL) {
 
 
   if(!("MAF" %in% names(dataset)) & !is.null(MAF))
     dataset$MAF <- MAF
   coloc::check_dataset(d=dataset,2)
-  causalpos1 <- which(dataset$snp%in%causal.snpid)
-  if(!causal.snpid %in% dataset$snp) {
+  querypos <- which(dataset$snp%in%query.snpid)
+  if(!query.snpid %in% dataset$snp) {
     message("please check your dataset, given  causal snp not present in dataset")
     return(NULL)
   }
@@ -128,11 +129,11 @@ cophe.single <- function(dataset, causal.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=
   print('Hypothesis Priors')
   print(hp)
 
-  pp.bf <- combine.bf.kc(df$lABF.df, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]], causalpos1 = causalpos1)
-  results <- do.call("data.frame",c(list(nsnps=common.snps), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=causal.snpid))
+  pp.bf <- combine.bf.kc(df$lABF.df, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]], querypos = querypos)
+  results <- do.call("data.frame",c(list(nsnps=common.snps), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=query.snpid))
   output <- list(summary=results,
                  results=df,
-                 priors=psp, querysnp=causal.snpid)
+                 priors=psp, querysnp=query.snpid)
   attr(output, "class") <- "cophe"
   # class(output) <- c("cophe",class(output))
   return(output)

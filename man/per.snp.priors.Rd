@@ -16,20 +16,20 @@ per.snp.priors(
 \arguments{
 \item{nsnps}{number of SNPs}
 
-\item{p1}{prior probability a SNP is associated with trait 1, default 1e-4}
+\item{p1}{prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)}
 
-\item{p2}{prior probability a SNP is associated with trait 2, default 1e-4}
+\item{p2}{prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)}
 
-\item{p12}{prior probability a SNP is associated with both traits, default 1e-5}
+\item{p12}{prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)}
 
-\item{pa}{prior probability a SNP other that the causal variant (for a different trait) is associated with the queried trait , default \eqn{pa = p2}}
+\item{pa}{prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)}
 
-\item{pc}{prior probability that the known causal variant (for a different trait) is associated with the queried trait, default \eqn{pc =  p12/p1+p12}}
+\item{pc}{prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)}
 
-\item{pn}{prior probability that none of the SNPS are associated with the queried trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc}}
+\item{pn}{prior probability that none of the SNPs/variants in the region are associated with the query trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc} (cophescan prior)}
 }
 \value{
-priors at the causal variant
+priors at the query variant
 }
 \description{
 Estimate per snp priors

@@ -6,7 +6,7 @@
 \usage{
 cophe_plot(
   multi.dat,
-  causal.snpid,
+  query.snpid,
   thresh_Hc = 0.5,
   thresh_Ha = 0.5,
   traits.dat = NULL,
@@ -18,7 +18,7 @@ cophe_plot(
 \arguments{
 \item{multi.dat}{multi trait cophescan results returned from cophe.multitrait (Takes row names as the phenotypes if you want an alternative naming pass a vector to pheno_names)}
 
-\item{causal.snpid}{query variant}
+\item{query.snpid}{query variant}
 
 \item{thresh_Hc}{Hc threshold to be displayed}
 

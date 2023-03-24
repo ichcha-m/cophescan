@@ -31,34 +31,34 @@ names(cophe_multi_trait_data)
 
 The dataset contains the summary statistics of 30 traits with 10 traits each simulated to have high posterior probability of Hc (shared causal variant), Ha and Hn.
 
-The query variant is `r toString(causal.snpid)`
+The query variant is `r toString(query.snpid)`
 
 #### Single trait
 ```{r fig.width = 4, fig.height=4, fig.align = "center"}
 trait1 <- cophe_multi_trait_data$summ_stat[['Trait_1']] 
-causal.snpid <- cophe_multi_trait_data$causal.snpid
+query.snpid <- cophe_multi_trait_data$query.snpid
 trait1$position <- sapply(trait1$snp, function(x) as.numeric(unlist(strsplit(x, "-"))[2]))
-plot_trait_manhat(trait1, causal.snpid)
+plot_trait_manhat(trait1, query.snpid)
 
-# Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = causal.snpid
-res.single <- cophe.single(trait1, causal.snpid = causal.snpid)
+# Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = query.snpid
+res.single <- cophe.single(trait1, query.snpid = query.snpid)
 
-# Run cophescan with susie (multiple variants) by providing the snpid of the known causal variant for trait 1 = causal.snpid
+# Run cophescan with susie (multiple variants) by providing the snpid of the known causal variant for trait 1 = query.snpid
 trait1$LD <- LD
-res.susie <- cophe.susie(trait1, causal.snpid = causal.snpid)
+res.susie <- cophe.susie(trait1, query.snpid = query.snpid)
 ```
 
 
 #### Multi-trait analysis
 ```{r message=F, warning=F, results='hide'}
 ## Hide print messages from coloc
-co <-  capture.output(res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'single', simplify = T))
-# res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid, method = 'susie', LDmat = cophe_multi_trait_data$LD)
+co <-  capture.output(res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, method = 'single', simplify = T))
+# res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, method = 'susie', LDmat = cophe_multi_trait_data$LD)
 ```
 
 ##### **Plot cophescan results**
 ```{r fig.show='hold',fig.height=3, fig.width=4.5, out.width = "48.5%",  fig.ncol = 2, message=F, warning=F}
-cophe.plots.res <- cophe_plot(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, causal.snpid = causal.snpid)
+cophe.plots.res <- cophe_plot(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, query.snpid = query.snpid)
 # ggpubr::ggarrange(cophe.plots.res$pval, cophe.plots.res$ppHa, cophe.plots.res$ppHc, ncol = 2, nrow = 2) + ggplot2::theme(text = ggplot2::element_text(size=2))
 cophe.plots.res$pval
 cophe.plots.res$ppHc

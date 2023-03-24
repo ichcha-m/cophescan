@@ -6,7 +6,7 @@
 \usage{
 cophe.multitrait(
   trait.dat,
-  causal.snpid,
+  query.snpid,
   LDmat = NULL,
   method = "single",
   simplify = F,
@@ -16,7 +16,7 @@ cophe.multitrait(
 \arguments{
 \item{trait.dat}{Named(traits) list of coloc structured data for n_traits (Total number of traits)}
 
-\item{causal.snpid}{query variant id}
+\item{query.snpid}{query variant id}
 
 \item{LDmat}{LD matrix}
 

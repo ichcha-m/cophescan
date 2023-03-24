@@ -1,7 +1,7 @@
 #' Run cophescan on multiple traits at once
 #'
 #' @param trait.dat  Named(traits) list of coloc structured data for n_traits (Total number of traits)
-#' @param causal.snpid query variant id
+#' @param query.snpid query variant id
 #' @param method either 'single' for cophe.single or 'susie' for cophe.susie
 #' @param LDmat LD matrix
 #' @param simplify if True removes intermediate results from output
@@ -14,7 +14,7 @@
 ##' if simplify is False only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
 #' @export
 ##' @author Ichcha Manipur
-cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single', simplify=F, ...){
+cophe.multitrait <- function(trait.dat, query.snpid, LDmat=NULL, method='single', simplify=F, ...){
   if (is.null(names(trait.dat))){
     print('Assign names of the traits: names(trait.dat) = vector of phenotype names')
     return(NULL)
@@ -26,13 +26,13 @@ cophe.multitrait <- function(trait.dat, causal.snpid, LDmat=NULL, method='single
   cophe_results <- list()
   for (idx in seq_along(trait.dat)){
     dat <- trait.dat[[idx]]
-    if (causal.snpid%in%dat$snp){
+    if (query.snpid%in%dat$snp){
       if (method=='susie'){
         dat$LD <- LDmat
         rownames(dat$LD) <- colnames(dat$LD) <- dat$snp
-        cophe_results[[idx]] <- cophe.susie(dat, causal.snpid, ...)
+        cophe_results[[idx]] <- cophe.susie(dat, query.snpid, ...)
       } else{
-        cophe_results[[idx]] <- cophe.single(dat, causal.snpid, ...)
+        cophe_results[[idx]] <- cophe.single(dat, query.snpid, ...)
       }
     }
   }
