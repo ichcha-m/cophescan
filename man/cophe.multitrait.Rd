@@ -7,6 +7,7 @@
 cophe.multitrait(
   trait.dat,
   query.snpid,
+  querytrait.names,
   LDmat = NULL,
   method = "single",
   simplify = F,
@@ -14,9 +15,12 @@ cophe.multitrait(
 )
 }
 \arguments{
-\item{trait.dat}{Named(traits) list of coloc structured data for n_traits (Total number of traits)}
+\item{trait.dat}{Named(traits) list of coloc structured data for k traits (Total number of traits)}
 
-\item{query.snpid}{query variant id}
+\item{query.snpid}{vector of query variant ids = length(trait.dat), if the same variant}
+
+\item{querytrait.names}{vector of names for the query traits, if the names of
+the multi.dat list contain the trait names please pass querytrait.names=names(multi.dat)}
 
 \item{LDmat}{LD matrix}
 

@@ -85,9 +85,10 @@ combine.bf.kc <- function(labf, pn, pa, pc, querypos) {
 ##' in the coloc package
 ##'
 ##' @title  Bayesian cophescan analysis using Approximate Bayes Factors
-##' @param dataset a list with specifically named elements defining the dataset
+##' @param dataset a list with specifically named elements defining the query trait dataset
 ##'   to be analysed.
 ##' @param query.snpid Id of the query variant, (id in dataset$snp)
+##' @param querytrait Query trait name
 ##' @param MAF Minor allele frequency vector
 ##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
 ##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
@@ -101,9 +102,16 @@ combine.bf.kc <- function(labf, pn, pa, pc, querypos) {
 ##' \item results is an annotated version of the input data containing log Approximate Bayes Factors and intermediate calculations, and the posterior probability SNP.PP.Hc of the SNP being causal for the shared signal *if* Hc is true. This is only relevant if the posterior support for Hc in summary is convincing.
 ##' }
 ##' @importFrom coloc check_dataset
+##' @examples
+##' library(cophescan)
+##' data(cophe_multi_trait_data)
+##' query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+##' query.snpid <- cophe_multi_trait_data$query.snpid
+##' res.single <- cophe.single(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+##' summary(res.single)
 ##' @author Ichcha Manipur
 ##' @export
-cophe.single <- function(dataset, query.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=1e-5,
+cophe.single <- function(dataset, query.snpid, querytrait, MAF=NULL, p1=1e-4, p2=1e-4, p12=1e-5,
                            pa=NULL, pc=NULL) {
 
 
@@ -130,10 +138,10 @@ cophe.single <- function(dataset, query.snpid, MAF=NULL, p1=1e-4, p2=1e-4, p12=1
   print(hp)
 
   pp.bf <- combine.bf.kc(df$lABF.df, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]], querypos = querypos)
-  results <- do.call("data.frame",c(list(nsnps=common.snps), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=query.snpid))
+  results <- do.call("data.frame",c(list(nsnps=common.snps), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=query.snpid, querytrait=querytrait))
   output <- list(summary=results,
                  results=df,
-                 priors=psp, querysnp=query.snpid)
+                 priors=psp, querysnp=query.snpid, querytrait=querytrait)
   attr(output, "class") <- "cophe"
   # class(output) <- c("cophe",class(output))
   return(output)

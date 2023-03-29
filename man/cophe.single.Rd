@@ -7,6 +7,7 @@
 cophe.single(
   dataset,
   query.snpid,
+  querytrait,
   MAF = NULL,
   p1 = 1e-04,
   p2 = 1e-04,
@@ -16,10 +17,12 @@ cophe.single(
 )
 }
 \arguments{
-\item{dataset}{a list with specifically named elements defining the dataset
+\item{dataset}{a list with specifically named elements defining the query trait dataset
 to be analysed.}
 
 \item{query.snpid}{Id of the query variant, (id in dataset$snp)}
+
+\item{querytrait}{Query trait name}
 
 \item{MAF}{Minor allele frequency vector}
 
@@ -56,6 +59,14 @@ values are available, it uses an approximation that depends on the
 SNP's MAF and ignores any uncertainty in imputation.  Regression
 coefficients should be used if available. Find more input data structure details
 in the coloc package
+}
+\examples{
+library(cophescan)
+data(cophe_multi_trait_data)
+query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+query.snpid <- cophe_multi_trait_data$query.snpid
+res.single <- cophe.single(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+summary(res.single)
 }
 \author{
 Ichcha Manipur

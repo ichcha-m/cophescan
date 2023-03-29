@@ -25,9 +25,17 @@
 ##'   is not high.
 ##' * priors a vector of the priors used for the analysis
 ##' @importFrom coloc runsusie
+##' @examples
+##' library(cophescan)
+##' data(cophe_multi_trait_data)
+##' query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+##' query.snpid <- cophe_multi_trait_data$query.snpid
+##' query_trait_1$LD <- cophe_multi_trait_data$LD
+##' res.susie <- cophe.susie(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+##' summary(res.susie)
 ##' @export
 ##' @author Ichcha Manipur
-cophe.susie=function(dataset, query.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
+cophe.susie=function(dataset, query.snpid, querytrait, p1=1e-4, p2=1e-4, p12=1e-5,
                        pa=NULL, pc=NULL,
                        susie.args=list()) {
   if(!requireNamespace("susieR", quietly = TRUE)) {
@@ -104,8 +112,10 @@ cophe.susie=function(dataset, query.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
     ## renumber index to match
     ret$summary[,idx2:=cs2$cs_index[idx2]]
     ret$summary[,idx1:=rep(1, length(ret$summary$idx2))]
+    ret$summary[,querytrait:=querytrait]
     ret$bf=bf2
     ret$querysnp=query.snpid
+    ret$querytrait=querytrait
   }
   attr(ret, "class") <- "cophe"
   return(ret)
@@ -116,6 +126,7 @@ cophe.susie=function(dataset, query.snpid, p1=1e-4, p2=1e-4, p12=1e-5,
 ##' @title extract data through Bayes factors
 ##' @param bf2 named vector of BF, or matrix of BF with colnames (cols=snps, rows=signals)
 ##' @param query.snpid Id of the query variant
+##' @param querytrait Query trait name
 ##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
 ##' @param pa prior probability that a non-query variant is causally associated with the query trait
 ##' @param pc prior probability that the query variant is causally associated with the query trait

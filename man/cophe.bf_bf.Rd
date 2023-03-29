@@ -16,6 +16,8 @@ cophe.bf_bf(bf2, query.snpid, pn, pa, pc)
 \item{pa}{prior probability that a non-query variant is causally associated with the query trait}
 
 \item{pc}{prior probability that the query variant is causally associated with the query trait}
+
+\item{querytrait}{Query trait name}
 }
 \value{
 bayes factors of signals

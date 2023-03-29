@@ -3,13 +3,14 @@
 
 <!-- badges: start -->
 <!-- badges: end -->
+
 <span><a href="https://github.com/ichcha-m/cophescan" class="external-link"> <img src="man/figures/logo.png" align="right" height="200" style="float:right; height:150px;"></a>
 The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
 
 ### Quick start
 #### Installation
 
-You can install cophescan in R with:
+Install cophescan in R with:
 
 ``` r
 if(!require("remotes"))
@@ -37,17 +38,17 @@ query_trait_1$position <- sapply(query_trait_1$snp, function(x) as.numeric(unlis
 plot_trait_manhat(query_trait_1, query.snpid)
 
 # Run cophescan under a single causal variant assumption by providing the snpid of the query variant (query.snpid) for the query trait.
-res.single <- cophe.single(query_trait_1, query.snpid = query.snpid)
-
+res.single <- cophe.single(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+summary(res.single)
 # Run cophescan with susie (multiple variants) by providing the snpid of the query variant (query.snpid) for the query trait
 query_trait_1$LD <- LD
-res.susie <- cophe.susie(query_trait_1, query.snpid = query.snpid)
-
+res.susie <- cophe.susie(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+summary(res.susie)
 ```
 
 ##### Run multi-trait analysis
 ```r
-res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, method = 'single')
+res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'single')
 
 ```
 

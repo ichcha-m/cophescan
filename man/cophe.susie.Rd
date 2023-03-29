@@ -7,6 +7,7 @@
 cophe.susie(
   dataset,
   query.snpid,
+  querytrait,
   p1 = 1e-04,
   p2 = 1e-04,
   p12 = 1e-05,
@@ -52,6 +53,15 @@ is not high.
 }
 \description{
 Check if a variant causally associated in one trait might be causal in another trait
+}
+\examples{
+library(cophescan)
+data(cophe_multi_trait_data)
+query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+query.snpid <- cophe_multi_trait_data$query.snpid
+query_trait_1$LD <- cophe_multi_trait_data$LD
+res.susie <- cophe.susie(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+summary(res.susie)
 }
 \author{
 Ichcha Manipur

@@ -143,12 +143,12 @@ cophe_heatmap <- function(multi.dat, thresh_Hc=0.5, thresh_Ha=0.5, ...){
 #'
 plot_trait_manhat <- function(trait.dat, query.snpid, alt.snpid=NULL){
   x <- trait.dat$position
-  cvidx <- which(trait.dat$snp%in%query.snpid)
+  queryidx <- which(trait.dat$snp%in%query.snpid)
   y <- -(pnorm(-abs(trait.dat$beta)/sqrt(trait.dat$varbeta), log.p = TRUE) +
            log(2))/log(10)
   plot(x, y, xlab = "Position", ylab = "-log10(p)", pch = 16,
        col = "grey", sub=query.snpid)
-  points(x[cvidx], y[cvidx], col="red", pch=16, cex=1.2)
+  points(x[queryidx], y[queryidx], col="red", pch=16, cex=1.2)
   if (!is.null(alt.snpid)){
     altidx <- which(trait.dat$snp%in%alt.snpid)
     points(x[altidx], y[altidx], col="blue", pch=16, cex=1.2)
