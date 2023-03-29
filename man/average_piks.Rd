@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{average_piks}
 \alias{average_piks}
-\title{Average of priors: p0k, pak and pck}
+\title{Average of priors: pnk, pak and pck}
 \usage{
 average_piks(params, nsnps, rg_vec, nits, thin, rg = FALSE)
 }
@@ -20,8 +20,8 @@ average_piks(params, nsnps, rg_vec, nits, thin, rg = FALSE)
 \item{rg}{logical: was the covariate inflormation  used? default: False}
 }
 \value{
-average pik matrix of priors: p0k, pak and pck
+average pik matrix of priors: pnk, pak and pck
 }
 \description{
-Average of priors: p0k, pak and pck
+Average of priors: pnk, pak and pck
 }

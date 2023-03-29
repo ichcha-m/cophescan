@@ -16,7 +16,7 @@ piks(params, nsnps, rg_vec, rg = FALSE)
 \item{rg}{logical: was the covariate inflormation  used? default: False}
 }
 \value{
-List of priors (len: iterations): p0k, pak and pck
+List of priors (len: iterations): pnk, pak and pck
 }
 \description{
 List of posterior probabilities: Hn, Ha and Hc over all iterations

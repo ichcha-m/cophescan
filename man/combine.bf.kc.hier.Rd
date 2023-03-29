@@ -7,7 +7,7 @@
 combine.bf.kc.hier(pik_vec, lbfk_vec)
 }
 \arguments{
-\item{pik_vec}{named vector (p0k, pak, pck)}
+\item{pik_vec}{named vector (pnk, pak, pck)}
 
 \item{lbfk_vec}{named log bayes factor vector (lBF.Ha, lBF.Hc)}
 }

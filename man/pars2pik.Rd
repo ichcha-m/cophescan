@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{pars2pik}
 \alias{pars2pik}
-\title{Conversion of parameters α, β and γ to p0k, pak and pck}
+\title{Conversion of parameters α, β and γ to pnk, pak and pck}
 \usage{
 pars2pik(params, nsnps, rg_vec, rg = FALSE)
 }
@@ -16,8 +16,8 @@ pars2pik(params, nsnps, rg_vec, rg = FALSE)
 \item{rg}{logical: should the covariate information be used? default: False}
 }
 \value{
-pik matrix of priors: p0k, pak and pck
+pik matrix of priors: pnk, pak and pck
 }
 \description{
-Conversion of parameters α, β and γ to p0k, pak and pck
+Conversion of parameters α, β and γ to pnk, pak and pck
 }

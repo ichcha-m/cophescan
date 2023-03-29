@@ -80,7 +80,7 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000,
   if (avg_pik){
     avg.pik <- average_piks(res.metrop$parameters, nsnps = nsnps,
                             rg_vec = rg_vec, nits = nits, thin = thin, rg = rg)
-    colnames(avg.pik) <- c('p0k', 'pak', 'pck')
+    colnames(avg.pik) <- c('pnk', 'pak', 'pck')
     res.metrop$avg.pik <- avg.pik
   }
 
@@ -91,7 +91,7 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000,
 #' and priors inferred from the hierarchical model
 #'
 #' @title combine.bf.kc.hier
-#' @param pik_vec named vector (p0k, pak, pck)
+#' @param pik_vec named vector (pnk, pak, pck)
 #' @param lbfk_vec named log bayes factor vector (lBF.Ha, lBF.Hc)
 #' @return named numeric vector of posterior probabilities and bayes factors
 #' @author Ichcha Manipur
@@ -99,8 +99,8 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, nits=10000,
 combine.bf.kc.hier <- function(pik_vec, lbfk_vec) {
 
   lHn.bf <- 0
-  lHa.bf <- (log(pik_vec$pak) - log(pik_vec$p0k)) +  lbfk_vec$lBF.Ha
-  lHc.bf <- (log(pik_vec$pck) - log(pik_vec$p0k)) + lbfk_vec$lBF.Hc
+  lHa.bf <- (log(pik_vec$pak) - log(pik_vec$pnk)) +  lbfk_vec$lBF.Ha
+  lHc.bf <- (log(pik_vec$pck) - log(pik_vec$pnk)) + lbfk_vec$lBF.Hc
 
   all.bf <- c(lHn.bf, lHa.bf, lHc.bf)
   my.denom.log.bf <- coloc:::logsum(all.bf)

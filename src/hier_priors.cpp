@@ -4,13 +4,13 @@
 using namespace Rcpp;
 // using namespace arma;
 
-//' Conversion of parameters α, β and γ to p0k, pak and pck
+//' Conversion of parameters α, β and γ to pnk, pak and pck
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps
 //' @param rg_vec Vector of the covariate
 //' @param rg logical: should the covariate information be used? default: False
-//' @return pik matrix of priors: p0k, pak and pck
+//' @return pik matrix of priors: pnk, pak and pck
 // [[Rcpp::export]]
 arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
   double alpha = params[0];
@@ -281,14 +281,14 @@ List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, Nu
 //' @param nsnps number of snps
 //' @param rg_vec Vector of the covariate
 //' @param rg logical: was the covariate inflormation  used? default: False
-//' @return List of priors (len: iterations): p0k, pak and pck
+//' @return List of priors (len: iterations): pnk, pak and pck
 // [[Rcpp::export]]
 List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
   double k = params.n_cols;
   List piks(k);
   for (int i = 0; i < k; i++){
     piks[i] = pars2pik(params.col(i), nsnps, rg_vec,  rg=rg);
-    colnames(piks[i]) = CharacterVector::create("p0k", "pak", "pck");
+    colnames(piks[i]) = CharacterVector::create("pnk", "pak", "pck");
   }
   return piks;
 }
@@ -340,7 +340,7 @@ arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVec
   return avpost;
 }
 
-//' Average of priors: p0k, pak and pck from list (memory intensive)
+//' Average of priors: pnk, pak and pck from list (memory intensive)
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps
@@ -348,7 +348,7 @@ arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVec
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
 //' @param rg logical: was the covariate inflormation  used? default: False
-//' @return average pik matrix of priors: p0k, pak and pck
+//' @return average pik matrix of priors: pnk, pak and pck
 // [[Rcpp::export]]
 arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
   double st=(nits/thin/2+1);
@@ -364,7 +364,7 @@ arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector
   return avpik;
 }
 
-//' Average of priors: p0k, pak and pck
+//' Average of priors: pnk, pak and pck
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps
@@ -372,7 +372,7 @@ arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
 //' @param rg logical: was the covariate inflormation  used? default: False
-//' @return average pik matrix of priors: p0k, pak and pck
+//' @return average pik matrix of priors: pnk, pak and pck
 // [[Rcpp::export]]
 arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
   double st=(nits/thin/2+1);
