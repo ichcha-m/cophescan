@@ -10,7 +10,12 @@ cophe.multitrait(
   querytrait.names,
   LDmat = NULL,
   method = "single",
-  simplify = F,
+  simplify = FALSE,
+  predict.hyp = TRUE,
+  Hn.cutoff = 0.2,
+  Hc.cutoff = 0.6,
+  est.fdr.based.cutoff = FALSE,
+  fdr = 0.05,
   ...
 )
 }
@@ -28,6 +33,16 @@ the multi.dat list contain the trait names please pass querytrait.names=names(mu
 
 \item{simplify}{if True removes intermediate results from output}
 
+\item{predict.hyp}{if True predicts the hypothesis based on the provided thresholds for pp.Hc and pp.Hn (overrides simplify)}
+
+\item{Hn.cutoff}{threshold for PP.Hc above which the associations are called Hc}
+
+\item{Hc.cutoff}{threshold for PP.Hc above which the associations are called Hn}
+
+\item{est.fdr.based.cutoff}{if True calculates the Hc.cutoff using 1-mean(PP.Hc)|PP.Hc > cutoff}
+
+\item{fdr}{fdr threshold to estimate Hc.cutoff}
+
 \item{...}{additional arguments of priors for cophe.susie or cophe.single}
 }
 \value{
@@ -37,6 +52,7 @@ if simplify is False returns multi-trait list of lists, each with two \code{data
 \item results is an annotated version of the input data containing log Approximate Bayes Factors and intermediate calculations, and the posterior probability SNP.PP.Hc of the SNP being causal for the shared signal \emph{if} Hc is true. This is only relevant if the posterior support for Hc in summary is convincing.
 }
 if simplify is False only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
+if predict.hyp is TRUE returns a dataframe with output of simplify and the predicted hypotheses for all associations
 }
 \description{
 Run cophescan on multiple traits at once

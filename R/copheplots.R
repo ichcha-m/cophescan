@@ -19,10 +19,10 @@ prepare_plot_data <- function(multi.dat, query.snpid, thresh_Ha=0.5, thresh_Hc=0
     pp_df <- multi.dat
   }
 
-  pp_dfcat1 <- pp_df[which(pp_df$Hc>thresh_Hc), ]
-  pp_dfcat1 <- pp_dfcat1[order(pp_dfcat1$Hc, decreasing = T), ]
-  pp_dfcat2 <- pp_df[which(pp_df$Ha>thresh_Ha), ]
-  pp_dfcat2 <- pp_dfcat2[order(pp_dfcat2$Ha, decreasing = T), ]
+  pp_dfcat1 <- pp_df[which(pp_df$PP.Hc>thresh_Hc), ]
+  pp_dfcat1 <- pp_dfcat1[order(pp_dfcat1$PP.Hc, decreasing = T), ]
+  pp_dfcat2 <- pp_df[which(pp_df$PP.Ha>thresh_Ha), ]
+  pp_dfcat2 <- pp_dfcat2[order(pp_dfcat2$PP.Ha, decreasing = T), ]
   pp_dfcat <- rbind(pp_dfcat1, pp_dfcat2)
 
   if (cophe.plot){
@@ -80,7 +80,7 @@ cophe_plot <- function(multi.dat, query.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tra
   pp_df <- prepare_plot_data(multi.dat,query.snpid = query.snpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F, query_trait_names=pheno_names)
   L1 <- pp_df$L1
   L2 <- pp_df$L2
-  g1 <- suppressWarnings(ggplot(aes(x=x, y=Hc, label=L1), data=pp_df) +
+  g1 <- suppressWarnings(ggplot(aes(x=x, y=PP.Hc, label=L1), data=pp_df) +
                            geom_point(col='royalblue',alpha=0.7, size=5, aes(shape=ppHc)) +
                            scale_shape_manual('    ', values = c('ppHc'=18)) +
                            ylab("ppHc") +
@@ -88,7 +88,7 @@ cophe_plot <- function(multi.dat, query.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tra
                            theme(axis.title=element_text(size=11, face = 'bold'), legend.title = element_text(size=11), panel.background = element_rect(fill = 'white'), axis.text.x = element_blank(), legend.text = element_text(size=11),axis.ticks.x = element_blank(), axis.text.y = element_text(size=11), axis.line = element_line(color='grey22')) + ggrepel::geom_label_repel(size=3,box.padding = unit(0.7, "lines"), max.iter  = 100000)+
                            ylim(0, 1))
 
-  g2 <- suppressWarnings(ggplot(aes(x=x, y=Ha, label=L2), data=pp_df) +
+  g2 <- suppressWarnings(ggplot(aes(x=x, y=PP.Ha, label=L2), data=pp_df) +
                            geom_point(col='forestgreen',alpha=0.8, size=5, aes(shape=ppHa)) +
                            scale_shape_manual('    ', values = c('ppHa'=18))+
                            ylab("ppHa") + xlab("Phenotypes") +
@@ -163,8 +163,8 @@ plot_trait_manhat <- function(trait.dat, query.snpid, alt.snpid=NULL){
 #' @param thresh_Hc Hc threshold to be displayed
 #' @param thresh_Ha Ha threshold to be displayed
 #' @return ternary plot of the posterior probabilities of Ha, Hc and Hn
+#' @importFrom ggtern ggtern theme_linedraw theme_arrowsmall Tarrowlab Larrowlab Rarrowlab theme_nomask theme_linedraw
 #' @export
-#'
 plot_cophe_ternary <- function(multi.dat, traits.dat=NULL, plot_pval=F, thresh_Hc=0.5, thresh_Ha=0.5){
   pp_df <- prepare_plot_data(multi.dat, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F)
 
@@ -175,11 +175,11 @@ plot_cophe_ternary <- function(multi.dat, traits.dat=NULL, plot_pval=F, thresh_H
     betaPch <- ifelse(beta_p$beta_plot=="n", "\u25BC", "\u25B2")
     pp_df<- cbind(pp_df, beta_p)
 
-    trn = ggtern(data=pp_df, aes_string(x="Hn",y="Hc",z="Ha"))
-    trn = trn+geom_point(aes(color=pval_plot, shape=beta_plot),fill='black', size=4)+ ggtern::theme_linedraw() + scale_color_viridis_c(alpha = 0.5, n.breaks = 6) + theme_arrowsmall()+ labs(color="-log10(pval)",shape="beta", size=10) + Tarrowlab("")+ Larrowlab("")+ Rarrowlab("") +  theme_nomask()+  scale_shape_manual(values= c("\u25BC", "\u25B2"))
+    trn = ggtern(data=pp_df, aes_string(x="PP.Hn",y="PP.Hc",z="PP.Ha"))
+    trn = trn+geom_point(aes(color=pval_plot, shape=beta_plot),fill='black', size=4)+ theme_linedraw() + scale_color_viridis_c(alpha = 0.5, n.breaks = 6) + theme_arrowsmall()+ labs(color="-log10(pval)",shape="beta", size=10) + Tarrowlab("")+ Larrowlab("")+ Rarrowlab("") +  theme_nomask()+  scale_shape_manual(values= c("\u25BC", "\u25B2"))
   } else {
-    trn = ggtern(data=pp_df, aes_string(x="Hn",y="Hc",z="Ha"), aes(label=L1))
-    trn = trn+geom_point(aes(color=Hc),fill='black',  size=4.5)+ theme_linedraw() + scale_color_viridis_c(alpha = 0.65, n.breaks = 6, option = "viridis") + theme_arrowsmall()+ labs(color="Hc", size=10)  + Tarrowlab("")+ Larrowlab("")+ Rarrowlab("")+  theme_nomask()+ theme(text = element_text(size=12)) #
+    trn = ggtern(data=pp_df, aes_string(x="PP.Hn",y="PP.Hc",z="PP.Ha"), aes(label=L1))
+    trn = trn+geom_point(aes(color=PP.Hc),fill='black',  size=4.5)+ theme_linedraw() + scale_color_viridis_c(alpha = 0.65, n.breaks = 6, option = "viridis") + theme_arrowsmall()+ labs(color="Hc", size=10)  + Tarrowlab("")+ Larrowlab("")+ Rarrowlab("")+  theme_nomask()+ theme(text = element_text(size=12)) #
     # + geom_label(mapping = aes(label=L1),position=position_nudge_tern(x=-0.2, y=0.3, z=0.2))
     #geom_text(position = pn, aes(label=L1),size=5)
   }

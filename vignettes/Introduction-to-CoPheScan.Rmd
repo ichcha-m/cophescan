@@ -1,6 +1,7 @@
 ---
 title: "Introduction to CoPheScan"
 author: "Ichcha Manipur"
+date: "2023-03-30"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to CoPheScan}
@@ -54,7 +55,7 @@ summary(res.susie)
 #### Multi-trait analysis
 ```{r message=F, warning=F, results='hide'}
 ## Hide print messages from coloc
-co <-  capture.output(res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'single', simplify = T))
+co <-  capture.output(res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'single', simplify = T, predict.hyp = T))
 # res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'susie', LDmat = cophe_multi_trait_data$LD)
 ```
 

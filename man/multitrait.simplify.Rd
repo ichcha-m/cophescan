@@ -3,17 +3,17 @@
 \name{multitrait.simplify}
 \alias{multitrait.simplify}
 \title{simplify.multitrait
-Simplifying the output obtained from cophe.multitrait}
+Simplifying the output obtained from cophe.multitrait, cophe.single or cophe.susie}
 \usage{
 multitrait.simplify(multi.dat, cov_labels = NULL)
 }
 \arguments{
-\item{multi.dat}{output obtained from cophe.multitrait}
+\item{multi.dat}{output obtained from cophe.multitrait, cophe.single or cophe.susie}
 }
 \value{
 dataframe with posterior probabilties of Hn, Hc and Ha
 }
 \description{
 simplify.multitrait
-Simplifying the output obtained from cophe.multitrait
+Simplifying the output obtained from cophe.multitrait, cophe.single or cophe.susie
 }

@@ -31,7 +31,8 @@ Imports:
     utils,
     RcppParallel (>= 5.0.1),
     RcppArmadillo,
-    matrixStats
+    matrixStats,
+    dplyr
 Suggests:
     knitr,
     testthat (>= 3.0.0),
@@ -44,13 +45,14 @@ Collate:
     'cophescan-package.R'
     'singlevar.R'
     'multivarsusie.R'
-    'impute.R'
     'multitrait.R'
+    'cophe_hyp_predict.R'
     'copheplots.R'
     'testdata.R'
     'RcppExports.R'
     'metrop_hier_priors.R'
     'zzz.R'
+    'impute.R'
 LinkingTo: Rcpp, RcppArmadillo
 Config/testthat/edition: 3
 ByteCompile: true
