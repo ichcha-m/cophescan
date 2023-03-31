@@ -8,6 +8,7 @@ run_metrop_priors(
   multi.dat,
   rg = FALSE,
   rg_vec = NULL,
+  is_rg_categorical = F,
   nits = 10000,
   thin = 1,
   posterior = F,

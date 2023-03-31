@@ -14,7 +14,7 @@ Hc.cutoff.fdr(ppHc, fdr = 0.05, return_plot = T)
 \item{return_plot}{plot the fdr estimated at the different Hc.cutoff}
 }
 \value{
-the Hc.cutoff value for the specified FDR
+the Hc.cutoff value for the specified FDR, if return_plot is True returns a plot showing the FDR calculated at different Hc thresholds
 }
 \description{
 Estimate the Hc.cutoff for the required FDR

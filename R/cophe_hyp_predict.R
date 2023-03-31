@@ -29,8 +29,6 @@ cophe.hyp.predict <- function(cophe.res, grouping.vars = c('querysnp', 'querytra
   df$cophe.hyp.call[df$cophe.hyp.call!='Hc'&df$PP.Hn>Hn.cutoff]='Hn'
   df$cophe.hyp.call[!df$cophe.hyp.call%in%c('Hn', 'Hc')]='Ha'
 
-  df <- muta
-
   dfc=df[df$cophe.hyp.call=='Hc',]
   dfc=dfc %>% group_by(grp) %>% filter(PP.Hc == max(PP.Hc))
   dfc = dfc[!duplicated(dfc$grp), ]

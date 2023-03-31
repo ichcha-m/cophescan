@@ -78,6 +78,7 @@ plot_cophe_ternary(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, plo
 ```{r warning=F, message=F, fig.width = 5, fig.height=5, fig.align = "center"}
 rg=F
 # rg=T
+co <-  capture.output(res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'single', simplify = T, predict.hyp = F))
 cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, pik=T, avg_pik = T, rg_vec = cophe_multi_trait_data$rg_vec, rg = rg, nits = 30000) 
 loglik <- cophe.hier.res$ll
 parameters <- cophe.hier.res$parameters
