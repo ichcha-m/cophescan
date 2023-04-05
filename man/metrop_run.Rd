@@ -7,8 +7,8 @@
 metrop_run(
   lbf_mat,
   nsnps,
-  rg_vec,
-  rg = FALSE,
+  covar_vec,
+  covar = FALSE,
   nits = 10000L,
   thin = 1L,
   alpha_mean = -10,
@@ -24,9 +24,9 @@ metrop_run(
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
-\item{rg}{logical: Should the covariate inflormation be used? default: False}
+\item{covar}{logical: Should the covariate inflormation be used? default: False}
 
 \item{nits}{Number of iterations run in mcmc}
 

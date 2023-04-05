@@ -4,20 +4,20 @@
 \alias{average_piks_list}
 \title{Average of priors: pnk, pak and pck from list (memory intensive)}
 \usage{
-average_piks_list(params, nsnps, rg_vec, nits, thin, rg = FALSE)
+average_piks_list(params, nsnps, covar_vec, nits, thin, covar = FALSE)
 }
 \arguments{
 \item{params}{Vector of parameters: α, β and γ}
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
 \item{nits}{Number of iterations run in mcmc}
 
 \item{thin}{thinning}
 
-\item{rg}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate inflormation  used? default: False}
 }
 \value{
 average pik matrix of priors: pnk, pak and pck

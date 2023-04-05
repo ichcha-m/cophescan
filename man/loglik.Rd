@@ -4,7 +4,7 @@
 \alias{loglik}
 \title{Log likelihood calculation}
 \usage{
-loglik(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
+loglik(params, lbf_mat, nsnps, covar_vec, covar = FALSE)
 }
 \arguments{
 \item{params}{Vector of parameters: α, β and γ}
@@ -13,9 +13,9 @@ loglik(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
-\item{rg}{logical: should the covariate inflormation be used? default: False}
+\item{covar}{logical: should the covariate inflormation be used? default: False}
 }
 \value{
 logpost flog of the posteriors

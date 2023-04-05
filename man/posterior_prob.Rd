@@ -4,7 +4,7 @@
 \alias{posterior_prob}
 \title{List of posterior probabilities: Hn, Ha and Hc over all iterations}
 \usage{
-posterior_prob(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
+posterior_prob(params, lbf_mat, nsnps, covar_vec, covar = FALSE)
 }
 \arguments{
 \item{params}{Vector of parameters: α, β and γ}
@@ -13,9 +13,9 @@ posterior_prob(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
-\item{rg}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate inflormation  used? default: False}
 }
 \value{
 params List of posterior probabilties (len: iterations): Hn, Ha and Hc

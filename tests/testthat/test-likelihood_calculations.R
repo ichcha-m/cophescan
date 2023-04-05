@@ -46,7 +46,7 @@ mypik=my_pars2pik(alpha,beta,nsnps)
 
 ## compare them to cpp
 test_that("pars2pik", {
-  result=pars2pik(c(alpha,beta),nsnps=nsnps,rg_vec=1,rg=FALSE)
+  result=pars2pik(c(alpha,beta),nsnps=nsnps,covar_vec=1,covar=FALSE)
   expect_equal(result %*% c(1,nsnps-1,1),matrix(1,1,1))
   expect_equal(as.vector(mypik %*% c(1,nsnps-1,1)),1)
   expect_equal(as.vector(mypik), as.vector(result))
@@ -85,12 +85,12 @@ test_that("get_posterior_prob", {
 
 test_that("logpriors", {
   my_result= dnorm(alpha, -10, 0.5, log=TRUE) + dgamma(beta, 2, 0.5, log=TRUE)
-  result=logpriors(c(alpha,beta), rg=FALSE)
+  result=logpriors(c(alpha,beta), covar=FALSE)
   expect_equal(my_result, result)
 })
 
 test_that("target", {
-  my_result=logpriors(c(alpha, beta), rg=FALSE) + loglik(c(alpha,beta), lbf_mat, nsnps, 1, FALSE)
+  my_result=logpriors(c(alpha, beta), covar=FALSE) + loglik(c(alpha,beta), lbf_mat, nsnps, 1, FALSE)
   result=target(c(alpha,beta), lbf_mat, nsnps, 1, FALSE)
   expect_equal(my_result, result)
 })

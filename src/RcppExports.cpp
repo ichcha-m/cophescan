@@ -12,16 +12,16 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // pars2pik
-arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_pars2pik(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector covar_vec, bool covar);
+RcppExport SEXP _cophescan_pars2pik(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(pars2pik(params, nsnps, rg_vec, rg));
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(pars2pik(params, nsnps, covar_vec, covar));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -37,47 +37,47 @@ BEGIN_RCPP
 END_RCPP
 }
 // logpost
-arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_logpost(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar);
+RcppExport SEXP _cophescan_logpost(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(logpost(params, lbf_mat, nsnps, rg_vec, rg));
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(logpost(params, lbf_mat, nsnps, covar_vec, covar));
     return rcpp_result_gen;
 END_RCPP
 }
 // loglik
-double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_loglik(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar);
+RcppExport SEXP _cophescan_loglik(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(loglik(params, lbf_mat, nsnps, rg_vec, rg));
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(loglik(params, lbf_mat, nsnps, covar_vec, covar));
     return rcpp_result_gen;
 END_RCPP
 }
 // get_posterior_prob
-arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_get_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar);
+RcppExport SEXP _cophescan_get_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_posterior_prob(params, lbf_mat, nsnps, rg_vec, rg));
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_posterior_prob(params, lbf_mat, nsnps, covar_vec, covar));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -157,35 +157,35 @@ BEGIN_RCPP
 END_RCPP
 }
 // logpriors
-double logpriors(arma::vec params, bool rg, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
-RcppExport SEXP _cophescan_logpriors(SEXP paramsSEXP, SEXP rgSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
+double logpriors(arma::vec params, bool covar, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
+RcppExport SEXP _cophescan_logpriors(SEXP paramsSEXP, SEXP covarSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
     Rcpp::traits::input_parameter< double >::type alpha_mean(alpha_meanSEXP);
     Rcpp::traits::input_parameter< double >::type alpha_sd(alpha_sdSEXP);
     Rcpp::traits::input_parameter< double >::type beta_shape(beta_shapeSEXP);
     Rcpp::traits::input_parameter< double >::type beta_scale(beta_scaleSEXP);
     Rcpp::traits::input_parameter< double >::type gamma_shape(gamma_shapeSEXP);
     Rcpp::traits::input_parameter< double >::type gamma_scale(gamma_scaleSEXP);
-    rcpp_result_gen = Rcpp::wrap(logpriors(params, rg, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
+    rcpp_result_gen = Rcpp::wrap(logpriors(params, covar, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
     return rcpp_result_gen;
 END_RCPP
 }
 // target
-double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_target(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar);
+RcppExport SEXP _cophescan_target(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(target(params, lbf_mat, nsnps, rg_vec, rg));
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(target(params, lbf_mat, nsnps, covar_vec, covar));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -202,32 +202,32 @@ BEGIN_RCPP
 END_RCPP
 }
 // pars_init
-arma::vec pars_init(bool rg, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
-RcppExport SEXP _cophescan_pars_init(SEXP rgSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
+arma::vec pars_init(bool covar, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
+RcppExport SEXP _cophescan_pars_init(SEXP covarSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
     Rcpp::traits::input_parameter< double >::type alpha_mean(alpha_meanSEXP);
     Rcpp::traits::input_parameter< double >::type alpha_sd(alpha_sdSEXP);
     Rcpp::traits::input_parameter< double >::type beta_shape(beta_shapeSEXP);
     Rcpp::traits::input_parameter< double >::type beta_scale(beta_scaleSEXP);
     Rcpp::traits::input_parameter< double >::type gamma_shape(gamma_shapeSEXP);
     Rcpp::traits::input_parameter< double >::type gamma_scale(gamma_scaleSEXP);
-    rcpp_result_gen = Rcpp::wrap(pars_init(rg, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
+    rcpp_result_gen = Rcpp::wrap(pars_init(covar, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
     return rcpp_result_gen;
 END_RCPP
 }
 // metrop_run
-List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg, int nits, int thin, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
-RcppExport SEXP _cophescan_metrop_run(SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
+List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar, int nits, int thin, double alpha_mean, double alpha_sd, double beta_shape, double beta_scale, double gamma_shape, double gamma_scale);
+RcppExport SEXP _cophescan_metrop_run(SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP covarSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP alpha_meanSEXP, SEXP alpha_sdSEXP, SEXP beta_shapeSEXP, SEXP beta_scaleSEXP, SEXP gamma_shapeSEXP, SEXP gamma_scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
     Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< double >::type alpha_mean(alpha_meanSEXP);
@@ -236,102 +236,102 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type beta_scale(beta_scaleSEXP);
     Rcpp::traits::input_parameter< double >::type gamma_shape(gamma_shapeSEXP);
     Rcpp::traits::input_parameter< double >::type gamma_scale(gamma_scaleSEXP);
-    rcpp_result_gen = Rcpp::wrap(metrop_run(lbf_mat, nsnps, rg_vec, rg, nits, thin, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
+    rcpp_result_gen = Rcpp::wrap(metrop_run(lbf_mat, nsnps, covar_vec, covar, nits, thin, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale));
     return rcpp_result_gen;
 END_RCPP
 }
 // posterior_prob
-List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar);
+RcppExport SEXP _cophescan_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(posterior_prob(params, lbf_mat, nsnps, rg_vec, rg));
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(posterior_prob(params, lbf_mat, nsnps, covar_vec, covar));
     return rcpp_result_gen;
 END_RCPP
 }
 // piks
-List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg);
-RcppExport SEXP _cophescan_piks(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP rgSEXP) {
+List piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, bool covar);
+RcppExport SEXP _cophescan_piks(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(piks(params, nsnps, rg_vec, rg));
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(piks(params, nsnps, covar_vec, covar));
     return rcpp_result_gen;
 END_RCPP
 }
 // average_posterior_prob_list
-arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
-RcppExport SEXP _cophescan_average_posterior_prob_list(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
+arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar);
+RcppExport SEXP _cophescan_average_posterior_prob_list(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
     Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(average_posterior_prob_list(params, lbf_mat, nsnps, rg_vec, nits, thin, rg));
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_posterior_prob_list(params, lbf_mat, nsnps, covar_vec, nits, thin, covar));
     return rcpp_result_gen;
 END_RCPP
 }
 // average_posterior_prob
-arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
-RcppExport SEXP _cophescan_average_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
+arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar);
+RcppExport SEXP _cophescan_average_posterior_prob(SEXP paramsSEXP, SEXP lbf_matSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type lbf_mat(lbf_matSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
     Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(average_posterior_prob(params, lbf_mat, nsnps, rg_vec, nits, thin, rg));
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_posterior_prob(params, lbf_mat, nsnps, covar_vec, nits, thin, covar));
     return rcpp_result_gen;
 END_RCPP
 }
 // average_piks_list
-arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
-RcppExport SEXP _cophescan_average_piks_list(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
+arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar);
+RcppExport SEXP _cophescan_average_piks_list(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
     Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(average_piks_list(params, nsnps, rg_vec, nits, thin, rg));
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_piks_list(params, nsnps, covar_vec, nits, thin, covar));
     return rcpp_result_gen;
 END_RCPP
 }
 // average_piks
-arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg);
-RcppExport SEXP _cophescan_average_piks(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP rg_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP rgSEXP) {
+arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar);
+RcppExport SEXP _cophescan_average_piks(SEXP paramsSEXP, SEXP nsnpsSEXP, SEXP covar_vecSEXP, SEXP nitsSEXP, SEXP thinSEXP, SEXP covarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nsnps(nsnpsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type rg_vec(rg_vecSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type covar_vec(covar_vecSEXP);
     Rcpp::traits::input_parameter< int >::type nits(nitsSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
-    Rcpp::traits::input_parameter< bool >::type rg(rgSEXP);
-    rcpp_result_gen = Rcpp::wrap(average_piks(params, nsnps, rg_vec, nits, thin, rg));
+    Rcpp::traits::input_parameter< bool >::type covar(covarSEXP);
+    rcpp_result_gen = Rcpp::wrap(average_piks(params, nsnps, covar_vec, nits, thin, covar));
     return rcpp_result_gen;
 END_RCPP
 }

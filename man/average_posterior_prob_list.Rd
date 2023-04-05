@@ -8,10 +8,10 @@ average_posterior_prob_list(
   params,
   lbf_mat,
   nsnps,
-  rg_vec,
+  covar_vec,
   nits,
   thin,
-  rg = FALSE
+  covar = FALSE
 )
 }
 \arguments{
@@ -21,13 +21,13 @@ average_posterior_prob_list(
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
 \item{nits}{Number of iterations run in mcmc}
 
 \item{thin}{thinning}
 
-\item{rg}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate inflormation  used? default: False}
 }
 \value{
 matrix with average of all the posterior probabilities: Hn, Ha and Hc

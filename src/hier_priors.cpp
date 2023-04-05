@@ -8,15 +8,15 @@ using namespace Rcpp;
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
-//' @param rg logical: should the covariate information be used? default: False
+//' @param covar_vec Vector of the covariate
+//' @param covar logical: should the covariate information be used? default: False
 //' @return pik matrix of priors: pnk, pak and pck
 // [[Rcpp::export]]
-arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
+arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
   double alpha = params[0];
   double beta = params[1];
   double gamma;
-  if (rg==false){
+  if (covar==false){
     gamma=0;
   } else {
     gamma=params[2];
@@ -24,7 +24,7 @@ arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector rg_vec, 
   int k = nsnps.length();
   arma::mat pik = arma::ones(k , 3);
   pik.col(1) =  arma::vec (rep( exp(alpha), k )) ;
-  pik.col(2) = arma::vec (exp(alpha + beta + (gamma*rg_vec)));
+  pik.col(2) = arma::vec (exp(alpha + beta + (gamma*covar_vec)));
 
   arma::vec v = nsnps - 1;
   arma::mat m2 = arma::ones(3, k);
@@ -46,12 +46,12 @@ double logsumexp(arma::rowvec x) {
 //' @param params Vector of parameters: α, β and γ
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
-//' @param rg logical: should the covariate inflormation be used? default: False
+//' @param covar_vec Vector of the covariate
+//' @param covar logical: should the covariate inflormation be used? default: False
 //' @return logpost flog of the posteriors
 // [[Rcpp::export]]
-arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  arma::mat pik = pars2pik(params, nsnps, rg_vec=rg_vec, rg=rg);
+arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
+  arma::mat pik = pars2pik(params, nsnps, covar_vec=covar_vec, covar=covar);
   int k = nsnps.length();
   arma::mat logpost = arma::ones(k , 3);
   arma::mat logpik = log(pik);
@@ -68,12 +68,12 @@ arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, Nume
 //' @param params Vector of parameters: α, β and γ
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
-//' @param rg logical: should the covariate inflormation be used? default: False
+//' @param covar_vec Vector of the covariate
+//' @param covar logical: should the covariate inflormation be used? default: False
 //' @return logpost flog of the posteriors
 // [[Rcpp::export]]
-double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  arma::mat logpos = logpost(params, lbf_mat, nsnps, rg_vec, rg=rg);
+double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
+  arma::mat logpos = logpost(params, lbf_mat, nsnps, covar_vec, covar=covar);
   int k = nsnps.length();
   arma::vec ll_k(k);
   for (int i = 0; i < k; i++){
@@ -89,12 +89,12 @@ double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericV
 //' @param params Vector of parameters: α, β and γ
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
-//' @param rg logical: should the covariate inflormation be used? default: False
+//' @param covar_vec Vector of the covariate
+//' @param covar logical: should the covariate inflormation be used? default: False
 //' @return posterior prob of Hn, Ha and Hc
 // [[Rcpp::export]]
-arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
-  arma::mat pik = pars2pik(params, nsnps, rg_vec=rg_vec, rg=rg);
+arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
+  arma::mat pik = pars2pik(params, nsnps, covar_vec=covar_vec, covar=covar);
   int k = nsnps.length();
   arma::mat logpost = arma::ones(k , 3);
   arma::mat logpik = log(pik);
@@ -169,10 +169,10 @@ double logd_gamma(double g, double gamma_shape=2, double gamma_scale=2){
 }
 
 // [[Rcpp::export]]
-double logpriors(arma::vec params, bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
+double logpriors(arma::vec params, bool covar=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
                  double gamma_shape=2, double gamma_scale=2) {
   double loggamma;
-  if (rg == false){
+  if (covar == false){
     loggamma = 0;
   } else{
     loggamma = logd_gamma(params[2], gamma_shape, gamma_scale);
@@ -182,9 +182,9 @@ double logpriors(arma::vec params, bool rg=false, double alpha_mean =-10, double
 }
 
 // [[Rcpp::export]]
-double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false) {
+double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
   // Target distribution
-  double target = loglik(params, lbf_mat, nsnps, rg_vec, rg) + logpriors(params, rg);
+  double target = loglik(params, lbf_mat, nsnps, covar_vec, covar) + logpriors(params, covar);
   return target;
 }
 
@@ -195,13 +195,13 @@ arma::vec propose(arma::vec params, double propsd=0.5){
 }
 
 // [[Rcpp::export]]
-arma::vec pars_init(bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
+arma::vec pars_init(bool covar=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
                     double gamma_shape=2, double gamma_scale=2){
   double alpha = arma::as_scalar(sample_alpha(alpha_mean, alpha_sd));
   double beta = arma::as_scalar(sample_beta(beta_shape, beta_scale));
   arma::vec params;
 
-  if(rg==true) {
+  if(covar==true) {
     double gamma = arma::as_scalar(sample_gamma(gamma_shape, gamma_scale));
     params = {alpha, beta, gamma};
   } else{
@@ -213,10 +213,10 @@ arma::vec pars_init(bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, 
 //' Run the hierarchical mcmc model to infer priors
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
+//' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param rg logical: Should the covariate inflormation be used? default: False
+//' @param covar logical: Should the covariate inflormation be used? default: False
 //' @param alpha_mean prior for the mean of  alpha
 //' @param alpha_sd prior for the standard deviation of  alpha
 //' @param beta_shape prior for the shape (gamma distibution) of beta
@@ -225,10 +225,10 @@ arma::vec pars_init(bool rg=false, double alpha_mean =-10, double alpha_sd=0.5, 
 //' @param gamma_scale prior for the scale of gamma
 //' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 // [[Rcpp::export]]
-List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false, int nits=10000,
+List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false, int nits=10000,
                 int thin=1, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
                 double gamma_shape=2, double gamma_scale=2){
-  arma::vec pars = pars_init(rg=rg, alpha_mean, alpha_sd, beta_shape, beta_scale,
+  arma::vec pars = pars_init(covar=covar, alpha_mean, alpha_sd, beta_shape, beta_scale,
                             gamma_shape, gamma_scale);
   arma::mat params = arma::zeros(pars.n_elem, nits/thin);
   arma::vec ll(nits/thin);
@@ -236,20 +236,20 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bo
   double T0;
   double accept;
   arma::vec newpars;
-  L0 = loglik(pars, lbf_mat, nsnps, rg_vec,  rg=rg);
-  T0 = L0 + logpriors(pars, rg=rg);
+  L0 = loglik(pars, lbf_mat, nsnps, covar_vec,  covar=covar);
+  T0 = L0 + logpriors(pars, covar=covar);
   for(int i = 0; i < nits; i++){
     if(i % thin == 0) {
       params.col(i/thin) = pars;
       ll(i/thin) = T0;
     }
     newpars=propose(pars);
-    accept = exp(target(newpars, lbf_mat, nsnps, rg_vec,  rg=rg) - T0);
+    accept = exp(target(newpars, lbf_mat, nsnps, covar_vec,  covar=covar) - T0);
     // Rcout <<  accept << "\n";
     if (R::runif(0, 1) < accept) {
       pars = newpars;
-      L0 = loglik(pars, lbf_mat, nsnps, rg_vec,  rg=rg);
-      T0 = L0 + logpriors(pars, rg=rg);
+      L0 = loglik(pars, lbf_mat, nsnps, covar_vec,  covar=covar);
+      T0 = L0 + logpriors(pars, covar=covar);
     }
   }
   return Rcpp::List::create(Rcpp::Named("ll") = ll,
@@ -261,15 +261,15 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bo
 //' @param params Vector of parameters: α, β and γ
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
-//' @param rg logical: was the covariate inflormation  used? default: False
+//' @param covar_vec Vector of the covariate
+//' @param covar logical: was the covariate inflormation  used? default: False
 //' @return params List of posterior probabilties (len: iterations): Hn, Ha and Hc
 // [[Rcpp::export]]
-List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
+List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false){
   double k = params.n_cols;
   List post(k);
   for (int i = 0; i < k; i++){
-    post[i] = get_posterior_prob(params.col(i),  lbf_mat, nsnps, rg_vec,  rg=rg);
+    post[i] = get_posterior_prob(params.col(i),  lbf_mat, nsnps, covar_vec,  covar=covar);
     colnames(post[i]) = CharacterVector::create("Hn", "Ha", "Hc");
   }
   return post;
@@ -279,15 +279,15 @@ List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, Nu
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
-//' @param rg logical: was the covariate inflormation  used? default: False
+//' @param covar_vec Vector of the covariate
+//' @param covar logical: was the covariate inflormation  used? default: False
 //' @return List of priors (len: iterations): pnk, pak and pck
 // [[Rcpp::export]]
-List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=false){
+List piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, bool covar=false){
   double k = params.n_cols;
   List piks(k);
   for (int i = 0; i < k; i++){
-    piks[i] = pars2pik(params.col(i), nsnps, rg_vec,  rg=rg);
+    piks[i] = pars2pik(params.col(i), nsnps, covar_vec,  covar=covar);
     colnames(piks[i]) = CharacterVector::create("pnk", "pak", "pck");
   }
   return piks;
@@ -298,16 +298,16 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, bool rg=f
 //' @param params Vector of parameters: α, β and γ
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
+//' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param rg logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate inflormation  used? default: False
 //' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 // [[Rcpp::export]]
-arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
+arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  List posterior_prob_mat = posterior_prob(params, lbf_mat, nsnps, rg_vec, rg=rg);
+  List posterior_prob_mat = posterior_prob(params, lbf_mat, nsnps, covar_vec, covar=covar);
   arma::mat avpost = posterior_prob_mat[st];
   for (int i = (st+1); i < en; i++){
     arma::mat post = posterior_prob_mat[i];
@@ -322,18 +322,18 @@ arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, Numer
 //' @param params Vector of parameters: α, β and γ
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
+//' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param rg logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate inflormation  used? default: False
 //' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 // [[Rcpp::export]]
-arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
+arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  arma::mat avpost = get_posterior_prob(params.col(st),  lbf_mat, nsnps, rg_vec,  rg=rg);
+  arma::mat avpost = get_posterior_prob(params.col(st),  lbf_mat, nsnps, covar_vec,  covar=covar);
   for (int i = (st+1); i < en; i++){
-    arma::mat post = get_posterior_prob(params.col(i),  lbf_mat, nsnps, rg_vec,  rg=rg);
+    arma::mat post = get_posterior_prob(params.col(i),  lbf_mat, nsnps, covar_vec,  covar=covar);
     avpost = avpost + post;
   }
   avpost = avpost/(en - st + 1);
@@ -344,17 +344,17 @@ arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVec
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
+//' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param rg logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate inflormation  used? default: False
 //' @return average pik matrix of priors: pnk, pak and pck
 // [[Rcpp::export]]
-arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
+arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
   List piks_list;
-  piks_list = piks(params, nsnps, rg_vec, rg=rg);
+  piks_list = piks(params, nsnps, covar_vec, covar=covar);
   arma::mat avpik = piks_list[st];
   for (int i = (st+1); i < en; i++){
     arma::mat piks_mat = piks_list[i];
@@ -368,18 +368,18 @@ arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps
-//' @param rg_vec Vector of the covariate
+//' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param rg logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate inflormation  used? default: False
 //' @return average pik matrix of priors: pnk, pak and pck
 // [[Rcpp::export]]
-arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector rg_vec, int nits, int thin, bool rg=false){
+arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  arma::mat avpik = pars2pik(params.col(st), nsnps, rg_vec,  rg=rg);
+  arma::mat avpik = pars2pik(params.col(st), nsnps, covar_vec,  covar=covar);
   for (int i = (st+1); i < en; i++){
-    arma::mat piks_mat = pars2pik(params.col(i), nsnps, rg_vec,  rg=rg);
+    arma::mat piks_mat = pars2pik(params.col(i), nsnps, covar_vec,  covar=covar);
     avpik = avpik + piks_mat;
   }
   avpik=avpik/(en - st + 1);

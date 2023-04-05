@@ -1,8 +1,8 @@
 #' Run the hierarchical metropolis hastings model to infer priors
 #'
 #' @param multi.dat matrix of bf values, rows=traits, named columns=("lBF.Ha","lBF.Hc","nsnps")
-#' @param rg whether to run rg
-#' @param rg_vec vector of genetic correlations
+#' @param covar whether to run covar
+#' @param covar_vec vector of genetic correlations
 #' @param nits number of iterations
 #' @param thin burnin
 #' @param posterior default: F, estimate posterior probabilities of the hypotheses
@@ -20,7 +20,7 @@
 #' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 #' @return list containing posterior of the parameters
 #' @export
-run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, is_rg_categorical = F, nits=10000,
+run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_categorical = F, nits=10000,
                               thin=1, posterior=F, avg_pik=T, avg_posterior=T,
                               pik=F, chains=1, cores=1, alpha_mean =-10,
                                alpha_sd=0.5,  beta_shape=2,  beta_scale=2,
@@ -32,16 +32,16 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, is_rg_categorica
     pp_df <- multi.dat
   }
 
-  if (rg) {
-    if (!(length(rg_vec) == nrow(pp_df) )){
-      stop('Length of rg_vec should be equal to the number of traits (length(multi.dat))')
-    } else if (is.null(rg_vec)){
-        stop('rg set to true but rg_vec not supplied')
+  if (covar) {
+    if (!(length(covar_vec) == nrow(pp_df) )){
+      stop('Length of covar_vec should be equal to the number of traits (length(multi.dat))')
+    } else if (is.null(covar_vec)){
+        stop('covar set to true but covar_vec not supplied')
     }
   }
-  if (!rg & is.null(rg_vec)){
-      message('rg_vec supplied but rg set to false, setting rg_vec to 1. Set rg to True if covariate to be included')
-      rg_vec <- rep(1, nrow(pp_df))
+  if (!covar & is.null(covar_vec)){
+      message('covar_vec supplied but covar set to false, setting covar_vec to 1. Set covar to True if covariate to be included')
+      covar_vec <- rep(1, nrow(pp_df))
   }
 
   lbf_mat <- as.matrix(pp_df[, c('lBF.Ha', 'lBF.Hc')])
@@ -49,37 +49,37 @@ run_metrop_priors <- function(multi.dat, rg=FALSE, rg_vec=NULL, is_rg_categorica
 
   ## Run hierarchical model
   res.metrop <- metrop_run(lbf_mat = lbf_mat, nsnps = nsnps,
-                           rg_vec = rg_vec, rg = rg, nits = nits, thin = thin,  alpha_mean =alpha_mean,
+                           covar_vec = covar_vec, covar = covar, nits = nits, thin = thin,  alpha_mean =alpha_mean,
                            alpha_sd=alpha_sd,  beta_shape=beta_shape,  beta_scale=beta_scale,
                            gamma_shape=gamma_shape,  gamma_scale=gamma_scale)
 
-  if (rg){
+  if (covar){
     rownames(res.metrop$parameters) <- c("alpha","beta","gamma")
   }else{
     rownames(res.metrop$parameters) <- c("alpha","beta")}
   ## piks from parameters
   if (pik){
-    pik <- piks(res.metrop$parameters, nsnps = nsnps, rg_vec = rg_vec, rg=rg)
+    pik <- piks(res.metrop$parameters, nsnps = nsnps, covar_vec = covar_vec, covar=covar)
     res.metrop$pik <- pik
   }
 
   if (posterior){
     posterior <- posterior_prob(res.metrop$parameters, lbf_mat, nsnps = nsnps,
-                                rg_vec = rg_vec, rg=rg)
+                                covar_vec = covar_vec, covar=covar)
     res.metrop$posterior <- posterior
   }
 
   if (avg_posterior){
     avg.posterior <- average_posterior_prob(res.metrop$parameters, lbf_mat,
-                                            nsnps = nsnps, rg_vec = rg_vec,
-                                            nits = nits, thin = thin, rg = rg)
+                                            nsnps = nsnps, covar_vec = covar_vec,
+                                            nits = nits, thin = thin, covar = covar)
     colnames(avg.posterior) <- c('Hn', 'Ha', 'Hc')
     res.metrop$avg.posterior <- avg.posterior
   }
 
   if (avg_pik){
     avg.pik <- average_piks(res.metrop$parameters, nsnps = nsnps,
-                            rg_vec = rg_vec, nits = nits, thin = thin, rg = rg)
+                            covar_vec = covar_vec, nits = nits, thin = thin, covar = covar)
     colnames(avg.pik) <- c('pnk', 'pak', 'pck')
     res.metrop$avg.pik <- avg.pik
   }

@@ -6,9 +6,9 @@
 \usage{
 run_metrop_priors(
   multi.dat,
-  rg = FALSE,
-  rg_vec = NULL,
-  is_rg_categorical = F,
+  covar = FALSE,
+  covar_vec = NULL,
+  is_covar_categorical = F,
   nits = 10000,
   thin = 1,
   posterior = F,
@@ -28,9 +28,9 @@ run_metrop_priors(
 \arguments{
 \item{multi.dat}{matrix of bf values, rows=traits, named columns=("lBF.Ha","lBF.Hc","nsnps")}
 
-\item{rg}{whether to run rg}
+\item{covar}{whether to run covar}
 
-\item{rg_vec}{vector of genetic correlations}
+\item{covar_vec}{vector of genetic correlations}
 
 \item{nits}{number of iterations}
 

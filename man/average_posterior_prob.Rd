@@ -4,7 +4,15 @@
 \alias{average_posterior_prob}
 \title{Average of posterior probabilities: Hn, Ha and Hc}
 \usage{
-average_posterior_prob(params, lbf_mat, nsnps, rg_vec, nits, thin, rg = FALSE)
+average_posterior_prob(
+  params,
+  lbf_mat,
+  nsnps,
+  covar_vec,
+  nits,
+  thin,
+  covar = FALSE
+)
 }
 \arguments{
 \item{params}{Vector of parameters: α, β and γ}
@@ -13,13 +21,13 @@ average_posterior_prob(params, lbf_mat, nsnps, rg_vec, nits, thin, rg = FALSE)
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
 \item{nits}{Number of iterations run in mcmc}
 
 \item{thin}{thinning}
 
-\item{rg}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate inflormation  used? default: False}
 }
 \value{
 matrix with average of all the posterior probabilities: Hn, Ha and Hc

@@ -76,10 +76,11 @@ plot_cophe_ternary(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, plo
 
 #### Run hierarchical model for priors
 ```{r warning=F, message=F, fig.width = 5, fig.height=5, fig.align = "center"}
-rg=F
-# rg=T
+covar=F
+# covar=T
 co <-  capture.output(res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'single', simplify = T, predict.hyp = F))
-cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, pik=T, avg_pik = T, rg_vec = cophe_multi_trait_data$rg_vec, rg = rg, nits = 30000) 
+co <-  capture.output(res.multi1 <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'single', simplify = T, predict.hyp = T))
+cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, pik=T, avg_pik = T, covar_vec = cophe_multi_trait_data$covar_vec, covar = covar, nits = 30000) 
 loglik <- cophe.hier.res$ll
 parameters <- cophe.hier.res$parameters
 col <- rgb(red = 0.4, green = 0.7, blue = 0.5, alpha = 0.8)
@@ -87,7 +88,7 @@ par(mfrow=c(2,2))
 plot(1:length(loglik), loglik, main="loglik",type="l", col=col, ylab = "ll", xlab="")
 plot(1:ncol(parameters), parameters[1,], main="alpha",type="l", col=col, ylab = "alpha", xlab="")
 plot(1:ncol(parameters), parameters[2,], main="beta",type="l", col=col, ylab = "beta", xlab="")
-if (rg == T)
+if (covar == T)
   plot(1:ncol(parameters), parameters[3,], main="gamma",type="l", col=col, ylab = "gamma", xlab="")
 # summary(cophe.hier.res$avg.pik)
 ```

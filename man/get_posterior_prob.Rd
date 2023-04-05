@@ -4,7 +4,7 @@
 \alias{get_posterior_prob}
 \title{Calculation of the posterior prob of Hn, Ha and Hc}
 \usage{
-get_posterior_prob(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
+get_posterior_prob(params, lbf_mat, nsnps, covar_vec, covar = FALSE)
 }
 \arguments{
 \item{params}{Vector of parameters: α, β and γ}
@@ -13,9 +13,9 @@ get_posterior_prob(params, lbf_mat, nsnps, rg_vec, rg = FALSE)
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
-\item{rg}{logical: should the covariate inflormation be used? default: False}
+\item{covar}{logical: should the covariate inflormation be used? default: False}
 }
 \value{
 posterior prob of Hn, Ha and Hc

@@ -4,16 +4,16 @@
 \alias{piks}
 \title{List of posterior probabilities: Hn, Ha and Hc over all iterations}
 \usage{
-piks(params, nsnps, rg_vec, rg = FALSE)
+piks(params, nsnps, covar_vec, covar = FALSE)
 }
 \arguments{
 \item{params}{Vector of parameters: α, β and γ}
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
-\item{rg}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate inflormation  used? default: False}
 }
 \value{
 List of priors (len: iterations): pnk, pak and pck

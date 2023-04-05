@@ -4,16 +4,16 @@
 \alias{pars2pik}
 \title{Conversion of parameters α, β and γ to pnk, pak and pck}
 \usage{
-pars2pik(params, nsnps, rg_vec, rg = FALSE)
+pars2pik(params, nsnps, covar_vec, covar = FALSE)
 }
 \arguments{
 \item{params}{Vector of parameters: α, β and γ}
 
 \item{nsnps}{number of snps}
 
-\item{rg_vec}{Vector of the covariate}
+\item{covar_vec}{Vector of the covariate}
 
-\item{rg}{logical: should the covariate information be used? default: False}
+\item{covar}{logical: should the covariate information be used? default: False}
 }
 \value{
 pik matrix of priors: pnk, pak and pck
