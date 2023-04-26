@@ -56,7 +56,7 @@ cophe.multitrait <- function(trait.dat, querysnpid, querytrait.names, LDmat=NULL
   if (simplify){
     cophe_results <- multitrait.simplify(cophe_results)
   }
-  return(cophe_results)
+  return(as.data.frame(cophe_results))
 }
 
 

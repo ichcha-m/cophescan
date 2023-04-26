@@ -34,6 +34,15 @@ data frame with log bayes factors for Hn and Ha hypotheses
 \description{
 cophe.susie.lbf
 }
+\examples{
+library(cophescan)
+data(cophe_multi_trait_data)
+query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+query_trait_1$LD <- LD
+querysnpid <- cophe_multi_trait_data$querysnpid
+res.susie.lbf <- cophe.susie.lbf(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1', switch=TRUE)
+res.susie.lbf
+}
 \author{
 Ichcha Manipur
 }

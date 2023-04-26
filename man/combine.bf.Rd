@@ -24,4 +24,3 @@ Internal function, calculate posterior probabilities for all the configurations
 \author{
 Ichcha Manipur
 }
-\keyword{internal}

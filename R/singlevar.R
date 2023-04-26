@@ -44,7 +44,7 @@ hypothesis.priors <- function(nsnps, pn, pa, pc){
 #' @param pa prior probability that a non-query variant is causally associated with the query trait
 #' @param pc prior probability that the query variant is causally associated with the query trait
 #' @return named numeric vector of posterior probabilities and bayes factors
-#' @keywords internal
+#' @export
 #' @author Ichcha Manipur
 combine.bf <- function(lBF_df, pn, pa, pc) {
   lHn.bf <- 0
@@ -156,7 +156,7 @@ summary.cophe <- function(cophe.res, ...){
 #'
 #' @return data frame with log bayes factors for Hn and Ha hypotheses
 #' @export
-#'
+#' @examples
 #' library(cophescan)
 #' data(cophe_multi_trait_data)
 #' query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]

@@ -22,6 +22,14 @@ data frame with log bayes factors for Hn and Ha hypotheses
 \description{
 cophe.single.lbf
 }
+\examples{
+library(cophescan)
+data(cophe_multi_trait_data)
+query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+querysnpid <- cophe_multi_trait_data$querysnpid
+res.single.lbf <- cophe.single.lbf(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
+res.single.lbf
+}
 \author{
 Ichcha Manipur
 }

@@ -171,7 +171,7 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
 #'
 #' @return data frame with log bayes factors for Hn and Ha hypotheses
 #' @export
-#'
+#' @examples
 #' library(cophescan)
 #' data(cophe_multi_trait_data)
 #' query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
