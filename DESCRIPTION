@@ -2,7 +2,8 @@ Package: cophescan
 Title: CoPheScan
 Version: 0.1.0
 Authors@R: c(person("Ichcha", "Manipur", role=c("aut","cre"),
-    email = "im504@cam.ac.uk"))
+    email = "im504@cam.ac.uk"),
+    person("Chris", "Wallace", role=c("aut")))
 Description: Coloc adapted Phenome-wide Scans.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8

@@ -32,33 +32,33 @@ names(cophe_multi_trait_data)
 ##### Single trait
 ```r
 query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
-query.snpid <- cophe_multi_trait_data$query.snpid
-print(query.snpid)
+querysnpid <- cophe_multi_trait_data$querysnpid
+print(querysnpid)
 query_trait_1$position <- sapply(query_trait_1$snp, function(x) as.numeric(unlist(strsplit(x, "-"))[2]))
-plot_trait_manhat(query_trait_1, query.snpid)
+plot_trait_manhat(query_trait_1, querysnpid)
 
-# Run cophescan under a single causal variant assumption by providing the snpid of the query variant (query.snpid) for the query trait.
-res.single <- cophe.single(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+# Run cophescan under a single causal variant assumption by providing the snpid of the query variant (querysnpid) for the query trait.
+res.single <- cophe.single(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.single)
-# Run cophescan with susie (multiple variants) by providing the snpid of the query variant (query.snpid) for the query trait
+# Run cophescan with susie (multiple variants) by providing the snpid of the query variant (querysnpid) for the query trait
 query_trait_1$LD <- LD
-res.susie <- cophe.susie(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+res.susie <- cophe.susie(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.susie)
 ```
 
 ##### Run multi-trait analysis
 ```r
-res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'single')
+res.multi <- cophe.multitrait(cophe_multi_trait_data$summ_stat, querysnpid = querysnpid, querytrait.names = names(cophe_multi_trait_data$summ_stat), method = 'single')
 
 ```
 
 ##### Plot cophescan results
 ```r
-cophe.plots.res <- cophe_plot(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, query.snpid = query.snpid)
+cophe.plots.res <- cophe_plot(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, querysnpid = querysnpid)
 
 ggpubr::ggarrange(cophe.plots.res$pval, cophe.plots.res$ppHa, cophe.plots.res$ppHc, nrow=1)
 
-# cophe.plots.hmp <- cophe_heatmap(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, query.snpid = query.snpid, color=colorRampPalette(rev(RColorBrewer::brewer.pal(n = 9, name ="Greens")))(100))
+# cophe.plots.hmp <- cophe_heatmap(res.multi, traits.dat = cophe_multi_trait_data$summ_stat, querysnpid = querysnpid, color=colorRampPalette(rev(RColorBrewer::brewer.pal(n = 9, name ="Greens")))(100))
                                     
 
 ```

@@ -5,8 +5,8 @@
 #' @param LD LD matrix including all SNPs to be imputed
 #' @param MAF Minimum allele frequency
 #' @param nsample number of samples from which the LD matrix is derived
+#' @keywords internal
 #' @return Imputed dataset
-#' @noRd
 cophe.impute=function(dataset, LD, MAF, nsample, r2.thr=1){
   x <- df
   lambda=2/sqrt(nsample)

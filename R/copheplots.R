@@ -1,7 +1,7 @@
 #' Prepare data for plotting
 #'
 #' @param multi.dat multi trait cophescan results returned from cophe.multitrait
-#' @param query.snpid query variant
+#' @param querysnpid query variant
 #' @param thresh_Ha Ha threshold to be displayed
 #' @param thresh_Hc Hc threshold to be displayed
 #' @param hmp return for heatmap
@@ -11,7 +11,7 @@
 #' default NULL
 #'
 #' @return plot list
-prepare_plot_data <- function(multi.dat, query.snpid, thresh_Ha=0.5, thresh_Hc=0.5, hmp=F, cophe.plot=T, query_trait_names=NULL){
+prepare_plot_data <- function(multi.dat, querysnpid, thresh_Ha=0.5, thresh_Hc=0.5, hmp=F, cophe.plot=T, query_trait_names=NULL){
   if (!is.data.frame(multi.dat)){
     pp_df <- multitrait.simplify(multi.dat, query_trait_names)
     if (is.null(multi.dat)){return(NULL)}
@@ -43,15 +43,15 @@ prepare_plot_data <- function(multi.dat, query.snpid, thresh_Ha=0.5, thresh_Hc=0
 
 #' Extract beta and p-values of queried variant
 #' @param traits.dat list of cmulti-trait oloc structured datasets
-#' @param query.snpid query.snpid
+#' @param querysnpid querysnpid
 #'
 #' @return data.frame with one column indicating beta direction and another column with -log10(pval) of the queried variant
-get_beta <- function(traits.dat, query.snpid){
-  pval_plot <- sapply(traits.dat, function(d) -(pnorm(-abs(d$beta[query.snpid])/sqrt(d$varbeta[query.snpid]), log.p = TRUE) +
+get_beta <- function(traits.dat, querysnpid){
+  pval_plot <- sapply(traits.dat, function(d) -(pnorm(-abs(d$beta[querysnpid])/sqrt(d$varbeta[querysnpid]), log.p = TRUE) +
                                                   log(2))/log(10))
   names(pval_plot) <- names(traits.dat)
 
-  betap <- sapply(traits.dat, function(d) d$beta[query.snpid])
+  betap <- sapply(traits.dat, function(d) d$beta[querysnpid])
   beta_plot <- as.integer(betap > 0)
   beta_plot[beta_plot==0] <- 'n'
   beta_plot[beta_plot==1] <- 'p'
@@ -62,7 +62,7 @@ get_beta <- function(traits.dat, query.snpid){
 #' cophe_plots showing the Ha and Hc of all traits and labelled above the specified threshold
 #'
 #' @param multi.dat multi trait cophescan results returned from cophe.multitrait (Takes row names as the phenotypes if you want an alternative naming pass a vector to pheno_names)
-#' @param query.snpid query variant
+#' @param querysnpid query variant
 #' @param thresh_Ha Ha threshold to be displayed
 #' @param thresh_Hc Hc threshold to be displayed
 #' @param traits.dat list of multi-trait oloc structured datasets
@@ -71,13 +71,13 @@ get_beta <- function(traits.dat, query.snpid){
 #' @return cophescan plots of Ha and Hc
 #' @export
 #'
-cophe_plot <- function(multi.dat, query.snpid, thresh_Hc=0.5, thresh_Ha=0.5, traits.dat=NULL, pheno_names=NULL, group_pheno=NULL, beta_p=NULL){
+cophe_plot <- function(multi.dat, querysnpid, thresh_Hc=0.5, thresh_Ha=0.5, traits.dat=NULL, pheno_names=NULL, group_pheno=NULL, beta_p=NULL){
   if (is.null(traits.dat)){
     print('Trait summary stat data required for pval PheWAS plot')
   }
   options(ggrepel.max.overlaps = Inf)
   plot_list <- list()
-  pp_df <- prepare_plot_data(multi.dat,query.snpid = query.snpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F, query_trait_names=pheno_names)
+  pp_df <- prepare_plot_data(multi.dat,querysnpid = querysnpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = T, hmp=F, query_trait_names=pheno_names)
   L1 <- pp_df$L1
   L2 <- pp_df$L2
   g1 <- suppressWarnings(ggplot(aes(x=x, y=PP.Hc, label=L1), data=pp_df) +
@@ -98,7 +98,7 @@ cophe_plot <- function(multi.dat, query.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tra
 
   if ((!is.null(traits.dat)) | (!is.null(beta_p))){
     if (is.null(beta_p)){
-      beta_p <- get_beta(traits.dat, query.snpid)
+      beta_p <- get_beta(traits.dat, querysnpid)
     }
     L1 <- rownames(pp_df)
     L1[beta_p$pval_plot<4] <- NA
@@ -109,7 +109,7 @@ cophe_plot <- function(multi.dat, query.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tra
       geom_point(col='maroon',alpha=0.7, aes(shape=beta), size=5) +
       scale_shape_manual('beta', values = c('n'="\u25BC", 'p'="\u25B2"))+
       ylab("-log10(pval)") + xlab(label="Phenotypes") +
-      theme(axis.title=element_text(size=11, face = 'bold'), legend.title = element_text(size=11), panel.background = element_rect(fill = 'white'), axis.text.x = element_blank(), axis.ticks.x = element_blank(), legend.text = element_text(size=11),axis.text.y = element_text(size=11), axis.line = element_line(color='grey22')) + ggrepel::geom_label_repel(size=3,box.padding = unit(0.8, "lines"), max.iter  = 100000) + ggtitle(query.snpid)
+      theme(axis.title=element_text(size=11, face = 'bold'), legend.title = element_text(size=11), panel.background = element_rect(fill = 'white'), axis.text.x = element_blank(), axis.ticks.x = element_blank(), legend.text = element_text(size=11),axis.text.y = element_text(size=11), axis.line = element_line(color='grey22')) + ggrepel::geom_label_repel(size=3,box.padding = unit(0.8, "lines"), max.iter  = 100000) + ggtitle(querysnpid)
     plot_list[['pval']] <- g3
   }
   return(plot_list)
@@ -127,7 +127,7 @@ cophe_plot <- function(multi.dat, query.snpid, thresh_Hc=0.5, thresh_Ha=0.5, tra
 #' @export
 #'
 cophe_heatmap <- function(multi.dat, thresh_Hc=0.5, thresh_Ha=0.5, ...){
-  pp_dfcat <-  prepare_plot_data(multi.dat, query.snpid = query.snpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = F, hmp=T)
+  pp_dfcat <-  prepare_plot_data(multi.dat, querysnpid = querysnpid, thresh_Hc=thresh_Hc, thresh_Ha=thresh_Ha, cophe.plot = F, hmp=T)
   hmp <- pheatmap::pheatmap(pp_dfcat[, c('Hn', 'Ha', 'Hc') ], ...)
   return(hmp)
 }
@@ -135,19 +135,19 @@ cophe_heatmap <- function(multi.dat, thresh_Hc=0.5, thresh_Ha=0.5, ...){
 #' Plot region Manhattan for a trait highlighting the queried variant
 #'
 #' @param trait.dat dataset used as input for running cophescan
-#' @param query.snpid the id of the causal variant as present in trait.dat$snp, , plotted in red
+#' @param querysnpid the id of the causal variant as present in trait.dat$snp, , plotted in red
 #' @param alt.snpid the id of the other variants as a vector to be plotted, plotted in blue
 #'
 #' @return region manhattan plot
 #' @export
 #'
-plot_trait_manhat <- function(trait.dat, query.snpid, alt.snpid=NULL){
+plot_trait_manhat <- function(trait.dat, querysnpid, alt.snpid=NULL){
   x <- trait.dat$position
-  queryidx <- which(trait.dat$snp%in%query.snpid)
+  queryidx <- which(trait.dat$snp%in%querysnpid)
   y <- -(pnorm(-abs(trait.dat$beta)/sqrt(trait.dat$varbeta), log.p = TRUE) +
            log(2))/log(10)
   plot(x, y, xlab = "Position", ylab = "-log10(p)", pch = 16,
-       col = "grey", sub=query.snpid)
+       col = "grey", sub=querysnpid)
   points(x[queryidx], y[queryidx], col="red", pch=16, cex=1.2)
   if (!is.null(alt.snpid)){
     altidx <- which(trait.dat$snp%in%alt.snpid)
@@ -171,7 +171,7 @@ plot_cophe_ternary <- function(multi.dat, traits.dat=NULL, plot_pval=F, thresh_H
   if (is.null(traits.dat) & plot_pval){
     stop("Please provide traits.dat to plot p_val")
   } else if (!is.null(traits.dat) & plot_pval) {
-    beta_p <- get_beta(traits.dat, query.snpid)
+    beta_p <- get_beta(traits.dat, querysnpid)
     betaPch <- ifelse(beta_p$beta_plot=="n", "\u25BC", "\u25B2")
     pp_df<- cbind(pp_df, beta_p)
 

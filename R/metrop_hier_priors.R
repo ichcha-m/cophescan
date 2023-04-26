@@ -31,7 +31,9 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
   } else {
     pp_df <- multi.dat
   }
-
+  if ('hit1'%in% colnames(pp_df) & (!'hit1'%in% colnames(pp_df))){
+    pp_df$sus_labels <- rownames(pp_df) <- paste0(pp_df$hit1, '_hit_', pp_df$hit2)
+  }
   if (covar) {
     if (!(length(covar_vec) == nrow(pp_df) )){
       stop('Length of covar_vec should be equal to the number of traits (length(multi.dat))')
@@ -87,29 +89,4 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
   return(res.metrop)
 }
 
-#' Calculate posterior probabilities from priors, given logABFs for each SNP
-#' and priors inferred from the hierarchical model
-#'
-#' @title combine.bf.kc.hier
-#' @param pik_vec named vector (pnk, pak, pck)
-#' @param lbfk_vec named log bayes factor vector (lBF.Ha, lBF.Hc)
-#' @return named numeric vector of posterior probabilities and bayes factors
-#' @author Ichcha Manipur
-#' @export
-combine.bf.kc.hier <- function(pik_vec, lbfk_vec) {
 
-  lHn.bf <- 0
-  lHa.bf <- (log(pik_vec$pak) - log(pik_vec$pnk)) +  lbfk_vec$lBF.Ha
-  lHc.bf <- (log(pik_vec$pck) - log(pik_vec$pnk)) + lbfk_vec$lBF.Hc
-
-  all.bf <- c(lHn.bf, lHa.bf, lHc.bf)
-  my.denom.log.bf <- coloc:::logsum(all.bf)
-  pp <- exp(all.bf - my.denom.log.bf)
-  # pp.bf
-  names(pp) <- paste("PP.H", c('n', 'a', 'c') , sep = "")
-  print(signif(pp,3))
-  print(paste("Priors: ", pik_vec))
-  print(paste("PP for shared variant: ", signif(pp["PP.Hc"],3)*100 , '%',
-              sep = ''))
-  return(list(pp = pp, bf = lbfk_vec, pik = pik_vec))
-}

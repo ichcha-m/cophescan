@@ -4,12 +4,12 @@
 \alias{get_beta}
 \title{Extract beta and p-values of queried variant}
 \usage{
-get_beta(traits.dat, query.snpid)
+get_beta(traits.dat, querysnpid)
 }
 \arguments{
 \item{traits.dat}{list of cmulti-trait oloc structured datasets}
 
-\item{query.snpid}{query.snpid}
+\item{querysnpid}{querysnpid}
 }
 \value{
 data.frame with one column indicating beta direction and another column with -log10(pval) of the queried variant

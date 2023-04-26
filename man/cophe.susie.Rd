@@ -6,7 +6,7 @@
 \usage{
 cophe.susie(
   dataset,
-  query.snpid,
+  querysnpid,
   querytrait,
   p1 = 1e-04,
   p2 = 1e-04,
@@ -17,11 +17,14 @@ cophe.susie(
 )
 }
 \arguments{
-\item{dataset}{\emph{either} an input dataset (see
+\item{dataset}{\emph{either} a list with specifically named elements defining the dataset
+to be analysed. (see
 \link{check_dataset}), or the result of running \link{runsusie} on such a
 dataset}
 
-\item{query.snpid}{Id of the query variant}
+\item{querysnpid}{Id of the query variant}
+
+\item{querytrait}{Query trait name}
 
 \item{p1}{prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)}
 
@@ -58,9 +61,9 @@ Check if a variant causally associated in one trait might be causal in another t
 library(cophescan)
 data(cophe_multi_trait_data)
 query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
-query.snpid <- cophe_multi_trait_data$query.snpid
+querysnpid <- cophe_multi_trait_data$querysnpid
 query_trait_1$LD <- cophe_multi_trait_data$LD
-res.susie <- cophe.susie(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+res.susie <- cophe.susie(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.susie)
 }
 \author{
