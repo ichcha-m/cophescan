@@ -6,7 +6,7 @@
 \usage{
 prepare_plot_data(
   multi.dat,
-  query.snpid,
+  querysnpid,
   thresh_Ha = 0.5,
   thresh_Hc = 0.5,
   hmp = F,
@@ -17,7 +17,7 @@ prepare_plot_data(
 \arguments{
 \item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
 
-\item{query.snpid}{query variant}
+\item{querysnpid}{query variant}
 
 \item{thresh_Ha}{Ha threshold to be displayed}
 

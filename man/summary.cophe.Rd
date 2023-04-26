@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{cophe.res}{Result from either cophe.susie or cophe.single}
+
+\item{...}{additional arguments affecting the summary produced.}
 }
 \value{
 log bayes and posterior probabilities

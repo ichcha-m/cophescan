@@ -2,7 +2,6 @@
 
 S3method(summary,cophe)
 export(Hc.cutoff.fdr)
-export(combine.bf.kc.hier)
 export(cophe.hyp.predict)
 export(cophe.multitrait)
 export(cophe.single)

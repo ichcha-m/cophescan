@@ -6,7 +6,7 @@
 \usage{
 cophe.single(
   dataset,
-  query.snpid,
+  querysnpid,
   querytrait,
   MAF = NULL,
   p1 = 1e-04,
@@ -20,7 +20,7 @@ cophe.single(
 \item{dataset}{a list with specifically named elements defining the query trait dataset
 to be analysed.}
 
-\item{query.snpid}{Id of the query variant, (id in dataset$snp)}
+\item{querysnpid}{Id of the query variant, (id in dataset$snp)}
 
 \item{querytrait}{Query trait name}
 
@@ -35,8 +35,6 @@ to be analysed.}
 \item{pa}{prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)}
 
 \item{pc}{prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)}
-
-\item{pn}{prior probability that none of the SNPs/variants in the region are associated with the query trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc} (cophescan prior)}
 }
 \value{
 a list of two \code{data.frame}s:
@@ -64,8 +62,8 @@ in the coloc package
 library(cophescan)
 data(cophe_multi_trait_data)
 query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
-query.snpid <- cophe_multi_trait_data$query.snpid
-res.single <- cophe.single(query_trait_1, query.snpid = query.snpid, querytrait='Trait_1')
+querysnpid <- cophe_multi_trait_data$querysnpid
+res.single <- cophe.single(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.single)
 }
 \author{

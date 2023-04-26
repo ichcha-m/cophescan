@@ -5,10 +5,12 @@
 \title{simplify.multitrait
 Simplifying the output obtained from cophe.multitrait, cophe.single or cophe.susie}
 \usage{
-multitrait.simplify(multi.dat, cov_labels = NULL)
+multitrait.simplify(multi.dat, only_BF = FALSE)
 }
 \arguments{
 \item{multi.dat}{output obtained from cophe.multitrait, cophe.single or cophe.susie}
+
+\item{only_BF}{return only bayes factors and not posterior probabilities (default=FALSE)}
 }
 \value{
 dataframe with posterior probabilties of Hn, Hc and Ha
