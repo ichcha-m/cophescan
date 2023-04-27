@@ -24,6 +24,7 @@ per.snp.priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
 
 #' hypothesis.priors
 #'
+#' Estimate priors for each hypothesis
 #' @param nsnps number of SNPs
 #' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
 #' @param pa prior probability that a non-query variant is causally associated with the query trait
@@ -36,7 +37,7 @@ hypothesis.priors <- function(nsnps, pn, pa, pc){
   return(hp)
 }
 
-#' Internal function, calculate posterior probabilities for all the configurations
+#' Calculate posterior probabilities for all the configurations
 #'
 #' @title combine.bf
 #' @param lBF_mat log bayes factors
@@ -148,6 +149,7 @@ summary.cophe <- function(cophe.res, ...){
 
 #' cophe.single.lbf
 #'
+#' Calculate log bayes factors for each hypothesis (Single causal variant assumption)
 #' @param dataset a list with specifically named elements defining the query trait dataset
 #'   to be analysed.
 #' @param querysnpid Id of the query variant, (id in dataset$snp)

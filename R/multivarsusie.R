@@ -159,6 +159,7 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
 
 #' cophe.susie.lbf
 #'
+#' Calculate log bayes factors for each hypothesis (SuSIE - multiple causal variant assumption)
 #' @param dataset a list with specifically named elements defining the query trait dataset
 #'   to be analysed.
 #' @param querysnpid Id of the query variant, (id in dataset$snp)
@@ -175,7 +176,7 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
 #' library(cophescan)
 #' data(cophe_multi_trait_data)
 #' query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
-#' query_trait_1$LD <- LD
+#' query_trait_1$LD <- cophe_multi_trait_data$LD
 #' querysnpid <- cophe_multi_trait_data$querysnpid
 #' res.susie.lbf <- cophe.susie.lbf(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1', switch=TRUE)
 #' res.susie.lbf

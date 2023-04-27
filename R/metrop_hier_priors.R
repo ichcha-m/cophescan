@@ -1,8 +1,8 @@
 #' Run the hierarchical metropolis hastings model to infer priors
 #'
 #' @param multi.dat matrix of bf values, rows=traits, named columns=("lBF.Ha","lBF.Hc","nsnps")
-#' @param covar whether to run covar
-#' @param covar_vec vector of genetic correlations
+#' @param covar whether to include covariates
+#' @param covar_vec vector of covariates
 #' @param nits number of iterations
 #' @param thin burnin
 #' @param posterior default: F, estimate posterior probabilities of the hypotheses
@@ -17,8 +17,9 @@
 #' @param beta_scale prior for the scale of beta
 #' @param gamma_shape prior for the shape (gamma distibution) of gamma
 #' @param gamma_scale prior for the scale of gamma
-#' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
-#' @return list containing posterior of the parameters
+#' @return List containing the posterior distribution of the parameters alpha, beta, gamma (if covariate included) and the loglikelihood
+#' @return if avg_posterior=TRUE matrix with average of all the posterior probabilities of Hn, Ha and Hc
+#' @return if avg_pik=TRUE matrix with average of all the priors: pn, pa and pc
 #' @export
 run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_categorical = F, nits=10000,
                               thin=1, posterior=F, avg_pik=T, avg_posterior=T,
