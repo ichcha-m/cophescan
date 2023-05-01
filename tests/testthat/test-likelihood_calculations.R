@@ -2,9 +2,14 @@ library(cophescan)
 library(coloc)
 
 ## some fake data
-data(coloc_test_data)
-fm_causal=head(finemap.abf(coloc_test_data$D2),-1)
-fm_null=head(finemap.abf(coloc_test_data$N1),-1)
+# data(coloc_test_data)
+# fm_causal=head(finemap.abf(coloc_test_data$D2),-1)
+# fm_null=head(finemap.abf(coloc_test_data$N1),-1)
+# fm_null=head(finemap.abf(coloc_test_data$D1),-1)
+
+data("cophe_multi_trait_data")
+fm_causal = head(finemap.abf(cophe_multi_trait_data$summ_stat$Trait_1),-1)
+fm_null = head(finemap.abf(cophe_multi_trait_data$summ_stat$Trait_21),-1)
 idx.causal=which.max(fm_causal$SNP.PP)
 bf=matrix(c(rep(c(sum(fm_causal[-idx.causal,4][1:99]),fm_causal[idx.causal,4], 100),10), # Hc
             rep(c(sum(fm_causal[-500,4]), fm_causal[500,4], nrow(fm_causal)),10), # Ha
@@ -97,3 +102,4 @@ test_that("target", {
 ## test_that("piks", {})
 ## test_that("average_posterior_prob", {})
 ## test_that("average_piks", {})
+

@@ -6,6 +6,7 @@
 \usage{
 plot_cophe_ternary(
   multi.dat,
+  querysnpid,
   traits.dat = NULL,
   plot_pval = F,
   thresh_Hc = 0.5,
@@ -14,6 +15,8 @@ plot_cophe_ternary(
 }
 \arguments{
 \item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
+
+\item{querysnpid}{the id of the causal variant as present in trait.dat$snp, , plotted in red}
 
 \item{traits.dat}{list of multi-trait coloc structured datasets}
 

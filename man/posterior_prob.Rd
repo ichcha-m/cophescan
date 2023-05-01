@@ -18,7 +18,7 @@ posterior_prob(params, lbf_mat, nsnps, covar_vec, covar = FALSE)
 \item{covar}{logical: was the covariate inflormation  used? default: False}
 }
 \value{
-params List of posterior probabilties (len: iterations): Hn, Ha and Hc
+List of posterior probabilties (len: iterations): Hn, Ha and Hc
 }
 \description{
 List of posterior probabilities: Hn, Ha and Hc over all iterations

@@ -18,10 +18,9 @@ BugReports: https://github.com/ichcha-m/cophescan
 Imports: 
     Rcpp (>= 1.0.7),
     coloc,
-    susieR,
     data.table,
-    ggtern,
     ggplot2,
+    ggtern,
     ggrepel,
     pheatmap,
     methods,
@@ -30,7 +29,6 @@ Imports:
     grDevices,
     magrittr,
     utils,
-    RcppParallel (>= 5.0.1),
     RcppArmadillo,
     matrixStats,
     dplyr

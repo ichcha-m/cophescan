@@ -13,6 +13,9 @@ logd_beta(b, beta_shape = 2, beta_scale = 2)
 
 \item{beta_scale}{prior for the scale of beta}
 }
+\value{
+log dgamma
+}
 \description{
 dgamma for beta
 }

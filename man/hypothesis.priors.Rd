@@ -19,7 +19,7 @@ hypothesis.priors(nsnps, pn, pa, pc)
 hypotheses priors
 }
 \description{
-hypothesis.priors
+Estimate priors for each hypothesis
 }
 \author{
 Ichcha Manipur

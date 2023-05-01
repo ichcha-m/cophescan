@@ -7,19 +7,19 @@
 combine.bf(lBF_df, pn, pa, pc)
 }
 \arguments{
+\item{lBF_df}{dataframe with log bayes factors of hypothesis Ha  and Hn: column names should be lBF.Ha and lBF.Hc}
+
 \item{pn}{prior probability that none of the SNPs/variants in the region are associated with the query trait}
 
 \item{pa}{prior probability that a non-query variant is causally associated with the query trait}
 
 \item{pc}{prior probability that the query variant is causally associated with the query trait}
-
-\item{lBF_mat}{log bayes factors}
 }
 \value{
 named numeric vector of posterior probabilities and bayes factors
 }
 \description{
-Internal function, calculate posterior probabilities for all the configurations
+Calculate posterior probabilities for all the configurations
 }
 \author{
 Ichcha Manipur

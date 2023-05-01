@@ -5,6 +5,8 @@
 #' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
 #' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
 #' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
+#' @param pa prior probability that a non-query variant is causally associated with the query trait
+#' @param pc prior probability that the query variant is causally associated with the query trait
 #' @return priors at the query variant
 #' @export
 #' @author Ichcha Manipur
@@ -40,7 +42,7 @@ hypothesis.priors <- function(nsnps, pn, pa, pc){
 #' Calculate posterior probabilities for all the configurations
 #'
 #' @title combine.bf
-#' @param lBF_mat log bayes factors
+#' @param lBF_df dataframe with log bayes factors of hypothesis Ha  and Hn: column names should be lBF.Ha and lBF.Hc
 #' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
 #' @param pa prior probability that a non-query variant is causally associated with the query trait
 #' @param pc prior probability that the query variant is causally associated with the query trait
@@ -135,17 +137,6 @@ cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL, p1=1e-4, p2=
   return(output)
 }
 
-#' print the summary of results from cophescan single or susie
-#'
-#' @param cophe.res Result from either cophe.susie or cophe.single
-#' @param ... additional arguments affecting the summary produced.
-#' @return log bayes and posterior probabilities
-#' @export
-#'
-summary.cophe <- function(cophe.res, ...){
-  print(cophe.res$summary)
-}
-
 
 #' cophe.single.lbf
 #'
@@ -188,7 +179,7 @@ cophe.single.lbf <- function(dataset, querysnpid, querytrait, MAF=NULL) {
 #' @param querysnpid Id of the query variant, (id in dataset$snp)
 #'
 #' @return named list containing the per snp BFs (df) and position of the query variant (querypos)
-#' @noRd
+#' @keywords internal
 #' @author Ichcha Manipur
 cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
   if(!("MAF" %in% names(dataset)) & !is.null(MAF))
@@ -201,4 +192,18 @@ cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
   df <- coloc:::process.dataset(d=dataset, suffix="df")
   return(list(df=df, querypos=querypos))
 
+}
+
+#' print the summary of results from cophescan single or susie
+#'
+#' @param object Result from either cophe.susie or cophe.single
+#' @param ... additional arguments affecting the summary produced.
+#' @return log bayes and posterior probabilities
+#' @export
+#'
+summary.cophe <- function(object, ...){
+  summ =object$summary
+  class(summ) = c("summary.cophe","data.frame")
+  return(summ)
+  # print(cophe.res$summary)
 }

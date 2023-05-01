@@ -14,6 +14,7 @@ pars2pik <- function(params, nsnps, covar_vec, covar = FALSE) {
 
 #' Log sum
 #' @param x vector of log scale values to be added
+#' @return log sum of input
 logsumexp <- function(x) {
     .Call(`_cophescan_logsumexp`, x)
 }
@@ -57,6 +58,7 @@ get_posterior_prob <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE)
 #' sample alpha
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
+#' @return sample from rnorm for α
 sample_alpha <- function(alpha_mean = -10, alpha_sd = 0.5) {
     .Call(`_cophescan_sample_alpha`, alpha_mean, alpha_sd)
 }
@@ -64,6 +66,7 @@ sample_alpha <- function(alpha_mean = -10, alpha_sd = 0.5) {
 #' sample beta
 #' @param beta_shape prior for the shape (gamma distibution) of beta
 #' @param beta_scale prior for the scale of beta
+#' @return sample from rgamma for β
 sample_beta <- function(beta_shape = 2, beta_scale = 2) {
     .Call(`_cophescan_sample_beta`, beta_shape, beta_scale)
 }
@@ -71,6 +74,7 @@ sample_beta <- function(beta_shape = 2, beta_scale = 2) {
 #' sample gamma
 #' @param gamma_shape prior for the shape (gamma distibution) of gamma
 #' @param gamma_scale prior for the scale of gamma
+#' @return sample from rgamma for γ
 sample_gamma <- function(gamma_shape = 2, gamma_scale = 2) {
     .Call(`_cophescan_sample_gamma`, gamma_shape, gamma_scale)
 }
@@ -79,6 +83,7 @@ sample_gamma <- function(gamma_shape = 2, gamma_scale = 2) {
 #' @param a current alpha
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
+#' @return log dnorm
 logd_alpha <- function(a, alpha_mean = -10, alpha_sd = 0.5) {
     .Call(`_cophescan_logd_alpha`, a, alpha_mean, alpha_sd)
 }
@@ -87,6 +92,7 @@ logd_alpha <- function(a, alpha_mean = -10, alpha_sd = 0.5) {
 #' @param b current beta
 #' @param beta_shape prior for the shape (gamma distibution) of beta
 #' @param beta_scale prior for the scale of beta
+#' @return log dgamma
 logd_beta <- function(b, beta_shape = 2, beta_scale = 2) {
     .Call(`_cophescan_logd_beta`, b, beta_shape, beta_scale)
 }
@@ -95,22 +101,54 @@ logd_beta <- function(b, beta_shape = 2, beta_scale = 2) {
 #' @param g current gamma
 #' @param gamma_shape prior for the shape (gamma distibution) of gamma
 #' @param gamma_scale prior for the scale of gamma
+#' @return log dgamma
 logd_gamma <- function(g, gamma_shape = 2, gamma_scale = 2) {
     .Call(`_cophescan_logd_gamma`, g, gamma_shape, gamma_scale)
 }
 
+#' Calculate log priors
+#' @param params Vector of parameters: α, β and γ
+#' @param covar logical: Should the covariate inflormation be used? default: False
+#' @param alpha_mean prior for the mean of  alpha
+#' @param alpha_sd prior for the standard deviation of  alpha
+#' @param beta_shape prior for the shape (gamma distibution) of beta
+#' @param beta_scale prior for the scale of beta
+#' @param gamma_shape prior for the shape (gamma distibution) of gamma
+#' @param gamma_scale prior for the scale of gamma
+#' @return log priors
 logpriors <- function(params, covar = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
     .Call(`_cophescan_logpriors`, params, covar, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale)
 }
 
+#' Target distribution
+#' @param params Vector of parameters: α, β and γ
+#' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
+#' @param nsnps number of snps
+#' @param covar_vec Vector of the covariate
+#' @param covar logical: Should the covariate inflormation be used? default: False
+#' @return target
 target <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
     .Call(`_cophescan_target`, params, lbf_mat, nsnps, covar_vec, covar)
 }
 
+#' Proposal distribution
+#'
+#' @param params Vector of parameters: α, β and γ
+#' @param propsd Standard deviation for the proposal
+#' @return vector : proposal
 propose <- function(params, propsd = 0.5) {
     .Call(`_cophescan_propose`, params, propsd)
 }
 
+#' Initiate parameters α, β and γ
+#' @param covar logical: Should the covariate inflormation be used? default: False
+#' @param alpha_mean prior for the mean of  alpha
+#' @param alpha_sd prior for the standard deviation of  alpha
+#' @param beta_shape prior for the shape (gamma distibution) of beta
+#' @param beta_scale prior for the scale of beta
+#' @param gamma_shape prior for the shape (gamma distibution) of gamma
+#' @param gamma_scale prior for the scale of gamma
+#' @return params α, β and γ
 pars_init <- function(covar = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
     .Call(`_cophescan_pars_init`, covar, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale)
 }
@@ -128,7 +166,7 @@ pars_init <- function(covar = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shap
 #' @param beta_scale prior for the scale of beta
 #' @param gamma_shape prior for the shape (gamma distibution) of gamma
 #' @param gamma_scale prior for the scale of gamma
-#' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
+#' @return named list of log likelihood (ll) and parameters: alpha, beta and gamma
 metrop_run <- function(lbf_mat, nsnps, covar_vec, covar = FALSE, nits = 10000L, thin = 1L, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
     .Call(`_cophescan_metrop_run`, lbf_mat, nsnps, covar_vec, covar, nits, thin, alpha_mean, alpha_sd, beta_shape, beta_scale, gamma_shape, gamma_scale)
 }
@@ -140,12 +178,12 @@ metrop_run <- function(lbf_mat, nsnps, covar_vec, covar = FALSE, nits = 10000L, 
 #' @param nsnps number of snps
 #' @param covar_vec Vector of the covariate
 #' @param covar logical: was the covariate inflormation  used? default: False
-#' @return params List of posterior probabilties (len: iterations): Hn, Ha and Hc
+#' @return List of posterior probabilties (len: iterations): Hn, Ha and Hc
 posterior_prob <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
     .Call(`_cophescan_posterior_prob`, params, lbf_mat, nsnps, covar_vec, covar)
 }
 
-#' List of posterior probabilities: Hn, Ha and Hc over all iterations
+#' List of priors: pn, pa and pc over all iterations
 #'
 #' @param params Vector of parameters: α, β and γ
 #' @param nsnps number of snps

@@ -28,9 +28,11 @@ run_metrop_priors(
 \arguments{
 \item{multi.dat}{matrix of bf values, rows=traits, named columns=("lBF.Ha","lBF.Hc","nsnps")}
 
-\item{covar}{whether to run covar}
+\item{covar}{whether to include covariates}
 
-\item{covar_vec}{vector of genetic correlations}
+\item{covar_vec}{vector of covariates}
+
+\item{is_covar_categorical}{only two categories supported (default=FALSE) - Experimental}
 
 \item{nits}{number of iterations}
 
@@ -61,9 +63,11 @@ run_metrop_priors(
 \item{gamma_scale}{prior for the scale of gamma}
 }
 \value{
-matrix with average of all the posterior probabilities: Hn, Ha and Hc
+List containing the posterior distribution of the parameters alpha, beta, gamma (if covariate included) and the loglikelihood
 
-list containing posterior of the parameters
+if avg_posterior=TRUE matrix with average of all the posterior probabilities of Hn, Ha and Hc
+
+if avg_pik=TRUE matrix with average of all the priors: pn, pa and pc
 }
 \description{
 Run the hierarchical metropolis hastings model to infer priors

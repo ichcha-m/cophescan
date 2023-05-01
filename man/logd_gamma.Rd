@@ -13,6 +13,9 @@ logd_gamma(g, gamma_shape = 2, gamma_scale = 2)
 
 \item{gamma_scale}{prior for the scale of gamma}
 }
+\value{
+log dgamma
+}
 \description{
 dgamma for gamma
 }

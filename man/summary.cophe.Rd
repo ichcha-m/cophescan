@@ -4,10 +4,10 @@
 \alias{summary.cophe}
 \title{print the summary of results from cophescan single or susie}
 \usage{
-\method{summary}{cophe}(cophe.res, ...)
+\method{summary}{cophe}(object, ...)
 }
 \arguments{
-\item{cophe.res}{Result from either cophe.susie or cophe.single}
+\item{object}{Result from either cophe.susie or cophe.single}
 
 \item{...}{additional arguments affecting the summary produced.}
 }

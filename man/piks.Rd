@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{piks}
 \alias{piks}
-\title{List of posterior probabilities: Hn, Ha and Hc over all iterations}
+\title{List of priors: pn, pa and pc over all iterations}
 \usage{
 piks(params, nsnps, covar_vec, covar = FALSE)
 }
@@ -19,5 +19,5 @@ piks(params, nsnps, covar_vec, covar = FALSE)
 List of priors (len: iterations): pnk, pak and pck
 }
 \description{
-List of posterior probabilities: Hn, Ha and Hc over all iterations
+List of priors: pn, pa and pc over all iterations
 }

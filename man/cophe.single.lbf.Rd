@@ -20,7 +20,7 @@ to be analysed.}
 data frame with log bayes factors for Hn and Ha hypotheses
 }
 \description{
-cophe.single.lbf
+Calculate log bayes factors for each hypothesis (Single causal variant assumption)
 }
 \examples{
 library(cophescan)

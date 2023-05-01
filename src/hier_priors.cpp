@@ -36,6 +36,7 @@ arma::mat pars2pik(arma::vec params, NumericVector nsnps, NumericVector covar_ve
 
 //' Log sum
 //' @param x vector of log scale values to be added
+//' @return log sum of input
 // [[Rcpp::export]]
 double logsumexp(arma::rowvec x) {
   return(log(sum(exp(x - x.max()))) + x.max());
@@ -116,6 +117,7 @@ arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector 
 //' sample alpha
 //' @param alpha_mean prior for the mean of  alpha
 //' @param alpha_sd prior for the standard deviation of  alpha
+//' @return sample from rnorm for α
 // [[Rcpp::export]]
 arma::vec sample_alpha(double alpha_mean=-10, double alpha_sd=0.5){
   return rnorm(1, alpha_mean, alpha_sd);
@@ -124,6 +126,7 @@ arma::vec sample_alpha(double alpha_mean=-10, double alpha_sd=0.5){
 //' sample beta
 //' @param beta_shape prior for the shape (gamma distibution) of beta
 //' @param beta_scale prior for the scale of beta
+//' @return sample from rgamma for β
 // [[Rcpp::export]]
 arma::vec sample_beta(double beta_shape=2, double beta_scale=2){
   // scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
@@ -133,6 +136,7 @@ arma::vec sample_beta(double beta_shape=2, double beta_scale=2){
 //' sample gamma
 //' @param gamma_shape prior for the shape (gamma distibution) of gamma
 //' @param gamma_scale prior for the scale of gamma
+//' @return sample from rgamma for γ
 // [[Rcpp::export]]
 arma::vec sample_gamma( double gamma_shape=2, double gamma_scale=2){
   // scale converted from  required rate(0.5)
@@ -143,6 +147,7 @@ arma::vec sample_gamma( double gamma_shape=2, double gamma_scale=2){
 //' @param a current alpha
 //' @param alpha_mean prior for the mean of  alpha
 //' @param alpha_sd prior for the standard deviation of  alpha
+//' @return log dnorm
 // [[Rcpp::export]]
 double logd_alpha(double a, double alpha_mean=-10, double alpha_sd=0.5){
   return R::dnorm(a, alpha_mean, alpha_sd, true);
@@ -152,10 +157,11 @@ double logd_alpha(double a, double alpha_mean=-10, double alpha_sd=0.5){
 //' @param b current beta
 //' @param beta_shape prior for the shape (gamma distibution) of beta
 //' @param beta_scale prior for the scale of beta
+//' @return log dgamma
 // [[Rcpp::export]]
 double logd_beta(double b, double beta_shape=2, double beta_scale=2){
-  // scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
-  // Also for logd_gamma
+// scale set to 2, to correspond to the R function where we set 0.5 for the rate (scale = 1/0.5)
+// Also for logd_gamma
   return R::dgamma(b, beta_shape, beta_scale, true);
 }
 
@@ -163,11 +169,22 @@ double logd_beta(double b, double beta_shape=2, double beta_scale=2){
 //' @param g current gamma
 //' @param gamma_shape prior for the shape (gamma distibution) of gamma
 //' @param gamma_scale prior for the scale of gamma
+//' @return log dgamma
 // [[Rcpp::export]]
 double logd_gamma(double g, double gamma_shape=2, double gamma_scale=2){
   return R::dgamma(g, gamma_shape, gamma_scale, true);
 }
 
+//' Calculate log priors
+//' @param params Vector of parameters: α, β and γ
+//' @param covar logical: Should the covariate inflormation be used? default: False
+//' @param alpha_mean prior for the mean of  alpha
+//' @param alpha_sd prior for the standard deviation of  alpha
+//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_scale prior for the scale of beta
+//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_scale prior for the scale of gamma
+//' @return log priors
 // [[Rcpp::export]]
 double logpriors(arma::vec params, bool covar=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
                  double gamma_shape=2, double gamma_scale=2) {
@@ -181,6 +198,13 @@ double logpriors(arma::vec params, bool covar=false, double alpha_mean =-10, dou
   return logprior;
 }
 
+//' Target distribution
+//' @param params Vector of parameters: α, β and γ
+//' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
+//' @param nsnps number of snps
+//' @param covar_vec Vector of the covariate
+//' @param covar logical: Should the covariate inflormation be used? default: False
+//' @return target
 // [[Rcpp::export]]
 double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
   // Target distribution
@@ -188,15 +212,28 @@ double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericV
   return target;
 }
 
+//' Proposal distribution
+//'
+//' @param params Vector of parameters: α, β and γ
+//' @param propsd Standard deviation for the proposal
+//' @return vector : proposal
 // [[Rcpp::export]]
 arma::vec propose(arma::vec params, double propsd=0.5){
   arma::vec propose = params + arma::vec(rnorm(params.n_elem, 0, propsd));
   return propose;
 }
 
+//' Initiate parameters α, β and γ
+//' @param covar logical: Should the covariate inflormation be used? default: False
+//' @param alpha_mean prior for the mean of  alpha
+//' @param alpha_sd prior for the standard deviation of  alpha
+//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_scale prior for the scale of beta
+//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_scale prior for the scale of gamma
+//' @return params α, β and γ
 // [[Rcpp::export]]
-arma::vec pars_init(bool covar=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
-                    double gamma_shape=2, double gamma_scale=2){
+arma::vec pars_init(bool covar=false, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,  double gamma_shape=2, double gamma_scale=2){
   double alpha = arma::as_scalar(sample_alpha(alpha_mean, alpha_sd));
   double beta = arma::as_scalar(sample_beta(beta_shape, beta_scale));
   arma::vec params;
@@ -223,7 +260,7 @@ arma::vec pars_init(bool covar=false, double alpha_mean =-10, double alpha_sd=0.
 //' @param beta_scale prior for the scale of beta
 //' @param gamma_shape prior for the shape (gamma distibution) of gamma
 //' @param gamma_scale prior for the scale of gamma
-//' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
+//' @return named list of log likelihood (ll) and parameters: alpha, beta and gamma
 // [[Rcpp::export]]
 List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false, int nits=10000,
                 int thin=1, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
@@ -263,19 +300,19 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec,
 //' @param nsnps number of snps
 //' @param covar_vec Vector of the covariate
 //' @param covar logical: was the covariate inflormation  used? default: False
-//' @return params List of posterior probabilties (len: iterations): Hn, Ha and Hc
+//' @return List of posterior probabilties (len: iterations): Hn, Ha and Hc
 // [[Rcpp::export]]
 List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false){
   double k = params.n_cols;
   List post(k);
   for (int i = 0; i < k; i++){
     post[i] = get_posterior_prob(params.col(i),  lbf_mat, nsnps, covar_vec,  covar=covar);
-    colnames(post[i]) = CharacterVector::create("Hn", "Ha", "Hc");
+    colnames(post[i]) = CharacterVector::create("PP.Hn", "PP.Ha", "PP.Hc");
   }
   return post;
 }
 
-//' List of posterior probabilities: Hn, Ha and Hc over all iterations
+//' List of priors: pn, pa and pc over all iterations
 //'
 //' @param params Vector of parameters: α, β and γ
 //' @param nsnps number of snps

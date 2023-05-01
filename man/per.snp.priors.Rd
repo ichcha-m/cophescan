@@ -21,6 +21,10 @@ per.snp.priors(
 \item{p2}{prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)}
 
 \item{p12}{prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)}
+
+\item{pa}{prior probability that a non-query variant is causally associated with the query trait}
+
+\item{pc}{prior probability that the query variant is causally associated with the query trait}
 }
 \value{
 priors at the query variant

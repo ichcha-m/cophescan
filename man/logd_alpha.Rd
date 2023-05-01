@@ -13,6 +13,9 @@ logd_alpha(a, alpha_mean = -10, alpha_sd = 0.5)
 
 \item{alpha_sd}{prior for the standard deviation of  alpha}
 }
+\value{
+log dnorm
+}
 \description{
 dnorm for alpha
 }

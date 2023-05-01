@@ -10,7 +10,6 @@
 ##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
 ##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
 ##' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
-##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc} (cophescan prior)
 ##' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
 ##' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
 ##' @param susie.args a named list of additional arguments to be passed to
@@ -88,7 +87,7 @@ cophe.susie=function(dataset, querysnpid, querytrait, p1=1e-4, p2=1e-4, p12=1e-5
 ##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
 ##' @param pa prior probability that a non-query variant is causally associated with the query trait
 ##' @param pc prior probability that the query variant is causally associated with the query trait
-##' @noRd
+##' @keywords internal
 ##' @return bayes factors of signals
 cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL, pc=NULL, ret_pp=TRUE) {
   idx2=cred_set$cs_index
@@ -178,7 +177,8 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
 #' query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
 #' query_trait_1$LD <- cophe_multi_trait_data$LD
 #' querysnpid <- cophe_multi_trait_data$querysnpid
-#' res.susie.lbf <- cophe.susie.lbf(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1', switch=TRUE)
+#' res.susie.lbf <- cophe.susie.lbf(query_trait_1, querysnpid = querysnpid,
+#'                                   querytrait='Trait_1', switch=T)
 #' res.susie.lbf
 #' @author Ichcha Manipur
 cophe.susie.lbf <- function(dataset, querysnpid, querytrait, switch=TRUE,
@@ -208,12 +208,12 @@ cophe.susie.lbf <- function(dataset, querysnpid, querytrait, switch=TRUE,
 #' @param susie.args a named list of additional arguments to be passed to
 #'   \link{runsusie}
 #' @return a list with the output of running susie
-#' @noRd
+#' @keywords internal
 #'
 cophe.prepare.dat.susie <- function(dataset, querysnpid, susie.args){
-  if(!requireNamespace("susieR", quietly = TRUE)) {
-    stop("please install susieR https://github.com/stephenslab/susieR")
-  }
+  # if(!requireNamespace("susieR", quietly = TRUE)) {
+  #   stop("please install susieR https://github.com/stephenslab/susieR")
+  # }
   if (!"pvalues" %in% names(dataset)){
     pvalues=pnorm(-abs(dataset$beta/sqrt(dataset$varbeta)))*2
   } else {

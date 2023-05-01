@@ -3,6 +3,7 @@
 #' @param multi.dat matrix of bf values, rows=traits, named columns=("lBF.Ha","lBF.Hc","nsnps")
 #' @param covar whether to include covariates
 #' @param covar_vec vector of covariates
+#' @param is_covar_categorical only two categories supported (default=FALSE) - Experimental
 #' @param nits number of iterations
 #' @param thin burnin
 #' @param posterior default: F, estimate posterior probabilities of the hypotheses
@@ -42,6 +43,17 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
         stop('covar set to true but covar_vec not supplied')
     }
   }
+  if (covar & is.character(covar_vec)){
+    if (is_covar_categorical == FALSE){
+      stop('covar vector of type character but is_covar_categorical set to FALSE. Note: only 2 categories supported')
+    } else if (length(unique(covar_vec))>2){
+      stop('Only two categories supported')
+    } else {
+    covar_vec_categ = covar_vec
+    covar_vec = as.numeric(as.factor(covar_vec ))
+    }
+
+  }
   if (!covar & is.null(covar_vec)){
       message('covar_vec supplied but covar set to false, setting covar_vec to 1. Set covar to True if covariate to be included')
       covar_vec <- rep(1, nrow(pp_df))
@@ -76,7 +88,7 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
     avg.posterior <- average_posterior_prob(res.metrop$parameters, lbf_mat,
                                             nsnps = nsnps, covar_vec = covar_vec,
                                             nits = nits, thin = thin, covar = covar)
-    colnames(avg.posterior) <- c('Hn', 'Ha', 'Hc')
+    colnames(avg.posterior) <- c('PP.Hn', 'PP.Ha', 'PP.Hc')
     res.metrop$avg.posterior <- avg.posterior
   }
 
@@ -86,7 +98,13 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
     colnames(avg.pik) <- c('pnk', 'pak', 'pck')
     res.metrop$avg.pik <- avg.pik
   }
-
+  res.metrop$lbf = lbf_mat
+  if (covar){
+    res.metrop$covar_vec = covar_vec
+    if (is_covar_categorical){
+      res.metrop$covar_vec_categ = covar_vec_categ
+    }
+  }
   return(res.metrop)
 }
 

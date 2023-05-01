@@ -9,6 +9,9 @@ logsumexp(x)
 \arguments{
 \item{x}{vector of log scale values to be added}
 }
+\value{
+log sum of input
+}
 \description{
 Log sum
 }

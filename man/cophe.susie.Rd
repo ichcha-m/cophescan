@@ -38,8 +38,6 @@ dataset}
 
 \item{susie.args}{a named list of additional arguments to be passed to
 \link{runsusie}}
-
-\item{pn}{prior probability that none of the SNPs/variants in the region are associated with the query trait , default \eqn{pn = 1 - (pa*(nsnps-1)) - pc} (cophescan prior)}
 }
 \value{
 a list, containing elements
