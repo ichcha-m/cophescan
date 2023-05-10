@@ -1,6 +1,6 @@
 #' Predict cophescan hypothesis for tested associations
 #'
-#' @param cophe.res results obtained from cophe.single, cophe.susie or cophe.multitrait
+#' @param cophe.res results obtained from cophe.single, cophe.susie or cophe.multitrait or data.frame with the following columns: PP.Hn, PP.Hc, PP.Ha, querysnp, querytrait
 #' @param grouping.vars This is important for results from cophe.susie where there are multiple signals. These will be collapsed into one call. If you want to return all signals set this to a single variable eg: grouping.vars = c('querysnp')
 #' @param Hc.cutoff threshold for PP.Hc above which the associations are called Hc
 #' @param Hn.cutoff threshold for PP.Hn above which the associations are called Hn
@@ -17,10 +17,12 @@ cophe.hyp.predict <- function(cophe.res, grouping.vars = c('querysnp', 'querytra
     df = cophe.res
   }
 
-  if (any(!grouping.vars %in% (colnames(df)))){
-    abs = grouping.vars[which(!grouping.vars %in% (colnames(df)))]
-    stop('grouping.vars: ', abs, ' not found in the result columns.')
+  check_columns = c('PP.Hn', 'PP.Hc', 'PP.Ha', 'querysnp', 'querytrait', grouping.vars)
+  if (any(!check_columns %in% (colnames(df)))){
+    out = paste0(check_columns[which(!check_columns %in% (colnames(df)))], collapse=', ')
+    stop( out, ' not found in the columns')
   }
+
 
   df$grp = apply( df[ , grouping.vars ] , 1 , paste , collapse = "_" )
   # df$cophe.hyp.call <- sapply(seq_along(df$grp), function(o) names(which.max(df[o,c('Hn', 'Ha', 'Hc')])))

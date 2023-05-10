@@ -10,7 +10,6 @@
 #' @param avg_pik default: F, estimate the average of the pik
 #' @param avg_posterior default: F, estimate the average of the posterior probabilities of the hypotheses
 #' @param pik default: F, inferred prior probabilities
-#' @param chains default: 1, number of chains
 #' @param cores default: 1, number of cores
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
@@ -21,10 +20,11 @@
 #' @return List containing the posterior distribution of the parameters alpha, beta, gamma (if covariate included) and the loglikelihood
 #' @return if avg_posterior=TRUE matrix with average of all the posterior probabilities of Hn, Ha and Hc
 #' @return if avg_pik=TRUE matrix with average of all the priors: pn, pa and pc
+#' @return data, nits and thin contain the input data, number of iterations and burnin respectively specified for the hierarchical model
 #' @export
 run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_categorical = F, nits=10000,
                               thin=1, posterior=F, avg_pik=T, avg_posterior=T,
-                              pik=F, chains=1, cores=1, alpha_mean =-10,
+                              pik=F, cores=1, alpha_mean =-10,
                                alpha_sd=0.5,  beta_shape=2,  beta_scale=2,
                                gamma_shape=2,  gamma_scale=2){
   if (!is.data.frame(multi.dat)){
@@ -33,8 +33,11 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
   } else {
     pp_df <- multi.dat
   }
-  if ('hit1'%in% colnames(pp_df) & (!'hit1'%in% colnames(pp_df))){
-    pp_df$sus_labels <- rownames(pp_df) <- paste0(pp_df$hit1, '_hit_', pp_df$hit2)
+  if (!is.vector(covar_vec)){
+    stop('covar_vec has to be a vector')
+  }
+  if ('hit1'%in% colnames(pp_df)){
+    pp_df$sus_labels <- rownames(pp_df) <- paste0(pp_df$querytrait, '_', pp_df$hit1, '_hit_', pp_df$hit2)
   }
   if (covar) {
     if (!(length(covar_vec) == nrow(pp_df) )){
@@ -60,7 +63,8 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
   }
 
   lbf_mat <- as.matrix(pp_df[, c('lBF.Ha', 'lBF.Hc')])
-  nsnps <- as.vector(pp_df[, "nsnps"])
+  nsnps <- as.vector(pp_df$nsnps)
+  cat(paste0('Running the cophescan hierarchical model... \nNumber of iterations: ', nits,'\nBurn-in: ', thin, '\nNumber of input QV/QT pairs: ', nrow(pp_df), '\nCovariate included: ', covar ))
 
   ## Run hierarchical model
   res.metrop <- metrop_run(lbf_mat = lbf_mat, nsnps = nsnps,
@@ -98,7 +102,10 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
     colnames(avg.pik) <- c('pnk', 'pak', 'pck')
     res.metrop$avg.pik <- avg.pik
   }
-  res.metrop$lbf = lbf_mat
+  res.metrop$data = pp_df %>% dplyr::select_if(!grepl('PP.Hn|PP.Ha|PP.Hc', colnames(pp_df)))
+  res.metrop$nits = nits
+  res.metrop$thin = thin
+
   if (covar){
     res.metrop$covar_vec = covar_vec
     if (is_covar_categorical){

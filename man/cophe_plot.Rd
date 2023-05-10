@@ -29,6 +29,8 @@ cophe_plot(
 \item{pheno_names}{list of phenotype names}
 
 \item{group_pheno}{Vector with additional grouping of phenotypes}
+
+\item{beta_p}{data.frame with one column indicating beta direction (p or n) and another column with -log10(pval) of the queried variant}
 }
 \value{
 cophescan plots of Ha and Hc

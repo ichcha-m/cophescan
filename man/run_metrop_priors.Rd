@@ -15,7 +15,6 @@ run_metrop_priors(
   avg_pik = T,
   avg_posterior = T,
   pik = F,
-  chains = 1,
   cores = 1,
   alpha_mean = -10,
   alpha_sd = 0.5,
@@ -46,8 +45,6 @@ run_metrop_priors(
 
 \item{pik}{default: F, inferred prior probabilities}
 
-\item{chains}{default: 1, number of chains}
-
 \item{cores}{default: 1, number of cores}
 
 \item{alpha_mean}{prior for the mean of  alpha}
@@ -68,6 +65,8 @@ List containing the posterior distribution of the parameters alpha, beta, gamma 
 if avg_posterior=TRUE matrix with average of all the posterior probabilities of Hn, Ha and Hc
 
 if avg_pik=TRUE matrix with average of all the priors: pn, pa and pc
+
+data, nits and thin contain the input data, number of iterations and burnin respectively specified for the hierarchical model
 }
 \description{
 Run the hierarchical metropolis hastings model to infer priors

@@ -67,7 +67,9 @@ get_beta <- function(traits.dat, querysnpid){
 #' @param thresh_Hc Hc threshold to be displayed
 #' @param traits.dat list of multi-trait oloc structured datasets
 #' @param pheno_names list of phenotype names
+#' @param beta_p data.frame with one column indicating beta direction (p or n) and another column with -log10(pval) of the queried variant
 #' @param group_pheno Vector with additional grouping of phenotypes
+#'
 #' @return cophescan plots of Ha and Hc
 #' @export
 #'

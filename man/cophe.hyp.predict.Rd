@@ -12,7 +12,7 @@ cophe.hyp.predict(
 )
 }
 \arguments{
-\item{cophe.res}{results obtained from cophe.single, cophe.susie or cophe.multitrait}
+\item{cophe.res}{results obtained from cophe.single, cophe.susie or cophe.multitrait or data.frame with the following columns: PP.Hn, PP.Hc, PP.Ha, querysnp, querytrait}
 
 \item{grouping.vars}{This is important for results from cophe.susie where there are multiple signals. These will be collapsed into one call. If you want to return all signals set this to a single variable eg: grouping.vars = c('querysnp')}
 
