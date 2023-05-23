@@ -20,7 +20,6 @@ Imports:
     coloc,
     data.table,
     ggplot2,
-    ggtern,
     ggrepel,
     pheatmap,
     methods,
