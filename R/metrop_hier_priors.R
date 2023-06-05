@@ -33,9 +33,7 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
   } else {
     pp_df <- multi.dat
   }
-  if (!is.vector(covar_vec)){
-    stop('covar_vec has to be a vector')
-  }
+
   if ('hit1'%in% colnames(pp_df)){
     pp_df$sus_labels <- rownames(pp_df) <- paste0(pp_df$querytrait, '_', pp_df$hit1, '_hit_', pp_df$hit2)
   }
@@ -44,6 +42,8 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
       stop('Length of covar_vec should be equal to the number of traits (length(multi.dat))')
     } else if (is.null(covar_vec)){
         stop('covar set to true but covar_vec not supplied')
+    } else if (!is.vector(covar_vec)){
+      stop('covar_vec has to be a vector')
     }
   }
   if (covar & is.character(covar_vec)){
