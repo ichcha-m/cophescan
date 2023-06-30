@@ -144,7 +144,11 @@ cophe_heatmap <- function(multi.dat, thresh_Hc=0.5, thresh_Ha=0.5, ...){
 #' @export
 #'
 plot_trait_manhat <- function(trait.dat, querysnpid, alt.snpid=NULL){
-  x <- trait.dat$position
+  if (is.null(trait.dat$position)){
+    stop("no snp position element given")
+  } else {
+    x <- trait.dat$position
+  }
   queryidx <- which(trait.dat$snp%in%querysnpid)
   y <- -(pnorm(-abs(trait.dat$beta)/sqrt(trait.dat$varbeta), log.p = TRUE) +
            log(2))/log(10)
