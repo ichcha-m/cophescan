@@ -19,6 +19,10 @@ per.snp.priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
   if (is.null(pa)){
     pa <- p2
   }
+  if (pc>1){
+    stop("pc>=1, Please check specified priors")
+  }
+  pa=adjust_prior(pa,pc, nsnps,"a")
   pn <- 1 - (pa*(nsnps-1)) - pc
   priors=c(pn=pn, pa=pa, pc=pc)
   return(priors)
@@ -35,7 +39,8 @@ per.snp.priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
 #' @export
 #' @author Ichcha Manipur
 hypothesis.priors <- function(nsnps, pn, pa, pc){
-  hp <- c(Hn=pn, Ha=(pa*(nsnps-1)), Hc=pc)
+  hp <- c(Hn=pn, Ha=(pa*(nsnps
+                         -1)), Hc=pc)
   return(hp)
 }
 
@@ -192,6 +197,16 @@ cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
   df <- coloc:::process.dataset(d=dataset, suffix="df")
   return(list(df=df, querypos=querypos))
 
+}
+
+### function adapted from coloc
+adjust_prior=function(pa,pc,nsnps,suffix="") {
+  if(nsnps * pa >= 1-pc) { ## for very large regions
+    warning(paste0("p",suffix," * nsnps >= 1, setting p",suffix,"=1-pc/(nsnps + 1)"))
+    (1-pc)/(nsnps + 1)
+  } else {
+    p
+  }
 }
 
 #' print the summary of results from cophescan single or susie
