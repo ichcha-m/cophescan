@@ -205,7 +205,7 @@ adjust_prior=function(pa,pc,nsnps,suffix="") {
     warning(paste0("p",suffix," * nsnps >= 1, setting p",suffix,"=1-pc/(nsnps + 1)"))
     (1-pc)/(nsnps + 1)
   } else {
-    p
+    pa
   }
 }
 
