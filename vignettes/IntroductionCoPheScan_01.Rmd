@@ -1,0 +1,68 @@
+---
+title: "Introduction to CoPheScan"
+author: "Ichcha Manipur"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to CoPheScan}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "Intro-"
+)
+```
+
+```{r setup, message=F, warning=F}
+library(cophescan)
+```
+
+#### CoPheScan
+
+The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
+
+Given a query variant and genomic region with Q SNPs for a query trait, cophescan discriminates between 3 hypotheses:
+
+$H_n$ : No association with the query trait (1 configuration)
+
+$H_a$ : Association of a variant other than the query variant with the query trait (Q-1 configurations)
+
+$H_c$ : Association of the query variant with the query trait (1 configuration)
+
+with $p_n$, $p_a$ and $p_c$ being their corresponding priors.
+
+#### CoPheScan approaches
+
+cophescan can be run in different ways depending on the size and type of dataset.
+
+First, choosing the method for Bayes factor computation:
+
+|       | Single causal variant | Multiple causal variants | Requires LD matrix |
+|-------|-----------------------|--------------------------|--------------------|
+| ABF   | ✔                     | x                        | No                 |
+| SuSIE | ✔                     | ✔                        | Yes                |
+|       |                       |                          |                    |
+
+Whenever, LD matrices are available (preferably in-sample LD), \``cophe.susie`\` is the recommended method as it accounts for multiple causal variants in the tested region.
+
+Next, depending upon the size of the dataset we choose the method to specify priors :
+
+|                     | Dataset | Inclusion of covariates |
+|---------------------|---------|-------------------------|
+| Fixed priors        | Small   | \-                      |
+| Hierarchical priors | Large   | ✔                       |
+|                     |         |                         |
+
+The different combinations that can be run are:
+
+ABF/Fixed priors: `cophe.single`
+
+SuSIE BF/Fixed priors: `cophe.susie`
+
+ABF/Hierarchical priors: `cophe.single.lbf` + `run_metrop_priors`
+
+SuSIE BF/Hierarchical priors: `cophe.susie.lbf` + `run_metrop_priors`

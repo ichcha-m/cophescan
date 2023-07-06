@@ -1,0 +1,86 @@
+---
+title: "CoPheScan: Input data"
+author: "Ichcha Manipur"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CoPheScan: Input data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "Input-"
+)
+```
+
+The input dataset for a trait (querytrait) should contain the summary data for SNPs in a genomic region around the query variant (querysnpid) and should have the following fields:
+
+**For a Case-control dataset**
+
+beta: β or effect size
+
+varbeta: variance of β or square of the standard error of β
+
+snp: SNP identifier which maybe rsid or CHR_BP_REF_ALT or CHR_BP
+
+type:'cc'
+
+N: sample size
+
+**For a Quantitave dataset**
+
+When, beta and varbeta are not available the following
+
+beta: β or effect size
+
+varbeta: variance of β or square of the standard error of β
+
+snp: SNP identifier which maybe rsid or CHR_BP_REF_ALT or CHR_BP
+
+type:'quant'
+
+N: sample size
+
+sdY: for a quantitative trait, the population standard deviation of the trait.
+
+**Additional fields in case of missing beta/varbeta or sdY**
+
+MAF: Minor allele frequency (only required when either beta/varbeta or sdY are unavailable)
+
+pvalues: only required when beta/varbeta are unavailable
+
+s: fraction of samples that are cases (only for a case-control trait when beta/varbeta are unavailable)
+
+```{r warning=FALSE, message=FALSE}
+library(cophescan)
+```
+
+Explore the data structure of the example dataset available in the cophescan package
+
+```{r warning=FALSE, message=FALSE}
+data("cophe_multi_trait_data")
+attach(cophe_multi_trait_data)
+trait_dat = cophe_multi_trait_data$summ_stat$Trait_1
+str(trait_dat)
+```
+
+**Additional field for `cophe.susie`**
+
+LD: Linkage Disequilibrium matrix with row and column names being the same as the snp field.
+
+```{r}
+trait_dat$LD = LD
+str(trait_dat$LD[1:10, 1:10])
+```
+
+It is important to check that there is alignment of alleles for which the beta is reported and those in the LD matrix.
+This can be verified either using coloc::check_alignment or performing a diagnostic check using the susie package <https://stephenslab.github.io/susieR/articles/susierss_diagnostic.html>.
+
+**Note**
+
+-   The input summary data structure for a trait is the same format as required by coloc. To gain a detailed understanding of the input please see the coloc vignette <https://chr1swallace.github.io/coloc/articles/a02_data.html> and the test datasets provided with the coloc package.
+-   More information on the input can be obtained from the coloc documentation : `?coloc::check_dataset`

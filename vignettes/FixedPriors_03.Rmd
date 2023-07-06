@@ -1,0 +1,88 @@
+---
+title: "CoPheScan: Example with Fixed Priors"
+author: "Ichcha Manipur"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CoPheScan: Example with Fixed Priors}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "FP-"
+)
+```
+
+Fixed priors are used when the number of traits and variants to be tested are small. 
+
+The default cophescan fixed priors for : pn, pa and pc, provided for `cophe.single` and `cophe.susie`  are those derived from default coloc priors (p1=1e-4, p2=1e-4 and p12=1e-5). 
+The priors can also be derived from a larger dataset or from the datasets tested in the cophescan manuscript that match your use case. 
+
+This example illustrates the use of cophescan for a small dataset using fixed priors where a hierarchical model cannot be applied.
+
+```{r setup, message=F, warning=F}
+library(cophescan)
+```
+
+#### Load test data  
+
+See the input data vignette for preparing the input for cophscan analysis.
+```{r message=F, warning=F }
+library(cophescan)
+data("cophe_multi_trait_data")
+attach(cophe_multi_trait_data)
+names(cophe_multi_trait_data)
+```
+
+<!-- The query variant is `r toString(querysnpid)` -->
+
+We will check for causal association between a single trait and a query variant using fixed priors.   
+
+```{r fig.width = 4, fig.height=4, fig.align = "center"}
+querytrait <- cophe_multi_trait_data$summ_stat[['Trait_1']] 
+querysnpid <- cophe_multi_trait_data$querysnpid
+
+```
+
+Regional Manhattan plot showing the position of the query variant in the query trait.
+
+```{r regManhat, fig.width = 4, fig.height=4, fig.align = "center"}
+# Additional  field named 'position' is required for the Manahattan plot. It is a numeric vector of chromosal positions
+querytrait$position <- sapply(querytrait$snp, function(x) as.numeric(unlist(strsplit(x, "-"))[2]))
+plot_trait_manhat(querytrait, querysnpid)
+```
+
+**Cophescan with fixed priors under a single variant assumption (ABF)**
+
+CoPheScan can be run using a single variant assumption (which uses Approximate Bayes Factors) with the `cophe.single` function.
+
+
+```{r fig.width = 4, fig.height=4, fig.align = "center"}
+# Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = querysnpid
+res.single <- cophe.single(querytrait, querysnpid = querysnpid, querytrait='Trait_1')
+summary(res.single)
+```
+We observe that the posterior probability of causal association for the query variant is 0.969 which indicates that the query trait is causally associated with the query trait.
+
+We can also use the `cophe.hyp.predict` function to predict the hypothesis given the posterior probabilities.
+
+```{r}
+res.single.predict <- cophe.hyp.predict(res.single)
+(paste0('The predicted hypothesis is: ', res.single.predict$cophe.hyp.call, ' [PP.Hc =', round(res.single.predict$PP.Hc,3), ']' ))
+```
+
+**Cophescan with fixed priors using SuSIE Bayes factors**
+
+```{r fig.width = 4, fig.height=4, fig.align = "center"}
+# Run cophescan with susie (multiple variants) by providing the snpid of the known causal variant for trait 1 = querysnpid
+querytrait$LD <- LD
+res.susie <- cophe.susie(querytrait, querysnpid = querysnpid, querytrait='Trait_1')
+summary(res.susie)
+```
+We get a similar result using SuSIE `cophe.susie`. We recommend the use of cophe.susie whenever LD information is available.
+
+Note: When  no credible sets are identified using `cophe.susie` cophescan reverts to `cophe.single`.
