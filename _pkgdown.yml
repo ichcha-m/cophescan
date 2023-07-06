@@ -1,9 +1,9 @@
+url: https://ichcha-m.github.io/cophescan/
 title: cophescan
-# url: https://ichcha-m.github.io/cophescan
 template:
   params:
     bootswatch: spacelab
-news:
+news: ~
 articles:
 - title: Vignettes
   navbar: ~
@@ -12,60 +12,58 @@ articles:
   - InputData_02
   - FixedPriors_03
   - HierarchicalPriors_04
-
 reference:
-  - title: CoPheScan with fixed priors
-    contents:
-    - '`per.snp.priors`'
-    - '`hypothesis.priors`'
-    - '`cophe.single`'
-    - '`cophe.single.lbf`'
-    - '`cophe.susie`'
-    - '`cophe.susie.lbf`'
-    - '`combine.bf`'
-    - '`cophe.multitrait`'
-    - '`summary.cophe`'
-    - '`multitrait.simplify`'
-  - title: CoPheScan with hierarchical priors
-    contents:
-    - '`run_metrop_priors`'
-    - '`average_piks`'
-    - '`average_piks_list`'
-    - '`average_posterior_prob`'
-    - '`average_posterior_prob_list`'
-    - '`get_posterior_prob`'
-    - '`get_beta`'
-    - '`sample_alpha`'
-    - '`sample_beta`'
-    - '`sample_gamma`'
-    - '`logd_alpha`'
-    - '`logd_beta`'
-    - '`logd_gamma`'
-    - '`loglik`'
-    - '`logpost`'
-    - '`logsumexp`'
-    - '`metrop_run`'
-    - '`pars2pik`'
-    - '`piks`'
-    - '`posterior_prob`'
-    - '`logpriors`'
-    - '`pars_init`'
-    - '`propose`'
-    - '`target`'
-  - title: Predict hypothesis
-    contents:
-    - '`cophe.hyp.predict`'
-    - '`Hc.cutoff.fdr`'
-  - title: Visualization
-    contents:
-    - '`cophe_multi_trait_data`'
-    - '`cophe_heatmap`'
-    - '`cophe_plot`'
-    - '`plot_trait_manhat`'
-    - '`prepare_plot_data`'
-  - title: Test data
-    contents:
-    - '`cophe_multi_trait_data`'
-  - title: Package
-    contents:
-    - '`cophescan-package`'
+- title: CoPheScan with fixed priors
+  contents:
+  - '`per.snp.priors`'
+  - '`hypothesis.priors`'
+  - '`cophe.single`'
+  - '`cophe.single.lbf`'
+  - '`cophe.susie`'
+  - '`cophe.susie.lbf`'
+  - '`combine.bf`'
+  - '`cophe.multitrait`'
+  - '`summary.cophe`'
+  - '`multitrait.simplify`'
+- title: CoPheScan with hierarchical priors
+  contents:
+  - '`run_metrop_priors`'
+  - '`average_piks`'
+  - '`average_piks_list`'
+  - '`average_posterior_prob`'
+  - '`average_posterior_prob_list`'
+  - '`get_posterior_prob`'
+  - '`get_beta`'
+  - '`sample_alpha`'
+  - '`sample_beta`'
+  - '`sample_gamma`'
+  - '`logd_alpha`'
+  - '`logd_beta`'
+  - '`logd_gamma`'
+  - '`loglik`'
+  - '`logpost`'
+  - '`logsumexp`'
+  - '`metrop_run`'
+  - '`pars2pik`'
+  - '`piks`'
+  - '`posterior_prob`'
+  - '`logpriors`'
+  - '`pars_init`'
+  - '`propose`'
+  - '`target`'
+- title: Predict hypothesis
+  contents:
+  - '`cophe.hyp.predict`'
+  - '`Hc.cutoff.fdr`'
+- title: Visualization
+  contents:
+  - '`cophe_multi_trait_data`'
+  - '`cophe_heatmap`'
+  - '`cophe_plot`'
+  - '`plot_trait_manhat`'
+  - '`prepare_plot_data`'
+- title: Test data
+  contents: '`cophe_multi_trait_data`'
+- title: Package
+  contents: '`cophescan-package`'
+
