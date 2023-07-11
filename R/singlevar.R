@@ -198,6 +198,8 @@ cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
 
 }
 
+#' adjust_priors
+#'
 #' adjust fixed priors when nsnps in region is high
 #'
 #' @param nsnps number of SNPs

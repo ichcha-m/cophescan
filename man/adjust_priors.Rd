@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlevar.R
 \name{adjust_priors}
 \alias{adjust_priors}
-\title{adjust fixed priors when nsnps in region is high}
+\title{adjust_priors}
 \usage{
 adjust_priors(nsnps, p1 = 1e-04, p2 = 1e-04, p12 = 1e-05, pa = NULL, pc = NULL)
 }
