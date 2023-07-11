@@ -225,6 +225,8 @@ adjust_priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
   return(pn=pn, pa=pa, pc=pc)
 }
 
+
+
 #' print the summary of results from cophescan single or susie
 #'
 #' @param object Result from either cophe.susie or cophe.single
