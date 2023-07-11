@@ -198,7 +198,9 @@ cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
 
 }
 
-#' adjust fixed priors when nsnps in region is high and
+#' adjust_priors
+#'
+#' adjust fixed priors when nsnps in region is high
 #'
 #' @param nsnps number of SNPs
 #' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
