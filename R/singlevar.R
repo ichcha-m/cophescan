@@ -19,12 +19,11 @@ per.snp.priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
   if (is.null(pa)){
     pa <- p2
   }
-  if (pc>1){
-    stop("pc>=1, Please check specified priors")
+  if (((pa*(nsnps-1)) + pc) >= 1){
+    stop("(pa*(nsnps-1)) - pc should be < 1, Revaluate priors or see help for adjust_priors")
   }
-  pa=adjust_prior(pa,pc, nsnps,"a")
   pn <- 1 - (pa*(nsnps-1)) - pc
-  priors=c(pn=pn, pa=pa, pc=pc)
+  priors <- c(pn=pn, pa=pa, pc=pc)
   return(priors)
 }
 
@@ -199,14 +198,32 @@ cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
 
 }
 
-### function adapted from coloc
-adjust_prior=function(pa,pc,nsnps,suffix="") {
-  if(nsnps * pa >= 1-pc) { ## for very large regions
-    warning(paste0("p",suffix," * nsnps >= 1, setting p",suffix,"=1-pc/(nsnps + 1)"))
-    (1-pc)/(nsnps + 1)
-  } else {
-    pa
+### adjust fixed priors when rnsnps in region is high and
+#' adjust_priors
+#'
+#' @param nsnps number of SNPs
+#' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
+#' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
+#' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
+#' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
+#' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
+#'
+#' @return vector of pn, pa and pc adjusted prior probabilities
+#' @export
+#'
+adjust_priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
+                          pa=NULL, pc=NULL) {
+  if (is.null(pc)){
+    pc <- p12/(p1+p12)
   }
+  if (is.null(pa)){
+    pa <- p2
+  }
+  sum_priors <- (nsnps+1)*pa + pc
+  pc <- pc/sum_priors
+  pa <- pa/sum_priors
+  pn <- pa
+  return(pn=pn, pa=pa, pc=pc)
 }
 
 #' print the summary of results from cophescan single or susie
@@ -218,7 +235,7 @@ adjust_prior=function(pa,pc,nsnps,suffix="") {
 #'
 summary.cophe <- function(object, ...){
   summ =object$summary
-  class(summ) = c("summary.cophe","data.frame")
+  class(summ) = c("summary.cophe", "data.frame")
   return(summ)
   # print(cophe.res$summary)
 }

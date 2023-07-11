@@ -60,6 +60,9 @@ plot_trait_manhat(querytrait, querysnpid)
 
 CoPheScan can be run using a single variant assumption (which uses Approximate Bayes Factors) with the `cophe.single` function.
 
+Note:
+
+Case where nsnps in the queried region is very high and pa*(nsnps-1) + pc > 1: In this case please revaluate the supplied priors or run adjust_priors function (see help) which scales down the priors while maintaining the proportion of the supplied priors.
 
 ```{r fig.width = 4, fig.height=4, fig.align = "center"}
 # Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = querysnpid

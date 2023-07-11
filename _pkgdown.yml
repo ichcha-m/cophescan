@@ -16,6 +16,7 @@ reference:
 - title: CoPheScan with fixed priors
   contents:
   - '`per.snp.priors`'
+  - '`adjust_priors`'
   - '`hypothesis.priors`'
   - '`cophe.single`'
   - '`cophe.single.lbf`'

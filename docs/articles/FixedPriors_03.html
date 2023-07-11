@@ -70,6 +70,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -95,7 +98,7 @@
                         <h4 data-toc-skip class="author">Ichcha
 Manipur</h4>
             
-            <h4 data-toc-skip class="date">2023-07-06</h4>
+            <h4 data-toc-skip class="date">2023-07-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/HEAD/vignettes/FixedPriors_03.Rmd" class="external-link"><code>vignettes/FixedPriors_03.Rmd</code></a></small>
       <div class="hidden name"><code>FixedPriors_03.Rmd</code></div>
@@ -144,6 +147,11 @@ the query trait.</p>
 <p>CoPheScan can be run using a single variant assumption (which uses
 Approximate Bayes Factors) with the <code>cophe.single</code>
 function.</p>
+<p>Note:</p>
+<p>Case where nsnps in the queried region is very high and pa*(nsnps-1)
++ pc &gt; 1: In this case please revaluate the supplied priors or run
+adjust_priors function (see help) which scales down the priors while
+maintaining the proportion of the supplied priors.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = querysnpid</span></span>
 <span><span class="va">res.single</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.single.html">cophe.single</a></span><span class="op">(</span><span class="va">querytrait</span>, querysnpid <span class="op">=</span> <span class="va">querysnpid</span>, querytrait<span class="op">=</span><span class="st">'Trait_1'</span><span class="op">)</span></span>

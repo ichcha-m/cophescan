@@ -102,7 +102,7 @@ res.post.prob = cbind(cophe.hier.res$avg.posterior, cophe.hier.res$data)
 
 ```{r}
 res.hier.predict <- cophe.hyp.predict(as.data.frame(res.post.prob ))
-knitr::kable(res.post.prob, row.names = F)
+knitr::kable(res.post.prob, row.names = F, digits=3)
 ```
 
 

@@ -49,7 +49,13 @@
     <loc>https://ichcha-m.github.io/cophescan/index.html</loc>
   </url>
   <url>
+    <loc>https://ichcha-m.github.io/cophescan/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://ichcha-m.github.io/cophescan/reference/Hc.cutoff.fdr.html</loc>
+  </url>
+  <url>
+    <loc>https://ichcha-m.github.io/cophescan/reference/adjust_priors.html</loc>
   </url>
   <url>
     <loc>https://ichcha-m.github.io/cophescan/reference/average_piks.html</loc>
