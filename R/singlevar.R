@@ -224,7 +224,7 @@ adjust_priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
   pc <- pc/sum_priors
   pa <- pa/sum_priors
   pn <- pa
-  return(pn=pn, pa=pa, pc=pc)
+  return(c(pn=pn, pa=pa, pc=pc))
 }
 
 
