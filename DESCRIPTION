@@ -19,6 +19,7 @@ BugReports: https://github.com/ichcha-m/cophescan
 Imports: 
     Rcpp (>= 1.0.7),
     coloc,
+    susieR,
     data.table,
     ggplot2,
     ggrepel,
@@ -37,9 +38,6 @@ Suggests:
     testthat (>= 3.0.0),
     rmarkdown,
     RColorBrewer
-Remotes: 
-    github::stephenslab/susieR,
-    github::chr1swallace/coloc
 Collate: 
     'cophescan-package.R'
     'singlevar.R'
