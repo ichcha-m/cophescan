@@ -37,7 +37,8 @@ Suggests:
     knitr,
     testthat (>= 3.0.0),
     rmarkdown,
-    RColorBrewer
+    RColorBrewer,
+    ggpubr
 Collate: 
     'cophescan-package.R'
     'singlevar.R'

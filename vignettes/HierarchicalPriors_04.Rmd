@@ -23,7 +23,7 @@ Here we show how to use cophescan to infer hierarchical priors on a small test d
 ```{r setup, message=F, warning=F}
 library(cophescan)
 library(dplyr)
-#library(ggpubr)
+library(ggpubr)
 ```
 
 ```{r}
