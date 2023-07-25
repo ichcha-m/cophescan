@@ -7,7 +7,7 @@
 propose(params, propsd = 0.5)
 }
 \arguments{
-\item{params}{Vector of parameters: α, β and γ}
+\item{params}{Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}}
 
 \item{propsd}{Standard deviation for the proposal}
 }

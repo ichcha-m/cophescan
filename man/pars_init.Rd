@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{pars_init}
 \alias{pars_init}
-\title{Initiate parameters α, β and γ}
+\title{Initiate parameters alpha, beta and gamma}
 \usage{
 pars_init(
   covar = FALSE,
@@ -30,8 +30,8 @@ pars_init(
 \item{gamma_scale}{prior for the scale of gamma}
 }
 \value{
-params α, β and γ
+params \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}
 }
 \description{
-Initiate parameters α, β and γ
+Initiate parameters alpha, beta and gamma
 }

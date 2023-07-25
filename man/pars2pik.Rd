@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{pars2pik}
 \alias{pars2pik}
-\title{Conversion of parameters α, β and γ to pnk, pak and pck}
+\title{Conversion of parameters alpha, beta and gamma to pnk, pak and pck}
 \usage{
 pars2pik(params, nsnps, covar_vec, covar = FALSE)
 }
 \arguments{
-\item{params}{Vector of parameters: α, β and γ}
+\item{params}{Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}}
 
 \item{nsnps}{number of snps}
 
@@ -19,5 +19,5 @@ pars2pik(params, nsnps, covar_vec, covar = FALSE)
 pik matrix of priors: pnk, pak and pck
 }
 \description{
-Conversion of parameters α, β and γ to pnk, pak and pck
+Conversion of parameters alpha, beta and gamma to pnk, pak and pck
 }

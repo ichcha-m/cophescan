@@ -15,7 +15,7 @@ average_posterior_prob(
 )
 }
 \arguments{
-\item{params}{Vector of parameters: α, β and γ}
+\item{params}{Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}}
 
 \item{lbf_mat}{matrix of log bayes factors: lBF.Ha and lBF.Hc}
 

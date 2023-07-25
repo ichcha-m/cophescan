@@ -12,7 +12,7 @@ sample_beta(beta_shape = 2, beta_scale = 2)
 \item{beta_scale}{prior for the scale of beta}
 }
 \value{
-sample from rgamma for β
+sample from rgamma for \eqn{\beta}
 }
 \description{
 sample beta

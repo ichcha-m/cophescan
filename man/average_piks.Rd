@@ -7,7 +7,7 @@
 average_piks(params, nsnps, covar_vec, nits, thin, covar = FALSE)
 }
 \arguments{
-\item{params}{Vector of parameters: α, β and γ}
+\item{params}{Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}}
 
 \item{nsnps}{number of snps}
 

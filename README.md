@@ -70,7 +70,7 @@ ggpubr::ggarrange(cophe.plots.res$pval, cophe.plots.res$ppHa, cophe.plots.res$pp
 ```r
 cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, pik=T) 
 ll <- cophe.hier.res$ll
-params <- cophe.hier.res$params
+params <- cophe.hier.res$parameters
 par(mfrow=c(2,2))
 plot(1:length(ll), ll, main="loglik",type="l", col="orange")
 plot(1:ncol(params), params[1,], main="alpha",type="l", col="orange")

@@ -98,7 +98,7 @@
                         <h4 data-toc-skip class="author">Ichcha
 Manipur</h4>
             
-            <h4 data-toc-skip class="date">2023-07-11</h4>
+            <h4 data-toc-skip class="date">2023-07-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/HEAD/vignettes/HierarchicalPriors_04.Rmd" class="external-link"><code>vignettes/HierarchicalPriors_04.Rmd</code></a></small>
       <div class="hidden name"><code>HierarchicalPriors_04.Rmd</code></div>
@@ -115,7 +115,7 @@ infer hierarchical priors on a small test dataset.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ichcha-m/cophescan" class="external-link">cophescan</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#library(ggpubr)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggpubr/" class="external-link">ggpubr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cophe_multi_trait_data"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">cophe_multi_trait_data</span><span class="op">)</span></span>
@@ -195,7 +195,7 @@ fields: “lBF.Ha”,“lBF.Hc” and “nsnps”.</p>
 <span><span class="co">#&gt; Running the cophescan hierarchical model... </span></span>
 <span><span class="co">#&gt; Number of iterations: 30000</span></span>
 <span><span class="co">#&gt; Burn-in: 1</span></span>
-<span><span class="co">#&gt; Number of input QV/QT pairs: 30</span></span>
+<span><span class="co">#&gt; Number of input QV/QT pairs: 24</span></span>
 <span><span class="co">#&gt; Covariate included: TRUE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cophe.hier.res</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "ll"            "parameters"    "avg.posterior" "avg.pik"      </span></span>
@@ -267,8 +267,8 @@ obtained from the hierarchical model.</p>
 <tbody>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.010</td>
-<td align="right">0.990</td>
+<td align="right">0.009</td>
+<td align="right">0.991</td>
 <td align="right">15.310</td>
 <td align="right">11.953</td>
 <td align="right">1000</td>
@@ -283,7 +283,7 @@ obtained from the hierarchical model.</p>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.001</td>
+<td align="right">0.002</td>
 <td align="right">0.998</td>
 <td align="right">16.434</td>
 <td align="right">13.007</td>
@@ -299,8 +299,8 @@ obtained from the hierarchical model.</p>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.004</td>
-<td align="right">0.996</td>
+<td align="right">0.006</td>
+<td align="right">0.994</td>
 <td align="right">17.367</td>
 <td align="right">13.138</td>
 <td align="right">1000</td>
@@ -315,8 +315,8 @@ obtained from the hierarchical model.</p>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.190</td>
-<td align="right">0.810</td>
+<td align="right">0.111</td>
+<td align="right">0.889</td>
 <td align="right">14.454</td>
 <td align="right">10.444</td>
 <td align="right">1000</td>
@@ -331,8 +331,8 @@ obtained from the hierarchical model.</p>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.003</td>
-<td align="right">0.997</td>
+<td align="right">0.004</td>
+<td align="right">0.996</td>
 <td align="right">15.826</td>
 <td align="right">12.549</td>
 <td align="right">1000</td>
@@ -347,8 +347,8 @@ obtained from the hierarchical model.</p>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.002</td>
-<td align="right">0.998</td>
+<td align="right">0.003</td>
+<td align="right">0.997</td>
 <td align="right">16.231</td>
 <td align="right">12.883</td>
 <td align="right">1000</td>
@@ -363,8 +363,8 @@ obtained from the hierarchical model.</p>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.007</td>
-<td align="right">0.993</td>
+<td align="right">0.006</td>
+<td align="right">0.994</td>
 <td align="right">31.880</td>
 <td align="right">28.847</td>
 <td align="right">1000</td>
@@ -395,51 +395,19 @@ obtained from the hierarchical model.</p>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.001</td>
-<td align="right">0.999</td>
-<td align="right">15.022</td>
-<td align="right">11.779</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait9</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11182144</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait9_chr19-11182353_hit_chr19-11182144</td>
-</tr>
-<tr class="even">
-<td align="right">0.000</td>
-<td align="right">0.017</td>
-<td align="right">0.983</td>
-<td align="right">14.738</td>
-<td align="right">10.515</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait10</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11189906</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait10_chr19-11182353_hit_chr19-11189906</td>
-</tr>
-<tr class="odd">
-<td align="right">0.000</td>
 <td align="right">0.999</td>
 <td align="right">0.000</td>
 <td align="right">16.432</td>
 <td align="right">-1.258</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
-<td align="left">Trait11</td>
+<td align="left">Trait9</td>
 <td align="left">chr19-11182353</td>
 <td align="left">chr19-11248290</td>
 <td align="left">susieBF</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="left">Trait11_chr19-11182353_hit_chr19-11248290</td>
+<td align="left">Trait9_chr19-11182353_hit_chr19-11248290</td>
 </tr>
 <tr class="even">
 <td align="right">0.001</td>
@@ -449,13 +417,13 @@ obtained from the hierarchical model.</p>
 <td align="right">-1.667</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
-<td align="left">Trait12</td>
+<td align="left">Trait10</td>
 <td align="left">chr19-11182353</td>
 <td align="left">chr19-11267263</td>
 <td align="left">susieBF</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="left">Trait12_chr19-11182353_hit_chr19-11267263</td>
+<td align="left">Trait10_chr19-11182353_hit_chr19-11267263</td>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
@@ -465,29 +433,29 @@ obtained from the hierarchical model.</p>
 <td align="right">-1.562</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
-<td align="left">Trait13</td>
+<td align="left">Trait11</td>
 <td align="left">chr19-11182353</td>
 <td align="left">chr19-11254605</td>
 <td align="left">susieBF</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="left">Trait13_chr19-11182353_hit_chr19-11254605</td>
+<td align="left">Trait11_chr19-11182353_hit_chr19-11254605</td>
 </tr>
 <tr class="even">
-<td align="right">0.001</td>
-<td align="right">0.999</td>
+<td align="right">0.002</td>
+<td align="right">0.998</td>
 <td align="right">0.000</td>
 <td align="right">14.952</td>
 <td align="right">-1.332</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
-<td align="left">Trait14</td>
+<td align="left">Trait12</td>
 <td align="left">chr19-11182353</td>
 <td align="left">chr19-11256677</td>
 <td align="left">susieBF</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="left">Trait14_chr19-11182353_hit_chr19-11256677</td>
+<td align="left">Trait12_chr19-11182353_hit_chr19-11256677</td>
 </tr>
 <tr class="odd">
 <td align="right">0.001</td>
@@ -497,29 +465,29 @@ obtained from the hierarchical model.</p>
 <td align="right">-1.222</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
-<td align="left">Trait15</td>
+<td align="left">Trait13</td>
 <td align="left">chr19-11182353</td>
 <td align="left">chr19-11267299</td>
 <td align="left">susieBF</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="left">Trait15_chr19-11182353_hit_chr19-11267299</td>
+<td align="left">Trait13_chr19-11182353_hit_chr19-11267299</td>
 </tr>
 <tr class="even">
-<td align="right">0.000</td>
-<td align="right">1.000</td>
+<td align="right">0.001</td>
+<td align="right">0.999</td>
 <td align="right">0.000</td>
 <td align="right">16.132</td>
 <td align="right">0.163</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
-<td align="left">Trait16</td>
+<td align="left">Trait14</td>
 <td align="left">chr19-11182353</td>
 <td align="left">chr19-11269041</td>
 <td align="left">susieBF</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="left">Trait16_chr19-11182353_hit_chr19-11269041</td>
+<td align="left">Trait14_chr19-11182353_hit_chr19-11269041</td>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
@@ -529,13 +497,13 @@ obtained from the hierarchical model.</p>
 <td align="right">-1.383</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
-<td align="left">Trait17</td>
+<td align="left">Trait15</td>
 <td align="left">chr19-11182353</td>
 <td align="left">chr19-11256677</td>
 <td align="left">susieBF</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="left">Trait17_chr19-11182353_hit_chr19-11256677</td>
+<td align="left">Trait15_chr19-11182353_hit_chr19-11256677</td>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
@@ -545,52 +513,84 @@ obtained from the hierarchical model.</p>
 <td align="right">-1.718</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
-<td align="left">Trait18</td>
+<td align="left">Trait16</td>
 <td align="left">chr19-11182353</td>
 <td align="left">chr19-11271299</td>
 <td align="left">susieBF</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="left">Trait18_chr19-11182353_hit_chr19-11271299</td>
+<td align="left">Trait16_chr19-11182353_hit_chr19-11271299</td>
 </tr>
 <tr class="odd">
-<td align="right">0.002</td>
-<td align="right">0.998</td>
-<td align="right">0.000</td>
-<td align="right">14.606</td>
-<td align="right">-1.506</td>
+<td align="right">0.870</td>
+<td align="right">0.110</td>
+<td align="right">0.020</td>
+<td align="right">6.318</td>
+<td align="right">-1.510</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait17</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">ABF</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Trait17_NA_hit_NA</td>
+</tr>
+<tr class="even">
+<td align="right">0.655</td>
+<td align="right">0.059</td>
+<td align="right">0.285</td>
+<td align="right">5.982</td>
+<td align="right">-1.462</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait18</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">ABF</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Trait18_NA_hit_NA</td>
+</tr>
+<tr class="odd">
+<td align="right">0.860</td>
+<td align="right">0.088</td>
+<td align="right">0.052</td>
+<td align="right">6.110</td>
+<td align="right">-1.618</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait19</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11254605</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait19_chr19-11182353_hit_chr19-11254605</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">ABF</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Trait19_NA_hit_NA</td>
 </tr>
 <tr class="even">
-<td align="right">0.000</td>
-<td align="right">1.000</td>
-<td align="right">0.000</td>
-<td align="right">32.001</td>
-<td align="right">-1.109</td>
+<td align="right">0.903</td>
+<td align="right">0.080</td>
+<td align="right">0.017</td>
+<td align="right">5.965</td>
+<td align="right">-1.559</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait20</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11267299</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait20_chr19-11182353_hit_chr19-11267299</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">ABF</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Trait20_NA_hit_NA</td>
 </tr>
 <tr class="odd">
-<td align="right">0.854</td>
-<td align="right">0.134</td>
-<td align="right">0.011</td>
-<td align="right">6.318</td>
-<td align="right">-1.510</td>
+<td align="right">0.889</td>
+<td align="right">0.072</td>
+<td align="right">0.039</td>
+<td align="right">5.879</td>
+<td align="right">-0.707</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait21</td>
@@ -602,11 +602,11 @@ obtained from the hierarchical model.</p>
 <td align="left">Trait21_NA_hit_NA</td>
 </tr>
 <tr class="even">
-<td align="right">0.585</td>
-<td align="right">0.066</td>
-<td align="right">0.349</td>
-<td align="right">5.982</td>
-<td align="right">-1.462</td>
+<td align="right">0.828</td>
+<td align="right">0.095</td>
+<td align="right">0.077</td>
+<td align="right">6.226</td>
+<td align="right">-0.584</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait22</td>
@@ -618,11 +618,11 @@ obtained from the hierarchical model.</p>
 <td align="left">Trait22_NA_hit_NA</td>
 </tr>
 <tr class="odd">
-<td align="right">0.850</td>
-<td align="right">0.109</td>
-<td align="right">0.041</td>
-<td align="right">6.110</td>
-<td align="right">-1.618</td>
+<td align="right">0.853</td>
+<td align="right">0.086</td>
+<td align="right">0.061</td>
+<td align="right">6.091</td>
+<td align="right">-1.522</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait23</td>
@@ -634,11 +634,11 @@ obtained from the hierarchical model.</p>
 <td align="left">Trait23_NA_hit_NA</td>
 </tr>
 <tr class="even">
-<td align="right">0.892</td>
-<td align="right">0.099</td>
-<td align="right">0.009</td>
-<td align="right">5.965</td>
-<td align="right">-1.559</td>
+<td align="right">0.874</td>
+<td align="right">0.079</td>
+<td align="right">0.047</td>
+<td align="right">5.978</td>
+<td align="right">-1.627</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait24</td>
@@ -648,102 +648,6 @@ obtained from the hierarchical model.</p>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">Trait24_NA_hit_NA</td>
-</tr>
-<tr class="odd">
-<td align="right">0.888</td>
-<td align="right">0.091</td>
-<td align="right">0.022</td>
-<td align="right">5.879</td>
-<td align="right">-0.707</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait25</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait25_NA_hit_NA</td>
-</tr>
-<tr class="even">
-<td align="right">0.829</td>
-<td align="right">0.119</td>
-<td align="right">0.052</td>
-<td align="right">6.226</td>
-<td align="right">-0.584</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait26</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait26_NA_hit_NA</td>
-</tr>
-<tr class="odd">
-<td align="right">0.845</td>
-<td align="right">0.106</td>
-<td align="right">0.049</td>
-<td align="right">6.091</td>
-<td align="right">-1.522</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait27</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait27_NA_hit_NA</td>
-</tr>
-<tr class="even">
-<td align="right">0.867</td>
-<td align="right">0.098</td>
-<td align="right">0.035</td>
-<td align="right">5.978</td>
-<td align="right">-1.627</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait28</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait28_NA_hit_NA</td>
-</tr>
-<tr class="odd">
-<td align="right">0.797</td>
-<td align="right">0.080</td>
-<td align="right">0.123</td>
-<td align="right">5.864</td>
-<td align="right">-1.236</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait29</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait29_NA_hit_NA</td>
-</tr>
-<tr class="even">
-<td align="right">0.903</td>
-<td align="right">0.081</td>
-<td align="right">0.017</td>
-<td align="right">5.745</td>
-<td align="right">-1.428</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait30</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait30_NA_hit_NA</td>
 </tr>
 </tbody>
 </table>

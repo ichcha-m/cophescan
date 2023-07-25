@@ -21,9 +21,9 @@ The input dataset for a trait (querytrait) should contain the summary data for S
 
 **For a Case-control dataset**
 
-beta: β or effect size
+beta: $\beta$ or effect size
 
-varbeta: variance of β or square of the standard error of β
+varbeta: variance of $\beta$ or square of the standard error of $\beta$
 
 snp: SNP identifier which maybe rsid or CHR_BP_REF_ALT or CHR_BP
 
@@ -35,9 +35,9 @@ N: sample size
 
 When, beta and varbeta are not available the following
 
-beta: β or effect size
+beta: $\beta$ or effect size
 
-varbeta: variance of β or square of the standard error of β
+varbeta: variance of $\beta$ or square of the standard error of $\beta$
 
 snp: SNP identifier which maybe rsid or CHR_BP_REF_ALT or CHR_BP
 

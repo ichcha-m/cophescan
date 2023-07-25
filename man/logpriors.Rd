@@ -16,7 +16,7 @@ logpriors(
 )
 }
 \arguments{
-\item{params}{Vector of parameters: α, β and γ}
+\item{params}{Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}}
 
 \item{covar}{logical: Should the covariate inflormation be used? default: False}
 

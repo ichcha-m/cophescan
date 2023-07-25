@@ -12,7 +12,7 @@ sample_gamma(gamma_shape = 2, gamma_scale = 2)
 \item{gamma_scale}{prior for the scale of gamma}
 }
 \value{
-sample from rgamma for γ
+sample from rgamma for \eqn{\gamma}
 }
 \description{
 sample gamma
