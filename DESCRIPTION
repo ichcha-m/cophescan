@@ -4,6 +4,7 @@ Version: 1.0.0
 Authors@R: c(person("Ichcha", "Manipur", role=c("aut","cre"),
     email = "im504@cam.ac.uk"),
     person("Chris", "Wallace", role=c("aut")))
+Maintainer: Ichcha Manipur <im504@cam.ac.uk>
 Description: A Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8

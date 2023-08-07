@@ -69,7 +69,7 @@ cophe.susie=function(dataset, querysnpid, querytrait, p1=1e-4, p2=1e-4, p12=1e-5
     print('Running cophe.susie...')
     isnps=colnames(sus_dat$alpha)
     if(!length(isnps))
-      return(data.table(nsnps=NA))
+      return(data.table::data.table(nsnps=NA))
     message("Using ",length(isnps), " and ",ncol(sus_dat$alpha)-1," available")
 
     ret=cophe.bf_bf(sus_dat, cred_set, querysnpid, querytrait, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
@@ -94,11 +94,11 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
   sus_bf=sus_dat$lbf_variable[idx2,,drop=FALSE][,setdiff(colnames(sus_dat$lbf_variable),"")]
   if(is.vector(sus_bf))
     sus_bf=matrix(sus_bf,nrow=1,dimnames=list(NULL,names(sus_bf)))
-  todo <- as.data.table(expand.grid(i=1:length(querysnpid),j=1:nrow(sus_bf)))
+  todo <- data.table::as.data.table(expand.grid(i=1:length(querysnpid),j=1:nrow(sus_bf)))
   # todo[,pp4:=0]
   isnps=colnames(sus_bf)
   if(!length(isnps))
-    return(data.table(nsnps=NA))
+    return(data.table::data.table(nsnps=NA))
 
   if("null" %in% colnames(sus_bf))
     sus_bf=sus_bf - matrix(sus_bf[,"null"],nrow(sus_bf),ncol(sus_bf))
@@ -131,7 +131,7 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
       results[[k]]=data.frame(lBF.Ha = lBF.Ha, lBF.Hc = lBF.Hc, nsnps=nsnps, querysnp=querysnpid, querytrait=querytrait, hit1=hit1, hit2=hit2, typeBF='susieBF')
     }
   }
-  results <- as.data.table(do.call("rbind",results))
+  results <- data.table::as.data.table(do.call("rbind",results))
   results=cbind(results,todo[,.(idx1=i,idx2=j)])
   ## rarely, susie puts the same cred set twice. check, and prune if found
   hits=paste(results$hit1,results$hit2,sep=".")
