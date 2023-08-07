@@ -8,7 +8,9 @@
 
 The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
 
-#### Installation
+------------------------------------------------------------------------
+
+#### **Installation**
 
 Install cophescan in R with:
 
@@ -18,7 +20,9 @@ if(!require("remotes"))
 remotes::install_github("ichcha-m/cophescan")
 ```
 
-### Vignettes
+------------------------------------------------------------------------
+
+#### **Vignettes**
 
 For a detailed walkthrough of cophescan browse through the vignettes in <https://ichcha-m.github.io/cophescan/>.
 
@@ -36,7 +40,9 @@ Vignette articles:
 4\.
 [An example for running CoPheScan with hierarchical priors](https://ichcha-m.github.io/cophescan/articles/HierarchicalPriors_04.html)
 
-### Quick start
+------------------------------------------------------------------------
+
+#### **Quick start**
 
 #### Usage
 
@@ -102,3 +108,5 @@ res.post.prob = cbind(cophe.hier.res$avg.posterior, cophe.hier.res$data)
 res.hier.predict <- cophe.hyp.predict(as.data.frame(res.post.prob ))
 tail(res.post.prob, row.names = F)
 ```
+
+------------------------------------------------------------------------
