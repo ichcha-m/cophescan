@@ -1,16 +1,16 @@
 Package: cophescan
-Title: CoPheScan
-Version: 0.1.0
+Title: Adaptation of the Coloc Method for PheWAS
+Version: 1.0.0
 Authors@R: c(person("Ichcha", "Manipur", role=c("aut","cre"),
     email = "im504@cam.ac.uk"),
     person("Chris", "Wallace", role=c("aut")))
-Description: Coloc adapted Phenome-wide Scans.
+Description: A Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Depends: 
     R (>= 3.5.0)
 URL: https://github.com/ichcha-m/cophescan,
@@ -19,7 +19,6 @@ BugReports: https://github.com/ichcha-m/cophescan
 Imports: 
     Rcpp (>= 1.0.7),
     coloc,
-    susieR,
     data.table,
     ggplot2,
     ggrepel,

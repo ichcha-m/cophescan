@@ -1,10 +1,8 @@
-citHeader("To cite cophescan in publications use:")
-
-citEntry(
-  entry    = "Article",
+bibentry("article",
+  header    = "To cite cophescan in publications use:",
   title    = "CoPheScan: phenome-wide association studies accounting for linkage disequilibrium",
-  author   = "I Manipur and et al",
+  author   = "I Manipur and et. al",
   journal  = "bioRxiv",
   year     = "2023",
-  url      = "https://doi.org/10.1101/2023.06.29.546856",
+  url      = "https://doi.org/10.1101/2023.06.29.546856"
 )

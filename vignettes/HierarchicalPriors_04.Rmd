@@ -23,7 +23,6 @@ Here we show how to use cophescan to infer hierarchical priors on a small test d
 ```{r setup, message=F, warning=F}
 library(cophescan)
 library(dplyr)
-library(ggpubr)
 ```
 
 ```{r}
@@ -112,8 +111,9 @@ Use the `cophe_plot` function to return -log10(pval), ppHa and ppHc PheWAS plots
 
 ```{r cophePlots, warning=F, message=F, fig.width = 9, fig.height=6, out.width = "100%", fig.align = "center"}
 res.plots = cophe_plot(res.hier.predict, traits.dat = cophe_multi_trait_data$summ_stat, querysnpid = querysnpid, pheno_names = paste0('Trait', 1:30))
-
-ggpubr::ggarrange(res.plots$pval, res.plots$ppHa, res.plots$ppHc, ncol = 2, nrow = 2)
+if ("ggpubr" %in% rownames(installed.packages())) {
+  ggpubr::ggarrange(res.plots$pval, res.plots$ppHa, res.plots$ppHc, ncol = 2, nrow = 2)
+} 
 ```
 
 
