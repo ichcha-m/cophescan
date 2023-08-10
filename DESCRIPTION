@@ -1,6 +1,6 @@
 Package: cophescan
 Title: Adaptation of the Coloc Method for PheWAS
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(person("Ichcha", "Manipur", role=c("aut","cre"),
     email = "im504@cam.ac.uk"),
     person("Chris", "Wallace", role=c("aut")))
