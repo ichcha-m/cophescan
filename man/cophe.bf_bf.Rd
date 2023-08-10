@@ -16,6 +16,10 @@ cophe.bf_bf(
 )
 }
 \arguments{
+\item{sus_dat}{a list with the output of running susie}
+
+\item{cred_set}{credible set extracted from susie}
+
 \item{querysnpid}{Id of the query variant}
 
 \item{querytrait}{Query trait name}
@@ -25,8 +29,6 @@ cophe.bf_bf(
 \item{pa}{prior probability that a non-query variant is causally associated with the query trait}
 
 \item{pc}{prior probability that the query variant is causally associated with the query trait}
-
-\item{sus_bf}{named vector of BF, or matrix of BF with colnames (cols=snps, rows=signals)}
 }
 \value{
 bayes factors of signals

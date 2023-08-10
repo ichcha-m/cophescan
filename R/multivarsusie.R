@@ -81,7 +81,8 @@ cophe.susie=function(dataset, querysnpid, querytrait, p1=1e-4, p2=1e-4, p12=1e-5
 
 ##' a dataset represented by Bayes factors
 ##' @title extract data through Bayes factors
-##' @param sus_bf named vector of BF, or matrix of BF with colnames (cols=snps, rows=signals)
+##' @param sus_dat a list with the output of running susie
+##' @param cred_set credible set extracted from susie
 ##' @param querysnpid Id of the query variant
 ##' @param querytrait Query trait name
 ##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
