@@ -10,7 +10,6 @@
 #' @useDynLib cophescan, .registration = TRUE
 #' @import methods
 #' @import Rcpp
-#' @import RcppArmadillo
 #' @importFrom ggplot2 ggplot aes scale_color_viridis_c geom_point labs scale_shape_manual aes_string element_blank element_line element_rect element_text ylab xlab theme ggtitle unit ylim xlim
 #' @import ggrepel
 #' @import pheatmap

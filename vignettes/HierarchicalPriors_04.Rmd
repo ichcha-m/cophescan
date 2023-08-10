@@ -99,9 +99,12 @@ if (covar == T)
 res.post.prob = cbind(cophe.hier.res$avg.posterior, cophe.hier.res$data)
 ```
 
+We can use the `cophe.hyp.predict` function to predict the hypothesis given the posterior probabilities. The cophe.hyp.call column shows the predicted hypothesis for each query trait-query variant pair.
+
 ```{r}
 res.hier.predict <- cophe.hyp.predict(as.data.frame(res.post.prob ))
-knitr::kable(res.post.prob, row.names = F, digits=3)
+col_disp <- c( "PP.Hn", "PP.Ha", "PP.Hc", "nsnps", "querysnp", "querytrait", "typeBF",  "grp", "cophe.hyp.call")
+knitr::kable(res.hier.predict[, col_disp], row.names = F, digits=3)
 ```
 
 

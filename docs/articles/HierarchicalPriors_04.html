@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
                         <h4 data-toc-skip class="author">Ichcha
 Manipur</h4>
             
-            <h4 data-toc-skip class="date">2023-08-07</h4>
+            <h4 data-toc-skip class="date">2023-08-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/HEAD/vignettes/HierarchicalPriors_04.Rmd" class="external-link"><code>vignettes/HierarchicalPriors_04.Rmd</code></a></small>
       <div class="hidden name"><code>HierarchicalPriors_04.Rmd</code></div>
@@ -225,428 +225,303 @@ probabilities of the hypotheses : <span class="math inline">\(H_n\)</span>, <spa
 obtained from the hierarchical model.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res.post.prob</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">avg.posterior</span>, <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p>We can use the <code>cophe.hyp.predict</code> function to predict the
+hypothesis given the posterior probabilities. The cophe.hyp.call column
+shows the predicted hypothesis for each query trait-query variant
+pair.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res.hier.predict</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.hyp.predict.html">cophe.hyp.predict</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">res.post.prob</span> <span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Hc.cutoff = 0.6"</span></span>
 <span><span class="co">#&gt; [1] "Hn.cutoff = 0.2"</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">res.post.prob</span>, row.names <span class="op">=</span> <span class="cn">F</span>, digits<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<span><span class="va">col_disp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"PP.Hn"</span>, <span class="st">"PP.Ha"</span>, <span class="st">"PP.Hc"</span>, <span class="st">"nsnps"</span>, <span class="st">"querysnp"</span>, <span class="st">"querytrait"</span>, <span class="st">"typeBF"</span>,  <span class="st">"grp"</span>, <span class="st">"cophe.hyp.call"</span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">res.hier.predict</span><span class="op">[</span>, <span class="va">col_disp</span><span class="op">]</span>, row.names <span class="op">=</span> <span class="cn">F</span>, digits<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
 <colgroup>
-<col width="3%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="4%">
-<col width="3%">
-<col width="9%">
-<col width="7%">
-<col width="9%">
-<col width="9%">
-<col width="5%">
-<col width="3%">
-<col width="3%">
-<col width="27%">
+<col width="6%">
+<col width="6%">
+<col width="6%">
+<col width="6%">
+<col width="15%">
+<col width="11%">
+<col width="8%">
+<col width="23%">
+<col width="15%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">PP.Hn</th>
 <th align="right">PP.Ha</th>
 <th align="right">PP.Hc</th>
-<th align="right">lBF.Ha</th>
-<th align="right">lBF.Hc</th>
 <th align="right">nsnps</th>
 <th align="left">querysnp</th>
 <th align="left">querytrait</th>
-<th align="left">hit1</th>
-<th align="left">hit2</th>
 <th align="left">typeBF</th>
-<th align="right">idx1</th>
-<th align="right">idx2</th>
-<th align="left">sus_labels</th>
+<th align="left">grp</th>
+<th align="left">cophe.hyp.call</th>
 </tr></thead>
 <tbody>
+<tr class="odd">
+<td align="right">0.871</td>
+<td align="right">0.110</td>
+<td align="right">0.019</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait17</td>
+<td align="left">ABF</td>
+<td align="left">chr19-11182353_Trait17</td>
+<td align="left">Hn</td>
+</tr>
+<tr class="even">
+<td align="right">0.658</td>
+<td align="right">0.059</td>
+<td align="right">0.282</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait18</td>
+<td align="left">ABF</td>
+<td align="left">chr19-11182353_Trait18</td>
+<td align="left">Hn</td>
+</tr>
+<tr class="odd">
+<td align="right">0.862</td>
+<td align="right">0.089</td>
+<td align="right">0.049</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait19</td>
+<td align="left">ABF</td>
+<td align="left">chr19-11182353_Trait19</td>
+<td align="left">Hn</td>
+</tr>
+<tr class="even">
+<td align="right">0.904</td>
+<td align="right">0.081</td>
+<td align="right">0.016</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait20</td>
+<td align="left">ABF</td>
+<td align="left">chr19-11182353_Trait20</td>
+<td align="left">Hn</td>
+</tr>
+<tr class="odd">
+<td align="right">0.890</td>
+<td align="right">0.073</td>
+<td align="right">0.036</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait21</td>
+<td align="left">ABF</td>
+<td align="left">chr19-11182353_Trait21</td>
+<td align="left">Hn</td>
+</tr>
+<tr class="even">
+<td align="right">0.831</td>
+<td align="right">0.096</td>
+<td align="right">0.072</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait22</td>
+<td align="left">ABF</td>
+<td align="left">chr19-11182353_Trait22</td>
+<td align="left">Hn</td>
+</tr>
+<tr class="odd">
+<td align="right">0.856</td>
+<td align="right">0.087</td>
+<td align="right">0.058</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait23</td>
+<td align="left">ABF</td>
+<td align="left">chr19-11182353_Trait23</td>
+<td align="left">Hn</td>
+</tr>
+<tr class="even">
+<td align="right">0.876</td>
+<td align="right">0.079</td>
+<td align="right">0.044</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait24</td>
+<td align="left">ABF</td>
+<td align="left">chr19-11182353_Trait24</td>
+<td align="left">Hn</td>
+</tr>
+<tr class="odd">
+<td align="right">0.000</td>
+<td align="right">0.999</td>
+<td align="right">0.000</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait9</td>
+<td align="left">susieBF</td>
+<td align="left">chr19-11182353_Trait9</td>
+<td align="left">Ha</td>
+</tr>
+<tr class="even">
+<td align="right">0.001</td>
+<td align="right">0.999</td>
+<td align="right">0.000</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait10</td>
+<td align="left">susieBF</td>
+<td align="left">chr19-11182353_Trait10</td>
+<td align="left">Ha</td>
+</tr>
+<tr class="odd">
+<td align="right">0.000</td>
+<td align="right">1.000</td>
+<td align="right">0.000</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait11</td>
+<td align="left">susieBF</td>
+<td align="left">chr19-11182353_Trait11</td>
+<td align="left">Ha</td>
+</tr>
+<tr class="even">
+<td align="right">0.002</td>
+<td align="right">0.998</td>
+<td align="right">0.000</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait12</td>
+<td align="left">susieBF</td>
+<td align="left">chr19-11182353_Trait12</td>
+<td align="left">Ha</td>
+</tr>
+<tr class="odd">
+<td align="right">0.001</td>
+<td align="right">0.999</td>
+<td align="right">0.000</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait13</td>
+<td align="left">susieBF</td>
+<td align="left">chr19-11182353_Trait13</td>
+<td align="left">Ha</td>
+</tr>
+<tr class="even">
+<td align="right">0.001</td>
+<td align="right">0.999</td>
+<td align="right">0.000</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait14</td>
+<td align="left">susieBF</td>
+<td align="left">chr19-11182353_Trait14</td>
+<td align="left">Ha</td>
+</tr>
+<tr class="odd">
+<td align="right">0.000</td>
+<td align="right">1.000</td>
+<td align="right">0.000</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait15</td>
+<td align="left">susieBF</td>
+<td align="left">chr19-11182353_Trait15</td>
+<td align="left">Ha</td>
+</tr>
+<tr class="even">
+<td align="right">0.000</td>
+<td align="right">1.000</td>
+<td align="right">0.000</td>
+<td align="right">1000</td>
+<td align="left">chr19-11182353</td>
+<td align="left">Trait16</td>
+<td align="left">susieBF</td>
+<td align="left">chr19-11182353_Trait16</td>
+<td align="left">Ha</td>
+</tr>
 <tr class="odd">
 <td align="right">0.000</td>
 <td align="right">0.010</td>
 <td align="right">0.990</td>
-<td align="right">15.310</td>
-<td align="right">11.953</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait1</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11182144</td>
 <td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait1_chr19-11182353_hit_chr19-11182144</td>
+<td align="left">chr19-11182353_Trait1</td>
+<td align="left">Hc</td>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
 <td align="right">0.002</td>
 <td align="right">0.998</td>
-<td align="right">16.434</td>
-<td align="right">13.007</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait2</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11183133</td>
 <td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait2_chr19-11182353_hit_chr19-11183133</td>
+<td align="left">chr19-11182353_Trait2</td>
+<td align="left">Hc</td>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
 <td align="right">0.006</td>
 <td align="right">0.994</td>
-<td align="right">17.367</td>
-<td align="right">13.138</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait3</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11189906</td>
 <td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait3_chr19-11182353_hit_chr19-11189906</td>
+<td align="left">chr19-11182353_Trait3</td>
+<td align="left">Hc</td>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.132</td>
-<td align="right">0.867</td>
-<td align="right">14.454</td>
-<td align="right">10.444</td>
+<td align="right">0.128</td>
+<td align="right">0.872</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait4</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11182538</td>
 <td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait4_chr19-11182353_hit_chr19-11182538</td>
+<td align="left">chr19-11182353_Trait4</td>
+<td align="left">Hc</td>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
 <td align="right">0.004</td>
 <td align="right">0.996</td>
-<td align="right">15.826</td>
-<td align="right">12.549</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait5</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11176397</td>
 <td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait5_chr19-11182353_hit_chr19-11176397</td>
+<td align="left">chr19-11182353_Trait5</td>
+<td align="left">Hc</td>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
 <td align="right">0.003</td>
 <td align="right">0.997</td>
-<td align="right">16.231</td>
-<td align="right">12.883</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait6</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11182135</td>
 <td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait6_chr19-11182353_hit_chr19-11182135</td>
+<td align="left">chr19-11182353_Trait6</td>
+<td align="left">Hc</td>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.007</td>
+<td align="right">0.006</td>
 <td align="right">0.993</td>
-<td align="right">31.880</td>
-<td align="right">28.847</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait7</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11180916</td>
 <td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait7_chr19-11182353_hit_chr19-11180916</td>
+<td align="left">chr19-11182353_Trait7</td>
+<td align="left">Hc</td>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
 <td align="right">0.007</td>
 <td align="right">0.993</td>
-<td align="right">17.096</td>
-<td align="right">13.571</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait8</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11180916</td>
 <td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait8_chr19-11182353_hit_chr19-11180916</td>
-</tr>
-<tr class="odd">
-<td align="right">0.000</td>
-<td align="right">0.999</td>
-<td align="right">0.000</td>
-<td align="right">16.432</td>
-<td align="right">-1.258</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait9</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11248290</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait9_chr19-11182353_hit_chr19-11248290</td>
-</tr>
-<tr class="even">
-<td align="right">0.001</td>
-<td align="right">0.999</td>
-<td align="right">0.000</td>
-<td align="right">15.470</td>
-<td align="right">-1.667</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait10</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11267263</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait10_chr19-11182353_hit_chr19-11267263</td>
-</tr>
-<tr class="odd">
-<td align="right">0.000</td>
-<td align="right">1.000</td>
-<td align="right">0.000</td>
-<td align="right">22.573</td>
-<td align="right">-1.562</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait11</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11254605</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait11_chr19-11182353_hit_chr19-11254605</td>
-</tr>
-<tr class="even">
-<td align="right">0.002</td>
-<td align="right">0.998</td>
-<td align="right">0.000</td>
-<td align="right">14.952</td>
-<td align="right">-1.332</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait12</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11256677</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait12_chr19-11182353_hit_chr19-11256677</td>
-</tr>
-<tr class="odd">
-<td align="right">0.001</td>
-<td align="right">0.999</td>
-<td align="right">0.000</td>
-<td align="right">15.774</td>
-<td align="right">-1.222</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait13</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11267299</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait13_chr19-11182353_hit_chr19-11267299</td>
-</tr>
-<tr class="even">
-<td align="right">0.000</td>
-<td align="right">0.999</td>
-<td align="right">0.000</td>
-<td align="right">16.132</td>
-<td align="right">0.163</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait14</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11269041</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait14_chr19-11182353_hit_chr19-11269041</td>
-</tr>
-<tr class="odd">
-<td align="right">0.000</td>
-<td align="right">1.000</td>
-<td align="right">0.000</td>
-<td align="right">18.868</td>
-<td align="right">-1.383</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait15</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11256677</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait15_chr19-11182353_hit_chr19-11256677</td>
-</tr>
-<tr class="even">
-<td align="right">0.000</td>
-<td align="right">1.000</td>
-<td align="right">0.000</td>
-<td align="right">17.282</td>
-<td align="right">-1.718</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait16</td>
-<td align="left">chr19-11182353</td>
-<td align="left">chr19-11271299</td>
-<td align="left">susieBF</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">Trait16_chr19-11182353_hit_chr19-11271299</td>
-</tr>
-<tr class="odd">
-<td align="right">0.870</td>
-<td align="right">0.112</td>
-<td align="right">0.018</td>
-<td align="right">6.318</td>
-<td align="right">-1.510</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait17</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait17_NA_hit_NA</td>
-</tr>
-<tr class="even">
-<td align="right">0.660</td>
-<td align="right">0.061</td>
-<td align="right">0.279</td>
-<td align="right">5.982</td>
-<td align="right">-1.462</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait18</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait18_NA_hit_NA</td>
-</tr>
-<tr class="odd">
-<td align="right">0.862</td>
-<td align="right">0.090</td>
-<td align="right">0.048</td>
-<td align="right">6.110</td>
-<td align="right">-1.618</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait19</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait19_NA_hit_NA</td>
-</tr>
-<tr class="even">
-<td align="right">0.903</td>
-<td align="right">0.082</td>
-<td align="right">0.015</td>
-<td align="right">5.965</td>
-<td align="right">-1.559</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait20</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait20_NA_hit_NA</td>
-</tr>
-<tr class="odd">
-<td align="right">0.890</td>
-<td align="right">0.074</td>
-<td align="right">0.036</td>
-<td align="right">5.879</td>
-<td align="right">-0.707</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait21</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait21_NA_hit_NA</td>
-</tr>
-<tr class="even">
-<td align="right">0.832</td>
-<td align="right">0.098</td>
-<td align="right">0.071</td>
-<td align="right">6.226</td>
-<td align="right">-0.584</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait22</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait22_NA_hit_NA</td>
-</tr>
-<tr class="odd">
-<td align="right">0.856</td>
-<td align="right">0.088</td>
-<td align="right">0.056</td>
-<td align="right">6.091</td>
-<td align="right">-1.522</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait23</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait23_NA_hit_NA</td>
-</tr>
-<tr class="even">
-<td align="right">0.876</td>
-<td align="right">0.081</td>
-<td align="right">0.043</td>
-<td align="right">5.978</td>
-<td align="right">-1.627</td>
-<td align="right">1000</td>
-<td align="left">chr19-11182353</td>
-<td align="left">Trait24</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ABF</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">Trait24_NA_hit_NA</td>
+<td align="left">chr19-11182353_Trait8</td>
+<td align="left">Hc</td>
 </tr>
 </tbody>
 </table>

@@ -52,7 +52,7 @@ double logsumexp(arma::rowvec x) {
 //' @return logpost flog of the posteriors
 // [[Rcpp::export]]
 arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
-  arma::mat pik = pars2pik(params, nsnps, covar_vec=covar_vec, covar=covar);
+  arma::mat pik = pars2pik(params, nsnps, covar_vec, covar);
   int k = nsnps.length();
   arma::mat logpost = arma::ones(k , 3);
   arma::mat logpik = log(pik);
@@ -74,7 +74,7 @@ arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, Nume
 //' @return logpost flog of the posteriors
 // [[Rcpp::export]]
 double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
-  arma::mat logpos = logpost(params, lbf_mat, nsnps, covar_vec, covar=covar);
+  arma::mat logpos = logpost(params, lbf_mat, nsnps, covar_vec, covar);
   int k = nsnps.length();
   arma::vec ll_k(k);
   for (int i = 0; i < k; i++){
@@ -95,7 +95,7 @@ double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericV
 //' @return posterior prob of Hn, Ha and Hc
 // [[Rcpp::export]]
 arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
-  arma::mat pik = pars2pik(params, nsnps, covar_vec=covar_vec, covar=covar);
+  arma::mat pik = pars2pik(params, nsnps, covar_vec, covar);
   int k = nsnps.length();
   arma::mat logpost = arma::ones(k , 3);
   arma::mat logpik = log(pik);
@@ -265,7 +265,7 @@ arma::vec pars_init(bool covar=false, double alpha_mean =-10, double alpha_sd=0.
 List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false, int nits=10000,
                 int thin=1, double alpha_mean =-10, double alpha_sd=0.5, double beta_shape=2, double beta_scale=2,
                 double gamma_shape=2, double gamma_scale=2){
-  arma::vec pars = pars_init(covar=covar, alpha_mean, alpha_sd, beta_shape, beta_scale,
+  arma::vec pars = pars_init(covar, alpha_mean, alpha_sd, beta_shape, beta_scale,
                             gamma_shape, gamma_scale);
   arma::mat params = arma::zeros(pars.n_elem, nits/thin);
   arma::vec ll(nits/thin);
@@ -273,20 +273,20 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec,
   double T0;
   double accept;
   arma::vec newpars;
-  L0 = loglik(pars, lbf_mat, nsnps, covar_vec,  covar=covar);
-  T0 = L0 + logpriors(pars, covar=covar);
+  L0 = loglik(pars, lbf_mat, nsnps, covar_vec,  covar);
+  T0 = L0 + logpriors(pars, covar);
   for(int i = 0; i < nits; i++){
     if(i % thin == 0) {
       params.col(i/thin) = pars;
       ll(i/thin) = T0;
     }
     newpars=propose(pars);
-    accept = exp(target(newpars, lbf_mat, nsnps, covar_vec,  covar=covar) - T0);
+    accept = exp(target(newpars, lbf_mat, nsnps, covar_vec,  covar) - T0);
     // Rcout <<  accept << "\n";
     if (R::runif(0, 1) < accept) {
       pars = newpars;
-      L0 = loglik(pars, lbf_mat, nsnps, covar_vec,  covar=covar);
-      T0 = L0 + logpriors(pars, covar=covar);
+      L0 = loglik(pars, lbf_mat, nsnps, covar_vec,  covar);
+      T0 = L0 + logpriors(pars, covar);
     }
   }
   return Rcpp::List::create(Rcpp::Named("ll") = ll,
@@ -306,7 +306,7 @@ List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, Nu
   double k = params.n_cols;
   List post(k);
   for (int i = 0; i < k; i++){
-    post[i] = get_posterior_prob(params.col(i),  lbf_mat, nsnps, covar_vec,  covar=covar);
+    post[i] = get_posterior_prob(params.col(i),  lbf_mat, nsnps, covar_vec,  covar);
     colnames(post[i]) = CharacterVector::create("PP.Hn", "PP.Ha", "PP.Hc");
   }
   return post;
@@ -324,7 +324,7 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, bool c
   double k = params.n_cols;
   List piks(k);
   for (int i = 0; i < k; i++){
-    piks[i] = pars2pik(params.col(i), nsnps, covar_vec,  covar=covar);
+    piks[i] = pars2pik(params.col(i), nsnps, covar_vec,  covar);
     colnames(piks[i]) = CharacterVector::create("pnk", "pak", "pck");
   }
   return piks;
@@ -344,7 +344,7 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, bool c
 arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  List posterior_prob_mat = posterior_prob(params, lbf_mat, nsnps, covar_vec, covar=covar);
+  List posterior_prob_mat = posterior_prob(params, lbf_mat, nsnps, covar_vec, covar);
   arma::mat avpost = posterior_prob_mat[st];
   for (int i = (st+1); i < en; i++){
     arma::mat post = posterior_prob_mat[i];
@@ -368,9 +368,9 @@ arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, Numer
 arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  arma::mat avpost = get_posterior_prob(params.col(st),  lbf_mat, nsnps, covar_vec,  covar=covar);
+  arma::mat avpost = get_posterior_prob(params.col(st),  lbf_mat, nsnps, covar_vec,  covar);
   for (int i = (st+1); i < en; i++){
-    arma::mat post = get_posterior_prob(params.col(i),  lbf_mat, nsnps, covar_vec,  covar=covar);
+    arma::mat post = get_posterior_prob(params.col(i),  lbf_mat, nsnps, covar_vec,  covar);
     avpost = avpost + post;
   }
   avpost = avpost/(en - st + 1);
@@ -391,7 +391,7 @@ arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector
   double st=(nits/thin/2+1);
   double en=nits/thin;
   List piks_list;
-  piks_list = piks(params, nsnps, covar_vec, covar=covar);
+  piks_list = piks(params, nsnps, covar_vec, covar);
   arma::mat avpik = piks_list[st];
   for (int i = (st+1); i < en; i++){
     arma::mat piks_mat = piks_list[i];
@@ -414,9 +414,9 @@ arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector
 arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
   double st=(nits/thin/2+1);
   double en=nits/thin;
-  arma::mat avpik = pars2pik(params.col(st), nsnps, covar_vec,  covar=covar);
+  arma::mat avpik = pars2pik(params.col(st), nsnps, covar_vec,  covar);
   for (int i = (st+1); i < en; i++){
-    arma::mat piks_mat = pars2pik(params.col(i), nsnps, covar_vec,  covar=covar);
+    arma::mat piks_mat = pars2pik(params.col(i), nsnps, covar_vec,  covar);
     avpik = avpik + piks_mat;
   }
   avpik=avpik/(en - st + 1);

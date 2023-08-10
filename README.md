@@ -1,10 +1,6 @@
-## CoPheScan
-
-<!-- badges: start -->
-
-<!-- badges: end -->
-
-<span><a href="https://ichcha-m.github.io/cophescan/" class="external-link"> <img src="man/figures/logo.png" align="right" height="200" style="float:right; height:150px;"/></a>
+CoPheScan
+=====
+<span><a href="https://ichcha-m.github.io/cophescan/" class="external-link"> <img src="man/figures/logo.png" align="right" height="200" style="float:right; height:180px;"/></a>
 
 The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
 
@@ -48,7 +44,7 @@ Vignette articles:
 
 ``` r
 library(cophescan)
-## Load the simulated summary stats data of 30 traits
+## Load the simulated summary stats data of 24 traits
 data("cophe_multi_trait_data")
 attach(cophe_multi_trait_data)
 names(cophe_multi_trait_data)

@@ -1,12 +1,12 @@
 Package: cophescan
 Title: Adaptation of the Coloc Method for PheWAS
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(person("Ichcha", "Manipur", role=c("aut","cre"),
     email = "im504@cam.ac.uk"),
     person("Chris", "Wallace", role=c("aut")))
 Maintainer: Ichcha Manipur <im504@cam.ac.uk>
 Description: A Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
@@ -16,7 +16,7 @@ Depends:
     R (>= 3.5.0)
 URL: https://github.com/ichcha-m/cophescan,
     https://ichcha-m.github.io/cophescan/
-BugReports: https://github.com/ichcha-m/cophescan
+BugReports: https://github.com/ichcha-m/cophescan/issues
 Imports: 
     Rcpp (>= 1.0.7),
     coloc,
@@ -30,7 +30,6 @@ Imports:
     grDevices,
     magrittr,
     utils,
-    RcppArmadillo,
     matrixStats,
     dplyr
 Suggests:
@@ -50,7 +49,6 @@ Collate:
     'RcppExports.R'
     'metrop_hier_priors.R'
     'zzz.R'
-    'impute.R'
 LinkingTo: Rcpp, RcppArmadillo
 Config/testthat/edition: 3
 ByteCompile: true

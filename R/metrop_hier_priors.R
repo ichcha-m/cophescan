@@ -36,6 +36,7 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
 
   if ('hit1'%in% colnames(pp_df)){
     pp_df$sus_labels <- rownames(pp_df) <- paste0(pp_df$querytrait, '_', pp_df$hit1, '_hit_', pp_df$hit2)
+    pp_df$sus_labels[which(pp_df$typeBF=="ABF")] <- NA
   }
   if (covar) {
     if (!(length(covar_vec) == nrow(pp_df) )){
