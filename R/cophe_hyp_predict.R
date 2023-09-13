@@ -32,8 +32,10 @@ cophe.hyp.predict <- function(cophe.res, grouping.vars = c('querysnp', 'querytra
   df$cophe.hyp.call[!df$cophe.hyp.call%in%c('Hn', 'Hc')]='Ha'
 
   dfc=df[df$cophe.hyp.call=='Hc',]
-  dfc=dfc %>% group_by(grp) %>% filter(PP.Hc == max(PP.Hc))
-  dfc = dfc[!duplicated(dfc$grp), ]
+  if (nrow(dfc) > 0) {
+    dfc=dfc %>% group_by(grp) %>% filter(PP.Hc == max(PP.Hc))
+    dfc = dfc[!duplicated(dfc$grp), ]
+  }
   dfa=df[df$cophe.hyp.call=='Ha',]
   if (length(which(dfa$grp%in%dfc$grp))>0)
     dfa = dfa[-which(dfa$grp%in%dfc$grp), ]
@@ -55,7 +57,7 @@ cophe.hyp.predict <- function(cophe.res, grouping.vars = c('querysnp', 'querytra
   # counts_df=data.frame(Hn= nrow(dfn), Ha= nrow(dfa), Hc= nrow(dfc) )
   df_out <- rbind(dfn, dfa, dfc)
   # return(list(counts_df=counts_df, hyp_cophe.hyp.call_df=df_out))
-  return(df_out)
+  return(as.data.frame(df_out))
 
 }
 
