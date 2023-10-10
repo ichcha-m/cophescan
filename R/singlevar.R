@@ -64,7 +64,7 @@ combine.bf <- function(lBF_df, pn, pa, pc) {
   names(bf) <- c('lBF.Ha', 'lBF.Hc')
 
   all.bf <- c(lHn.bf, lHa.bf, lHc.bf)
-  denom.log.bf <- coloc:::logsum(all.bf)
+  denom.log.bf <- logsum(all.bf)
   pp <- exp(all.bf - denom.log.bf)
   # pp.bf
   names(pp) <- paste("PP.H", c('n', 'a', 'c') , sep = "")
@@ -134,7 +134,6 @@ cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL, p1=1e-4, p2=
 
   results <- do.call("data.frame",c(list(nsnps=nsnps), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=querysnpid, querytrait=querytrait, typeBF='ABF'))
   output <- list(summary=results,
-                 results=df,
                  priors=psp, querysnp=querysnpid, querytrait=querytrait)
   attr(output, "class") <- "cophe"
   # class(output) <- c("cophe",class(output))
@@ -167,7 +166,7 @@ cophe.single.lbf <- function(dataset, querysnpid, querytrait, MAF=NULL) {
   querypos = proc_data$querypos
 
   lBF.persnp = df$lABF.df
-  lBF.Ha <- coloc:::logsum(lBF.persnp[-querypos])
+  lBF.Ha <- logsum(lBF.persnp[-querypos])
   lBF.Hc <- lBF.persnp[querypos]
 
   # overall bf
@@ -193,7 +192,7 @@ cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
   if (!querysnpid %in% dataset$snp) {
     stop("Please check your dataset, queried snp not present in dataset")
   }
-  df <- coloc:::process.dataset(d=dataset, suffix="df")
+  df <- coloc::process.dataset(d=dataset, suffix="df")
   return(list(df=df, querypos=querypos))
 
 }
@@ -241,4 +240,17 @@ summary.cophe <- function(object, ...){
   class(summ) = c("summary.cophe", "data.frame")
   return(summ)
   # print(cophe.res$summary)
+}
+
+##' Internal function, logsum
+##' Function directly taken from coloc
+##' This function calculates the log of the sum of the exponentiated
+##' logs taking out the max, i.e. insuring that the sum is not Inf
+##' @title logsum
+##' @param x numeric vector
+##' @return max(x) + log(sum(exp(x - max(x))))
+logsum <- function(x) {
+  my.max <- max(x)                              ##take out the maximum value in log form
+  my.res <- my.max + log(sum(exp(x - my.max )))
+  return(my.res)
 }

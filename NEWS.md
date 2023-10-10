@@ -1,3 +1,11 @@
+## cophescan 1.3.0
+
+* Fixed minor note from cran auto-check of 1.2.0
+
+## cophescan 1.2.0
+
+* re-attempted cran submission but persistent note regarding access to internal functions
+
 ## cophescan 1.1.0
 
 * 1.1.0 cran re-submission

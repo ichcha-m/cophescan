@@ -26,6 +26,7 @@ reference:
   - '`cophe.multitrait`'
   - '`summary.cophe`'
   - '`multitrait.simplify`'
+  - '`logsum`'
 - title: CoPheScan with hierarchical priors
   contents:
   - '`run_metrop_priors`'

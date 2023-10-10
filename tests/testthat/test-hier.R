@@ -43,7 +43,7 @@ loglik_Rf=function(pars, lbf_mat, nsnps, covar_vec, covar=FALSE) {
   tmp=cbind(log(pik[,1]),
             log(pik[,2]) + lbf_mat$lBF.Ha,
             log(pik[,3]) + lbf_mat$lBF.Hc)
-  ll_k=apply(tmp,1, coloc:::logsum)
+  ll_k=apply(tmp,1, logsum)
   sum(ll_k)
   return(ll_k)
 }

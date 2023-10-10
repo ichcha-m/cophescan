@@ -113,7 +113,7 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
     nsnps <- nrow(df)
 
     lBF.persnp = df$sus_bf
-    lBF.Ha <- coloc:::logsum(lBF.persnp[-querypos])
+    lBF.Ha <- logsum(lBF.persnp[-querypos])
     lBF.Hc <- lBF.persnp[querypos]
     lBF_df = data.frame(lBF.Ha = lBF.Ha, lBF.Hc = lBF.Hc)
     hit2=names(which.max(sus_bf[todo$j[k],]))
