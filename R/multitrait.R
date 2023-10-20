@@ -4,21 +4,23 @@
 #' @param querysnpid vector of query variant ids = length(trait.dat), if the same variant
 #' @param querytrait.names vector of names for the query traits, if the names of
 #' the multi.dat list contain the trait names please pass querytrait.names=names(multi.dat)
-#' @param method either 'single' for cophe.single or 'susie' for cophe.susie
+#' @param method either 'single' for `cophe.single` or 'susie' for `cophe.susie`
 #' @param LDmat LD matrix
-#' @param simplify if True removes intermediate results from output
-#' @param predict.hyp if True predicts the hypothesis based on the provided thresholds for pp.Hc and pp.Hn (overrides simplify)
+#' @param simplify if TRUE removes intermediate results from output using 'multitrait.simplify'
+#' @param predict.hyp if TRUE predicts the hypothesis based on the provided thresholds for pp.Hc and pp.Hn (overrides simplify) using `cophe.hyp.predict`
 #' @param Hn.cutoff threshold for PP.Hc above which the associations are called Hc
 #' @param Hc.cutoff threshold for PP.Hc above which the associations are called Hn
 #' @param est.fdr.based.cutoff if True calculates the Hc.cutoff using 1-mean(PP.Hc)|PP.Hc > cutoff
 #' @param fdr fdr threshold to estimate Hc.cutoff
-#' @param ... additional arguments of priors for cophe.susie or cophe.single
-#' @return if simplify is False returns multi-trait list of lists, each with two \code{data.frame}s:
+#' @param ... additional arguments of priors for `cophe.susie` or `cophe.single`
+#' @return if simplify is False returns multi-trait list of lists, each with:
 ##' \itemize{
-##' \item summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)
-##' \item results is an annotated version of the input data containing log Approximate Bayes Factors and intermediate calculations, and the posterior probability SNP.PP.Hc of the SNP being causal for the shared signal *if* Hc is true. This is only relevant if the posterior support for Hc in summary is convincing.
+##' \item a summary data.frame of the cophescan results
+##' \item priors used
+##' \item querysnp
+##' \item querytrait
 ##' }
-##' if simplify is False only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
+##' if simplify is TRUE only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
 ##' if predict.hyp is TRUE returns a dataframe with output of simplify and the predicted hypotheses for all associations
 #' @export
 ##' @author Ichcha Manipur
@@ -30,8 +32,7 @@ cophe.multitrait <- function(trait.dat, querysnpid, querytrait.names, LDmat=NULL
     querytrait.names = rep(querytrait.names, length(trait.dat))
   }
   if (is.null(LDmat) & method == 'susie'){
-      print('Please provide the LD matrix')
-      return(NULL)
+      stop('Please provide the LD matrix')
   }
   cophe_results <- list()
   for (idx in seq_along(trait.dat)){
@@ -51,19 +52,21 @@ cophe.multitrait <- function(trait.dat, querysnpid, querytrait.names, LDmat=NULL
   names(cophe_results) <- names(trait.dat)
   if (predict.hyp == TRUE){
     cophe_results <- cophe.hyp.predict(cophe_results)
+    if (simplify){
+      message("results in list simplified to data.frame when predict.hyp=TRUE")
+    }
     simplify = FALSE
   }
   if (simplify){
     cophe_results <- multitrait.simplify(cophe_results)
   }
-  return(as.data.frame(cophe_results))
+  return(cophe_results)
 }
 
 
-#' simplify.multitrait
-#' Simplifying the output obtained from cophe.multitrait, cophe.single or cophe.susie
+#' Simplifying the output obtained from `cophe.multitrait`, `cophe.single` or `cophe.susie`
 #'
-#' @param multi.dat output obtained from cophe.multitrait, cophe.single or cophe.susie
+#' @param multi.dat output obtained from `cophe.multitrait`, `cophe.single` or `cophe.susie`
 #' @param only_BF return only bayes factors and not posterior probabilities (default=FALSE)
 #'
 #' @return  dataframe with posterior probabilties of Hn, Hc and Ha

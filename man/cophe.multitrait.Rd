@@ -29,11 +29,11 @@ the multi.dat list contain the trait names please pass querytrait.names=names(mu
 
 \item{LDmat}{LD matrix}
 
-\item{method}{either 'single' for cophe.single or 'susie' for cophe.susie}
+\item{method}{either 'single' for \code{cophe.single} or 'susie' for \code{cophe.susie}}
 
-\item{simplify}{if True removes intermediate results from output}
+\item{simplify}{if TRUE removes intermediate results from output using 'multitrait.simplify'}
 
-\item{predict.hyp}{if True predicts the hypothesis based on the provided thresholds for pp.Hc and pp.Hn (overrides simplify)}
+\item{predict.hyp}{if TRUE predicts the hypothesis based on the provided thresholds for pp.Hc and pp.Hn (overrides simplify) using \code{cophe.hyp.predict}}
 
 \item{Hn.cutoff}{threshold for PP.Hc above which the associations are called Hc}
 
@@ -43,15 +43,17 @@ the multi.dat list contain the trait names please pass querytrait.names=names(mu
 
 \item{fdr}{fdr threshold to estimate Hc.cutoff}
 
-\item{...}{additional arguments of priors for cophe.susie or cophe.single}
+\item{...}{additional arguments of priors for \code{cophe.susie} or \code{cophe.single}}
 }
 \value{
-if simplify is False returns multi-trait list of lists, each with two \code{data.frame}s:
+if simplify is False returns multi-trait list of lists, each with:
 \itemize{
-\item summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)
-\item results is an annotated version of the input data containing log Approximate Bayes Factors and intermediate calculations, and the posterior probability SNP.PP.Hc of the SNP being causal for the shared signal \emph{if} Hc is true. This is only relevant if the posterior support for Hc in summary is convincing.
+\item a summary data.frame of the cophescan results
+\item priors used
+\item querysnp
+\item querytrait
 }
-if simplify is False only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
+if simplify is TRUE only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
 if predict.hyp is TRUE returns a dataframe with output of simplify and the predicted hypotheses for all associations
 }
 \description{

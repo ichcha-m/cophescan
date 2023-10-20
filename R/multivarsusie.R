@@ -1,39 +1,39 @@
-##' Check if a variant causally associated in one trait might be causal in another trait
-##'
-##' @title run cophe.susie using susie to detect separate signals
-##' @param dataset *either* a list with specifically named elements defining the dataset
-##'   to be analysed. (see
-##'   \link{check_dataset}), or the result of running \link{runsusie} on such a
-##'   dataset
-##' @param querysnpid Id of the query variant
-##' @param querytrait Query trait name
-##' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
-##' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
-##' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
-##' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
-##' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
-##' @param susie.args a named list of additional arguments to be passed to
-##'   \link{runsusie}
-##' @return a list, containing elements
-##' * summary a data.table of posterior
-##'   probabilities of each global hypothesis, one row per pairwise comparison
-##'   of signals from the two traits
-##' * results a data.table of detailed results giving the posterior probability
-##'   for each snp to be jointly causal for both traits *assuming Hc is true*.
-##'   Please ignore this column if the corresponding posterior support for H4
-##'   is not high.
-##' * priors a vector of the priors used for the analysis
-##' @importFrom coloc runsusie
-##' @examples
-##' library(cophescan)
-##' data(cophe_multi_trait_data)
-##' query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
-##' querysnpid <- cophe_multi_trait_data$querysnpid
-##' query_trait_1$LD <- cophe_multi_trait_data$LD
-##' res.susie <- cophe.susie(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
-##' summary(res.susie)
-##' @export
-##' @author Ichcha Manipur
+#' Check if a variant causally associated in one trait might be causal in another trait
+#'
+#' @title run `cophe.susie` using susie to detect separate signals
+#' @param dataset *either* a list with specifically named elements defining the dataset
+#'   to be analysed. (see
+#'   \link{check_dataset}), or the result of running \link{runsusie} on such a
+#'   dataset
+#' @param querysnpid Id of the query variant
+#' @param querytrait Query trait name
+#' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
+#' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
+#' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
+#' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
+#' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
+#' @param susie.args a named list of additional arguments to be passed to
+#'   \link{runsusie}
+#' @return a list, containing elements
+#' * summary a data.table of posterior
+#'   probabilities of each global hypothesis, one row per pairwise comparison
+#'   of signals from the two traits
+#' * results a data.table of detailed results giving the posterior probability
+#'   for each snp to be jointly causal for both traits *assuming Hc is true*.
+#'   Please ignore this column if the corresponding posterior support for H4
+#'   is not high.
+#' * priors a vector of the priors used for the analysis
+#' @importFrom coloc runsusie
+#' @examples
+#' library(cophescan)
+#' data(cophe_multi_trait_data)
+#' query_trait_1 <- cophe_multi_trait_data$summ_stat[['Trait_1']]
+#' querysnpid <- cophe_multi_trait_data$querysnpid
+#' query_trait_1$LD <- cophe_multi_trait_data$LD
+#' res.susie <- cophe.susie(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
+#' summary(res.susie)
+#' @export
+#' @author Ichcha Manipur
 cophe.susie=function(dataset, querysnpid, querytrait, p1=1e-4, p2=1e-4, p12=1e-5,
                      pa=NULL, pc=NULL,
                      susie.args=list()) {
@@ -44,29 +44,29 @@ cophe.susie=function(dataset, querysnpid, querytrait, p1=1e-4, p2=1e-4, p12=1e-5
   nsnps <- ncol(sus_dat$alpha) - 1
 
   psp  <-  per.snp.priors(nsnps = nsnps, p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc)
-  print('SNP Priors')
-  print(psp)
+  message('SNP Priors')
+  message(psp)
 
   hp <- hypothesis.priors(nsnps = nsnps, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
-  print('Hypothesis Priors')
-  print(hp)
+  message('Hypothesis Priors')
+  message(hp)
 
 
   if (is.null(cred_set$cs) || length(cred_set$cs)==0 ){
-    print('No credible sets found ...')
-    print('Switching to cophe.single ...')
+    warning('No credible sets found with SuSIE...')
+    warning('Switching to cophe.single ...')
     ret <- cophe.single(dataset, querysnpid, querytrait, pa=psp[["pa"]], pc=psp[["pc"]])
   }
   # else if (!any(sub(".*[.]","",names(unlist(sus_dat$sets$cs))) %in% querysnpid) & length(sus_dat$sets$cs) < 2){
-  #   print('Queried SNP not in the susie credible set ...')
-  #   print('Switching to cophe.single ...')
+  #   message('Queried SNP not in the susie credible set ...')
+  #   message('Switching to cophe.single ...')
   #   ret <- cophe.single(dataset, querysnpid, pa=psp[["pa"]], pc=psp[["pc"]])
   # }
   else {
     if (!any(sub(".*[.]","",names(unlist(sus_dat$sets$cs))) %in% querysnpid)){
-      print('Queried SNP not in the susie credible sets ...')
+      message('Queried SNP not in the susie credible sets ...')
     }
-    print('Running cophe.susie...')
+    message('Running cophe.susie...')
     isnps=colnames(sus_dat$alpha)
     if(!length(isnps))
       return(data.table::data.table(nsnps=NA))
@@ -79,17 +79,18 @@ cophe.susie=function(dataset, querysnpid, querytrait, p1=1e-4, p2=1e-4, p12=1e-5
 }
 
 
-##' a dataset represented by Bayes factors
-##' @title extract data through Bayes factors
-##' @param sus_dat a list with the output of running susie
-##' @param cred_set credible set extracted from susie
-##' @param querysnpid Id of the query variant
-##' @param querytrait Query trait name
-##' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
-##' @param pa prior probability that a non-query variant is causally associated with the query trait
-##' @param pc prior probability that the query variant is causally associated with the query trait
-##' @keywords internal
-##' @return bayes factors of signals
+#' a dataset represented by Bayes factors from SuSIE
+#' @title extract data through Bayes factors
+#' @param sus_dat a list with the output of running susie
+#' @param cred_set credible set extracted from susie
+#' @param querysnpid Id of the query variant
+#' @param querytrait Query trait name
+#' @param pn prior probability that none of the SNPs/variants in the region are associated with the query trait
+#' @param pa prior probability that a non-query variant is causally associated with the query trait
+#' @param pc prior probability that the query variant is causally associated with the query trait
+#' @seealso \code{\link{cophe.susie}}
+#' @keywords internal
+#' @return bayes factors of signals
 cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL, pc=NULL, ret_pp=TRUE) {
   idx2=cred_set$cs_index
   sus_bf=sus_dat$lbf_variable[idx2,,drop=FALSE][,setdiff(colnames(sus_dat$lbf_variable),"")]
@@ -169,7 +170,7 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
 #' @param susie.args a named list of additional arguments to be passed to
 #'   \link{runsusie}
 #' @param MAF Minor allele frequency vector
-#'
+#' @seealso \code{\link{cophe.susie}}
 #' @return data frame with log bayes factors for Hn and Ha hypotheses
 #' @export
 #' @examples
@@ -187,9 +188,9 @@ cophe.susie.lbf <- function(dataset, querysnpid, querytrait, switch=TRUE,
   sus_dat = cophe.prepare.dat.susie(dataset, querysnpid, susie.args)
   cred_set = sus_dat$sets
   if (is.null(cred_set$cs) || length(cred_set$cs)==0){
-    print('No credible sets found ...')
-    if  (switch){
-      print('Switching to cophe.single.bf calculation ...')
+    message('No credible sets found calculation with SuSIE...')
+    if (switch){
+      message('Switching to cophe.single.bf as switch=TRUE...')
       out_bf <- cophe.single.lbf(dataset, querysnpid, querytrait)
     } else{
       stop('Set switch=TRUE to obtain single BF when credible sets not found with SuSIE')
@@ -201,7 +202,7 @@ cophe.susie.lbf <- function(dataset, querysnpid, querytrait, switch=TRUE,
 }
 
 
-#' Prepare data for cophe.susie
+#' Prepare data for `cophe.susie`
 #'
 #' @param dataset a list with specifically named elements defining the query trait dataset
 #'   to be analysed.
@@ -209,6 +210,7 @@ cophe.susie.lbf <- function(dataset, querysnpid, querytrait, switch=TRUE,
 #' @param susie.args a named list of additional arguments to be passed to
 #'   \link{runsusie}
 #' @return a list with the output of running susie
+#' @seealso \code{\link{cophe.susie}}
 #' @keywords internal
 #'
 cophe.prepare.dat.susie <- function(dataset, querysnpid, susie.args){
@@ -238,7 +240,7 @@ cophe.prepare.dat.susie <- function(dataset, querysnpid, susie.args){
   cred_set=sus_dat$sets
   for (cs_id in seq_along(cred_set$cs)){
     if (all(pvalues[cred_set$cs[[cs_id]]] > 0.1)){
-      print('Removing credible sets with snp p-vals > 0.1')
+      message('Removing credible sets with snp p-vals > 0.1')
       cred_set$cs_index <- cred_set$cs_index[!cred_set$cs_index %in% cs_id:length(cred_set$cs)]
       cred_set$cs[cs_id:length(cred_set$cs)] <- NULL
       break

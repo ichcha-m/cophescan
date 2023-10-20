@@ -17,28 +17,29 @@ knitr::opts_chunk$set(
 )
 ```
 
-The hierarchical model is ideal when a large set of variants and phenotypes are available i.e., a phenome-wide association study with a set of variants which are previously  known to have a functional role or have been implicated in a disease. 
+The hierarchical model is ideal when a large set of variants and phenotypes are available i.e., a phenome-wide association study with a set of variants which are previously known to have a functional role or have been implicated in a disease.
 Here we show how to use cophescan to infer hierarchical priors on a small test dataset.
 
-```{r setup, message=F, warning=F}
+```{r setup, message=FALSE, warning=FALSE}
 library(cophescan)
 library(dplyr)
 ```
 
 ```{r}
 data("cophe_multi_trait_data")
-attach(cophe_multi_trait_data)
 trait_dat = cophe_multi_trait_data$summ_stat$Trait_1
 str(trait_dat)
 querysnpid <- cophe_multi_trait_data$querysnpid
+LD <- cophe_multi_trait_data$LD
 ```
-
 
 #### Multi-trait analysis
 
-The first step is preparing the input for the hierarchical model which are the log Bayes factors: lBF.Ha and lBF.Hc. We will use `cophe.susie.lbf` to extract Bayes factors estimated using SuSIE.
-Note: When there are no credible sets identified with SuSIE the function internally calculates lBF.Ha and lBF.Hc using the Approximate Bayes Factor method. 
-```{r message=F, warning=F, results='hide'}
+The first step is preparing the input for the hierarchical model which are the log Bayes factors: lBF.Ha and lBF.Hc.
+We will use `cophe.susie.lbf` to extract Bayes factors estimated using SuSIE.
+Note: When there are no credible sets identified with SuSIE the function internally calculates lBF.Ha and lBF.Hc using the Approximate Bayes Factor method.
+
+```{r message=FALSE, warning=FALSE, results='hide'}
 ## Hide print messages from coloc
 res.multi.lbf <- list()
 for (trait_idx in seq_along(cophe_multi_trait_data$summ_stat)){
@@ -46,78 +47,104 @@ for (trait_idx in seq_along(cophe_multi_trait_data$summ_stat)){
   # Here LD is the same
   querytrait_ss$LD <- LD
   trait_variant_pair <- paste0('Trait', trait_idx, '_', querysnpid)
-  res.multi.lbf[[trait_variant_pair]] <- cophe.susie.lbf(querytrait_ss, querysnpid = querysnpid, querytrait = paste0('Trait', trait_idx))
+  res.multi.lbf[[trait_variant_pair]] <- cophe.susie.lbf(querytrait_ss, querysnpid = querysnpid, querytrait = paste0('Trait_', trait_idx))
 }
 
 res.multi.lbf.df = bind_rows(res.multi.lbf)
 
 ```
 
-
 ```{r}
 head(res.multi.lbf.df)
 ```
 
-**Note: ** The output of `cophe.susie` or `cophe.single` can also be used as input to the hierarchical model as it has all the fields required for the input. This would be useful when you would like to compare results from the fixed priors to those obtained from priors inferred using the hierarchical model. [Swap `cophe.susie` for `cophe.susie.lbf` above and instead of bind_rows do : `res.multi.lbf.df = multitrait.simplify(res.multi.lbf)`]
+**Note:**
+
+1.  The output of `cophe.susie` or `cophe.single` can also be used as input to the hierarchical model as it has all the fields required for the input. This would be useful when you would like to compare results from the fixed priors to those obtained from priors inferred using the hierarchical model. [Swap `cophe.susie` for `cophe.susie.lbf` above and instead of bind_rows do : `res.multi.lbf.df = multitrait.simplify(res.multi.lbf)`].
+2.  Use the for loop (as above) to run large datasets as storing all the coloc-structured data in a list is memory-intensive. This is also helpful in cases where there are multiple querysnps and different regions of the query traits have to be analysed
 
 #### Run hierarchical model for priors
 
-The input df for the multi.dat arguments should contain the following fields: "lBF.Ha","lBF.Hc" and "nsnps".  
+The input df for the multi.dat arguments should contain the following fields: "lBF.Ha","lBF.Hc" and "nsnps".
+
 ```{r warning=F, message=F, fig.width = 8, fig.height=8, out.width = "75%",  fig.ncol = 3, fig.align = "center"}
-# covar=F
+# covar=FALSE
 ## Set covar to TRUE to include covariates
-covar=T
+covar=TRUE
 covar_vec = cophe_multi_trait_data$covar_vec
-cophe.hier.res <- run_metrop_priors(res.multi.lbf.df, avg_posterior=T, avg_pik = T, covar_vec = covar_vec, covar = covar, nits = 30000)
+cophe.hier.res <- run_metrop_priors(res.multi.lbf.df, avg_posterior=TRUE, avg_pik = TRUE, covar_vec = covar_vec, covar = covar, nits = 30000)
 names(cophe.hier.res)
 ```
+
 Note: Setting posterior or pik to TRUE is memory intensive for very large datasets
 
 #### Diagnostics of the hierarchical model
-```{r mcmcDiagnostics, warning=F, message=F, fig.width = 6, fig.height=6, out.width = "50%", fig.align = "center"}
+
+```{r mcmcDiagnostics, warning=F, message=F, fig.width=5, fig.height=5, out.width="50%", fig.align="center"}
+
 loglik <- cophe.hier.res$ll
 parameters <- cophe.hier.res$parameters
 col <- rgb(red = 0.4, green = 0.7, blue = 0.5, alpha = 0.8)
+### store user parameters
+old_par = par(no.readonly = TRUE)
+
+## plot diagnostics
 par(mfrow=c(2,2))
-plot(1:length(loglik), loglik, main="loglik",type="l", col=col, ylab = "ll", xlab="")
-plot(1:ncol(parameters), parameters[1,], main="alpha",type="l", col=col, ylab = "alpha", xlab="")
-plot(1:ncol(parameters), parameters[2,], main="beta",type="l", col=col, ylab = "beta", xlab="")
-if (covar == T)
-  plot(1:ncol(parameters), parameters[3,], main="gamma",type="l", col=col, ylab = "gamma", xlab="")
+plot(seq_along(loglik), loglik, main="loglik",type="l", col=col, ylab = "ll", xlab="")
+plot(seq_len(ncol(parameters)), parameters[1,], main="alpha",type="l", col=col, ylab = "alpha", xlab="")
+plot(seq_len(ncol(parameters)), parameters[2,], main="beta",type="l", col=col, ylab = "beta", xlab="")
+if (covar)
+  plot(seq_len(ncol(parameters)), parameters[3,], main="gamma",type="l", col=col, ylab = "gamma", xlab="")
 
+### reset user parameters
+par(old_par)
 ```
-
-
-
-
-
 
 #### Prediction
 
-`cophe.hier.res$avg.posterior` contains the posterior probabilities of the hypotheses : $H_n$,  $H_a$ and $H_c$ for the queryvariant/querytraut pairs obtained from the hierarchical model.
+`cophe.hier.res$avg.posterior` contains the posterior probabilities of the hypotheses : $H_n$, $H_a$ and $H_c$ for the queryvariant/querytrait pairs obtained from the hierarchical model.
+
 ```{r}
 res.post.prob = cbind(cophe.hier.res$avg.posterior, cophe.hier.res$data)
 ```
 
-We can use the `cophe.hyp.predict` function to predict the hypothesis given the posterior probabilities. The cophe.hyp.call column shows the predicted hypothesis for each query trait-query variant pair.
+We can use the `cophe.hyp.predict` function to predict the hypothesis given the posterior probabilities.
+The cophe.hyp.call column shows the predicted hypothesis for each query trait-query variant pair.
 
 ```{r}
 res.hier.predict <- cophe.hyp.predict(as.data.frame(res.post.prob ))
 col_disp <- c( "PP.Hn", "PP.Ha", "PP.Hc", "nsnps", "querysnp", "querytrait", "typeBF",  "grp", "cophe.hyp.call")
-knitr::kable(res.hier.predict[, col_disp], row.names = F, digits=3)
+knitr::kable(res.hier.predict[, col_disp], row.names = FALSE, digits=3)
 ```
-
 
 #### Visualisation
 
-Use the `cophe_plot` function to return -log10(pval), ppHa and ppHc PheWAS plots from the cophescan output
+Use the `cophe_plot` function to return -log10(pval), ppHa and ppHc PheWAS plots from the cophescan output.
 
-```{r cophePlots, warning=F, message=F, fig.width = 9, fig.height=6, out.width = "100%", fig.align = "center"}
-res.plots = cophe_plot(res.hier.predict, traits.dat = cophe_multi_trait_data$summ_stat, querysnpid = querysnpid, pheno_names = paste0('Trait', 1:30))
-if ("ggpubr" %in% rownames(installed.packages())) {
-  ggpubr::ggarrange(res.plots$pval, res.plots$ppHa, res.plots$ppHc, ncol = 2, nrow = 2)
-} 
+```{r cophePlots, message=FALSE}
+res.plots = cophe_plot(res.hier.predict, traits.dat = cophe_multi_trait_data$summ_stat, querysnpid = querysnpid, query_trait_names = paste0('Trait_', 1:24))
+
+# if (!require(ggpubr)) {
+  # install.packages("ggpubr") 
+# }
+# ggpubr::ggarrange(res.plots$pval, res.plots$ppHa, res.plots$ppHc, ncol = 2, nrow = 2)
 ```
 
+```{r, warning=FALSE, message=FALSE, echo=FALSE, out.width = "50%"}
+res.plots$pval
+res.plots$ppHa
+res.plots$ppHc
+```
 
+Note: For large datasets, it's not feasible to input all coloc-structured data into "traits.dat" at once.
+Instead, use a loop and run the "get_beta" function over all the trait-variant pairs, and provide the resulting data frame (after binding the rows) as the "beta_p" argument in `cophe_plot`:
 
+``` r
+# beta_p_list <- lapply(seq_along(cophe_multi_trait_data$summ_stat),  function(x) get_beta(list(cophe_multi_trait_data$summ_stat[[x]]), querysnpid, names(cophe_multi_trait_data$summ_stat)[x]))
+# ### the datsets need not be in a list as in cophe_multi_trait_data$summ_stat and can be stored independently.
+# beta_p_df = bind_rows(beta_p_list)
+# ### Make sure the query trait names in beta_p_df are the same as in res.hier.predict
+# res.plots = cophe_plot(res.hier.predict,  querysnpid = querysnpid, query_trait_names = beta_p_df$querytrait, beta_p = beta_p_df)
+```
+
+------------------------------------------------------------------------

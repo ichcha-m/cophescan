@@ -63,7 +63,6 @@ Explore the data structure of the example dataset available in the cophescan pac
 
 ```{r warning=FALSE, message=FALSE}
 data("cophe_multi_trait_data")
-attach(cophe_multi_trait_data)
 trait_dat = cophe_multi_trait_data$summ_stat$Trait_1
 str(trait_dat)
 ```
@@ -73,7 +72,7 @@ str(trait_dat)
 LD: Linkage Disequilibrium matrix with row and column names being the same as the snp field.
 
 ```{r}
-trait_dat$LD = LD
+trait_dat$LD = cophe_multi_trait_data$LD
 str(trait_dat$LD[1:10, 1:10])
 ```
 
@@ -84,3 +83,5 @@ This can be verified either using coloc::check_alignment or performing a diagnos
 
 -   The input summary data structure for a trait is the same format as required by coloc. To gain a detailed understanding of the input please see the coloc vignette <https://chr1swallace.github.io/coloc/articles/a02_data.html> and the test datasets provided with the coloc package.
 -   More information on the input can be obtained from the coloc documentation : `?coloc::check_dataset`
+
+------------------------------------------------------------------------

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -108,15 +108,15 @@ the multi.dat list contain the trait names please pass querytrait.names=names(mu
 
 
 <dt>method</dt>
-<dd><p>either 'single' for cophe.single or 'susie' for cophe.susie</p></dd>
+<dd><p>either 'single' for <code>cophe.single</code> or 'susie' for <code>cophe.susie</code></p></dd>
 
 
 <dt>simplify</dt>
-<dd><p>if True removes intermediate results from output</p></dd>
+<dd><p>if TRUE removes intermediate results from output using 'multitrait.simplify'</p></dd>
 
 
 <dt>predict.hyp</dt>
-<dd><p>if True predicts the hypothesis based on the provided thresholds for pp.Hc and pp.Hn (overrides simplify)</p></dd>
+<dd><p>if TRUE predicts the hypothesis based on the provided thresholds for pp.Hc and pp.Hn (overrides simplify) using <code>cophe.hyp.predict</code></p></dd>
 
 
 <dt>Hn.cutoff</dt>
@@ -136,16 +136,18 @@ the multi.dat list contain the trait names please pass querytrait.names=names(mu
 
 
 <dt>...</dt>
-<dd><p>additional arguments of priors for cophe.susie or cophe.single</p></dd>
+<dd><p>additional arguments of priors for <code>cophe.susie</code> or <code>cophe.single</code></p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>if simplify is False returns multi-trait list of lists, each with two <code>data.frame</code>s:</p><ul><li><p>summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)</p></li>
-<li><p>results is an annotated version of the input data containing log Approximate Bayes Factors and intermediate calculations, and the posterior probability SNP.PP.Hc of the SNP being causal for the shared signal <em>if</em> Hc is true. This is only relevant if the posterior support for Hc in summary is convincing.</p></li>
-</ul><p>if simplify is False only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
+<p>if simplify is False returns multi-trait list of lists, each with:</p><ul><li><p>a summary data.frame of the cophescan results</p></li>
+<li><p>priors used</p></li>
+<li><p>querysnp</p></li>
+<li><p>querytrait</p></li>
+</ul><p>if simplify is TRUE only returns dataframe with posterior probabilties of Hn, Hc and Ha with no intermediate results
 if predict.hyp is TRUE returns a dataframe with output of simplify and the predicted hypotheses for all associations</p>
     </div>
     <div id="author">

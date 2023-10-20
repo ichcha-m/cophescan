@@ -7,17 +7,19 @@
 prepare_plot_data(
   multi.dat,
   querysnpid,
+  query_trait_names,
   thresh_Ha = 0.5,
   thresh_Hc = 0.5,
-  hmp = F,
-  cophe.plot = T,
-  query_trait_names = NULL
+  hmp = FALSE,
+  cophe.plot = TRUE
 )
 }
 \arguments{
-\item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
+\item{multi.dat}{multi trait cophescan results returned from cophe.multitrait or multitrait.simplify}
 
 \item{querysnpid}{query variant}
+
+\item{query_trait_names}{vector of names of the query traits}
 
 \item{thresh_Ha}{Ha threshold to be displayed}
 
@@ -25,15 +27,15 @@ prepare_plot_data(
 
 \item{hmp}{return for heatmap}
 
-\item{cophe.plot}{return for cophe.plots}
-
-\item{query_trait_names}{vector of names of the query traits, if the names of
-the multi.dat list contain the trait names please pass query_trait_names=names(multi.dat)
-default NULL}
+\item{cophe.plot}{default: TRUE, return for \code{cophe_plot}}
 }
 \value{
 plot list
 }
 \description{
 Prepare data for plotting
+}
+\seealso{
+\code{\link{cophe_plot}}, \code{\link{cophe.susie}}, \code{\link{cophe.multitrait}},  \code{\link{multitrait.simplify}}
+default NULL
 }

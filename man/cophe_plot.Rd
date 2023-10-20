@@ -7,34 +7,37 @@
 cophe_plot(
   multi.dat,
   querysnpid,
+  query_trait_names,
   thresh_Hc = 0.5,
   thresh_Ha = 0.5,
+  beta_p = NULL,
   traits.dat = NULL,
-  pheno_names = NULL,
-  group_pheno = NULL,
-  beta_p = NULL
+  group_pheno = NULL
 )
 }
 \arguments{
-\item{multi.dat}{multi trait cophescan results returned from cophe.multitrait (Takes row names as the phenotypes if you want an alternative naming pass a vector to pheno_names)}
+\item{multi.dat}{multi trait cophescan results returned from cophe.multitrait or multitrait.simplify}
 
-\item{querysnpid}{query variant}
+\item{querysnpid}{query variant (only a single variant for PheWAS plots)}
+
+\item{query_trait_names}{list of phenotype names}
 
 \item{thresh_Hc}{Hc threshold to be displayed}
 
 \item{thresh_Ha}{Ha threshold to be displayed}
 
-\item{traits.dat}{list of multi-trait oloc structured datasets}
+\item{beta_p}{data.frame (from the \code{get.beta} function) with four columns : 1. "beta_plot": indicating beta direction (p or n) 2. "beta_plot": -log10(pval) of the queried variant 3. "querysnp" 4. "querytrait".}
 
-\item{pheno_names}{list of phenotype names}
+\item{traits.dat}{list of multi-trait coloc structured datasets}
 
 \item{group_pheno}{Vector with additional grouping of phenotypes}
-
-\item{beta_p}{data.frame with one column indicating beta direction (p or n) and another column with -log10(pval) of the queried variant}
 }
 \value{
 cophescan plots of Ha and Hc
 }
 \description{
 cophe_plots showing the Ha and Hc of all traits and labelled above the specified threshold
+}
+\seealso{
+\code{\link{cophe.single}}, \code{\link{cophe.susie}}, \code{\link{cophe.multitrait}}, , \code{\link{multitrait.simplify}}
 }

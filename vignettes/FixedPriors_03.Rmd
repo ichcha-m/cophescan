@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -17,35 +17,35 @@ knitr::opts_chunk$set(
 )
 ```
 
-Fixed priors are used when the number of traits and variants to be tested are small. 
+Fixed priors are used when the number of traits and variants to be tested are small.
 
-The default cophescan fixed priors for : pn, pa and pc, provided for `cophe.single` and `cophe.susie`  are those derived from default coloc priors (p1=1e-4, p2=1e-4 and p12=1e-5). 
-The priors can also be derived from a larger dataset or from the datasets tested in the cophescan manuscript that match your use case. 
+The default cophescan fixed priors for : pn, pa and pc, provided for `cophe.single` and `cophe.susie` are those derived from default coloc priors (p1=1e-4, p2=1e-4 and p12=1e-5).
+
+The priors can also be derived from a larger dataset or from the datasets tested in the [CoPheScan manscript](https://doi.org/10.1101/2023.06.29.546856 "cophescan") [see Supplementary table 12] that match your use case.
 
 This example illustrates the use of cophescan for a small dataset using fixed priors where a hierarchical model cannot be applied.
 
-```{r setup, message=F, warning=F}
+```{r setup, message=FALSE, warning=FALSE}
 library(cophescan)
 ```
 
-#### Load test data  
+#### Load test data
 
-See the input data vignette for preparing the input for cophscan analysis.
-```{r message=F, warning=F }
-library(cophescan)
+See the input data vignette for preparing the input for cophescan analysis.
+
+```{r message=FALSE, warning=FALSE}
 data("cophe_multi_trait_data")
-attach(cophe_multi_trait_data)
 names(cophe_multi_trait_data)
 ```
 
-<!-- The query variant is `r toString(querysnpid)` -->
+<!-- The query variant is `r toString(cophe_multi_trait_data$querysnpid)` -->
 
-We will check for causal association between a single trait and a query variant using fixed priors.   
+We will check for causal association between a single trait and a query variant using fixed priors.
 
 ```{r fig.width = 4, fig.height=4, fig.align = "center"}
 querytrait <- cophe_multi_trait_data$summ_stat[['Trait_1']] 
 querysnpid <- cophe_multi_trait_data$querysnpid
-
+LD <- cophe_multi_trait_data$LD
 ```
 
 Regional Manhattan plot showing the position of the query variant in the query trait.
@@ -62,13 +62,14 @@ CoPheScan can be run using a single variant assumption (which uses Approximate B
 
 Note:
 
-Case where nsnps in the queried region is very high and pa*(nsnps-1) + pc > 1: In this case please revaluate the supplied priors or run adjust_priors function (see help) which scales down the priors while maintaining the proportion of the supplied priors.
+Case where nsnps in the queried region is very high and pa\*(nsnps-1) + pc \> 1: In this case please revaluate the supplied priors or run adjust_priors function (see help) which scales down the priors while maintaining the proportion of the supplied priors.
 
 ```{r fig.width = 4, fig.height=4, fig.align = "center"}
 # Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = querysnpid
 res.single <- cophe.single(querytrait, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.single)
 ```
+
 We observe that the posterior probability of causal association for the query variant is 0.969 which indicates that the query trait is causally associated with the query trait.
 
 We can also use the `cophe.hyp.predict` function to predict the hypothesis given the posterior probabilities.
@@ -86,6 +87,8 @@ querytrait$LD <- LD
 res.susie <- cophe.susie(querytrait, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.susie)
 ```
-We get a similar result using SuSIE `cophe.susie`. We recommend the use of cophe.susie whenever LD information is available.
 
-Note: When  no credible sets are identified using `cophe.susie` cophescan reverts to `cophe.single`.
+We get a similar result using SuSIE `cophe.susie`.
+We recommend the use of cophe.susie whenever LD information is available.
+
+Note: When no credible sets are identified using `cophe.susie` cophescan reverts to `cophe.single`.

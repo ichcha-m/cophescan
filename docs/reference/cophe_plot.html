@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -75,23 +75,27 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cophe_plot</span><span class="op">(</span></span>
 <span>  <span class="va">multi.dat</span>,</span>
 <span>  <span class="va">querysnpid</span>,</span>
+<span>  <span class="va">query_trait_names</span>,</span>
 <span>  thresh_Hc <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  thresh_Ha <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  beta_p <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  traits.dat <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  pheno_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  group_pheno <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  beta_p <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  group_pheno <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>multi.dat</dt>
-<dd><p>multi trait cophescan results returned from cophe.multitrait (Takes row names as the phenotypes if you want an alternative naming pass a vector to pheno_names)</p></dd>
+<dd><p>multi trait cophescan results returned from cophe.multitrait or multitrait.simplify</p></dd>
 
 
 <dt>querysnpid</dt>
-<dd><p>query variant</p></dd>
+<dd><p>query variant (only a single variant for PheWAS plots)</p></dd>
+
+
+<dt>query_trait_names</dt>
+<dd><p>list of phenotype names</p></dd>
 
 
 <dt>thresh_Hc</dt>
@@ -102,20 +106,16 @@
 <dd><p>Ha threshold to be displayed</p></dd>
 
 
+<dt>beta_p</dt>
+<dd><p>data.frame (from the <code>get.beta</code> function) with four columns : 1. "beta_plot": indicating beta direction (p or n) 2. "beta_plot": -log10(pval) of the queried variant 3. "querysnp" 4. "querytrait".</p></dd>
+
+
 <dt>traits.dat</dt>
-<dd><p>list of multi-trait oloc structured datasets</p></dd>
-
-
-<dt>pheno_names</dt>
-<dd><p>list of phenotype names</p></dd>
+<dd><p>list of multi-trait coloc structured datasets</p></dd>
 
 
 <dt>group_pheno</dt>
 <dd><p>Vector with additional grouping of phenotypes</p></dd>
-
-
-<dt>beta_p</dt>
-<dd><p>data.frame with one column indicating beta direction (p or n) and another column with -log10(pval) of the queried variant</p></dd>
 
 </dl></div>
     <div id="value">
@@ -123,6 +123,10 @@
     
 
 <p>cophescan plots of Ha and Hc</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><code><a href="cophe.single.html">cophe.single</a></code>, <code><a href="cophe.susie.html">cophe.susie</a></code>, <code><a href="cophe.multitrait.html">cophe.multitrait</a></code>, , <code><a href="multitrait.simplify.html">multitrait.simplify</a></code></p></div>
     </div>
 
   </div>

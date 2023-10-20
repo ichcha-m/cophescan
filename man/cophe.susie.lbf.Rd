@@ -44,6 +44,9 @@ res.susie.lbf <- cophe.susie.lbf(query_trait_1, querysnpid = querysnpid,
                                   querytrait='Trait_1', switch=T)
 res.susie.lbf
 }
+\seealso{
+\code{\link{cophe.susie}}
+}
 \author{
 Ichcha Manipur
 }

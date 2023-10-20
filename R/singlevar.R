@@ -69,8 +69,8 @@ combine.bf <- function(lBF_df, pn, pa, pc) {
   # pp.bf
   names(pp) <- paste("PP.H", c('n', 'a', 'c') , sep = "")
   # barplot(pp.bf)
-  print(signif(pp,3))
-  print(paste("PP for causal query variant: ", signif(pp["PP.Hc"],3)*100 , '%', sep=''))
+  message(signif(pp,3))
+  message(paste("PP for causal query variant: ", signif(pp["PP.Hc"],3)*100 , '%', sep=''))
   return(list(pp=pp, bf=bf))
 }
 
@@ -115,7 +115,7 @@ combine.bf <- function(lBF_df, pn, pa, pc) {
 #' @export
 cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL, p1=1e-4, p2=1e-4, p12=1e-5,
                            pa=NULL, pc=NULL) {
-  print('Running cophe.single...')
+  message('Running cophe.single...')
 
   lABF.df = cophe.single.lbf(dataset, querysnpid, querytrait, MAF)
 
@@ -123,12 +123,12 @@ cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL, p1=1e-4, p2=
   nsnps <- lABF.df$nsnps
 
   psp  <-  per.snp.priors(nsnps = nsnps, p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc)
-  print('SNP Priors')
-  print(psp)
+  message('SNP Priors')
+  message(psp)
 
   hp <- hypothesis.priors(nsnps = nsnps, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
-  print('Hypothesis Priors')
-  print(hp)
+  message('Hypothesis Priors')
+  message(hp)
 
   pp.bf <- combine.bf(lABF.df, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
 
@@ -149,7 +149,7 @@ cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL, p1=1e-4, p2=
 #' @param querysnpid Id of the query variant, (id in dataset$snp)
 #' @param querytrait Query trait name
 #' @param MAF Minor allele frequency vector
-#'
+#' @seealso \code{\link{cophe.single}}
 #' @return data frame with log bayes factors for Hn and Ha hypotheses
 #' @export
 #' @examples
@@ -230,16 +230,17 @@ adjust_priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
 
 #' print the summary of results from cophescan single or susie
 #'
-#' @param object Result from either cophe.susie or cophe.single
+#' @param object Result from either `cophe.susie` or `cophe.single`
 #' @param ... additional arguments affecting the summary produced.
 #' @return log bayes and posterior probabilities
+#' @seealso \code{\link{cophe.single}}, \code{\link{cophe.susie}}
 #' @export
 #'
 summary.cophe <- function(object, ...){
   summ =object$summary
   class(summ) = c("summary.cophe", "data.frame")
   return(summ)
-  # print(cophe.res$summary)
+  # message(cophe.res$summary)
 }
 
 ##' Internal function, logsum

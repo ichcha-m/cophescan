@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -75,22 +75,26 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prepare_plot_data</span><span class="op">(</span></span>
 <span>  <span class="va">multi.dat</span>,</span>
 <span>  <span class="va">querysnpid</span>,</span>
+<span>  <span class="va">query_trait_names</span>,</span>
 <span>  thresh_Ha <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  thresh_Hc <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  hmp <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  cophe.plot <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  query_trait_names <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  hmp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cophe.plot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>multi.dat</dt>
-<dd><p>multi trait cophescan results returned from cophe.multitrait</p></dd>
+<dd><p>multi trait cophescan results returned from cophe.multitrait or multitrait.simplify</p></dd>
 
 
 <dt>querysnpid</dt>
 <dd><p>query variant</p></dd>
+
+
+<dt>query_trait_names</dt>
+<dd><p>vector of names of the query traits</p></dd>
 
 
 <dt>thresh_Ha</dt>
@@ -106,13 +110,7 @@
 
 
 <dt>cophe.plot</dt>
-<dd><p>return for cophe.plots</p></dd>
-
-
-<dt>query_trait_names</dt>
-<dd><p>vector of names of the query traits, if the names of
-the multi.dat list contain the trait names please pass query_trait_names=names(multi.dat)
-default NULL</p></dd>
+<dd><p>default: TRUE, return for <code>cophe_plot</code></p></dd>
 
 </dl></div>
     <div id="value">
@@ -120,6 +118,11 @@ default NULL</p></dd>
     
 
 <p>plot list</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><code><a href="cophe_plot.html">cophe_plot</a></code>, <code><a href="cophe.susie.html">cophe.susie</a></code>, <code><a href="cophe.multitrait.html">cophe.multitrait</a></code>,  <code><a href="multitrait.simplify.html">multitrait.simplify</a></code>
+default NULL</p></div>
     </div>
 
   </div>

@@ -4,10 +4,21 @@
 \alias{cophe_heatmap}
 \title{Heatmap of multi-trait cophescan results}
 \usage{
-cophe_heatmap(multi.dat, thresh_Hc = 0.5, thresh_Ha = 0.5, ...)
+cophe_heatmap(
+  multi.dat,
+  querysnpid,
+  query_trait_names,
+  thresh_Hc = 0.5,
+  thresh_Ha = 0.5,
+  ...
+)
 }
 \arguments{
-\item{multi.dat}{multi trait cophescan results returned from cophe.multitrait}
+\item{multi.dat}{multi trait cophescan results returned from \code{cophe.multitrait} or formatted in the same way with multitrait.simplify}
+
+\item{querysnpid}{query variant}
+
+\item{query_trait_names}{names of phenotypes corresponding to the multi.dat results}
 
 \item{thresh_Hc}{Hc threshold to be displayed}
 

@@ -12,9 +12,9 @@ cophe.hyp.predict(
 )
 }
 \arguments{
-\item{cophe.res}{results obtained from cophe.single, cophe.susie or cophe.multitrait or data.frame with the following columns: PP.Hn, PP.Hc, PP.Ha, querysnp, querytrait}
+\item{cophe.res}{results obtained from \code{cophe.single}, \code{cophe.susie} or \code{cophe.multitrait} or data.frame with the following columns: PP.Hn, PP.Hc, PP.Ha, querysnp, querytrait}
 
-\item{grouping.vars}{This is important for results from cophe.susie where there are multiple signals. These will be collapsed into one call. If you want to return all signals set this to a single variable eg: grouping.vars = c('querysnp')}
+\item{grouping.vars}{This is important for results from \code{cophe.susie} where there are multiple signals. These will be collapsed into one call. If you want to return all signals set this to a single variable eg: grouping.vars = c('querysnp')}
 
 \item{Hc.cutoff}{threshold for PP.Hc above which the associations are called Hc}
 
@@ -25,4 +25,7 @@ returns dataframe with posterior probabilties of Hn, Hc and Ha with the predicte
 }
 \description{
 Predict cophescan hypothesis for tested associations
+}
+\seealso{
+\code{\link{cophe.single}}, \code{\link{cophe.susie}}, \code{\link{cophe.multitrait}}, , \code{\link{multitrait.simplify}}
 }

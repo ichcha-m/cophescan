@@ -30,6 +30,9 @@ querysnpid <- cophe_multi_trait_data$querysnpid
 res.single.lbf <- cophe.single.lbf(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
 res.single.lbf
 }
+\seealso{
+\code{\link{cophe.single}}
+}
 \author{
 Ichcha Manipur
 }

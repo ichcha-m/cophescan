@@ -2,13 +2,12 @@
 % Please edit documentation in R/multitrait.R
 \name{multitrait.simplify}
 \alias{multitrait.simplify}
-\title{simplify.multitrait
-Simplifying the output obtained from cophe.multitrait, cophe.single or cophe.susie}
+\title{Simplifying the output obtained from \code{cophe.multitrait}, \code{cophe.single} or \code{cophe.susie}}
 \usage{
 multitrait.simplify(multi.dat, only_BF = FALSE)
 }
 \arguments{
-\item{multi.dat}{output obtained from cophe.multitrait, cophe.single or cophe.susie}
+\item{multi.dat}{output obtained from \code{cophe.multitrait}, \code{cophe.single} or \code{cophe.susie}}
 
 \item{only_BF}{return only bayes factors and not posterior probabilities (default=FALSE)}
 }
@@ -16,6 +15,5 @@ multitrait.simplify(multi.dat, only_BF = FALSE)
 dataframe with posterior probabilties of Hn, Hc and Ha
 }
 \description{
-simplify.multitrait
-Simplifying the output obtained from cophe.multitrait, cophe.single or cophe.susie
+Simplifying the output obtained from \code{cophe.multitrait}, \code{cophe.single} or \code{cophe.susie}
 }

@@ -1,4 +1,4 @@
-#' Run the hierarchical metropolis hastings model to infer priors
+#' Run the hierarchical Metropolis Hastings model to infer priors
 #'
 #' @param multi.dat matrix of bf values, rows=traits, named columns=("lBF.Ha","lBF.Hc","nsnps")
 #' @param covar whether to include covariates
@@ -6,10 +6,10 @@
 #' @param is_covar_categorical only two categories supported (default=FALSE) - Experimental
 #' @param nits number of iterations
 #' @param thin burnin
-#' @param posterior default: F, estimate posterior probabilities of the hypotheses
-#' @param avg_pik default: F, estimate the average of the pik
-#' @param avg_posterior default: F, estimate the average of the posterior probabilities of the hypotheses
-#' @param pik default: F, inferred prior probabilities
+#' @param posterior default: FALSE, estimate posterior probabilities of the hypotheses
+#' @param avg_pik default: FALSE, estimate the average of the pik
+#' @param avg_posterior default: FALSE, estimate the average of the posterior probabilities of the hypotheses
+#' @param pik default: FALSE, inferred prior probabilities
 #' @param cores default: 1, number of cores
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
@@ -22,9 +22,9 @@
 #' @return if avg_pik=TRUE matrix with average of all the priors: pn, pa and pc
 #' @return data, nits and thin contain the input data, number of iterations and burnin respectively specified for the hierarchical model
 #' @export
-run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_categorical = F, nits=10000,
-                              thin=1, posterior=F, avg_pik=T, avg_posterior=T,
-                              pik=F, cores=1, alpha_mean =-10,
+run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_categorical=FALSE, nits=10000,
+                              thin=1, posterior=FALSE, avg_pik=TRUE, avg_posterior=TRUE,
+                              pik=FALSE, cores=1, alpha_mean =-10,
                                alpha_sd=0.5,  beta_shape=2,  beta_scale=2,
                                gamma_shape=2,  gamma_scale=2){
   if (!is.data.frame(multi.dat)){

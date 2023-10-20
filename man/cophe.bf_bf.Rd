@@ -34,6 +34,9 @@ cophe.bf_bf(
 bayes factors of signals
 }
 \description{
-a dataset represented by Bayes factors
+a dataset represented by Bayes factors from SuSIE
+}
+\seealso{
+\code{\link{cophe.susie}}
 }
 \keyword{internal}

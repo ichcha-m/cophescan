@@ -1,8 +1,10 @@
-CoPheScan
-=====
+# CoPheScan
+
 <span><a href="https://ichcha-m.github.io/cophescan/" class="external-link"> <img src="man/figures/logo.png" align="right" height="200" style="float:right; height:180px;"/></a>
 
 The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
+
+See the description vignette for background and references: [Introduction to CoPheScan](https://ichcha-m.github.io/cophescan/articles/IntroductionCoPheScan_01.html)
 
 ------------------------------------------------------------------------
 
@@ -46,7 +48,6 @@ Vignette articles:
 library(cophescan)
 ## Load the simulated summary stats data of 24 traits
 data("cophe_multi_trait_data")
-attach(cophe_multi_trait_data)
 names(cophe_multi_trait_data)
 ```
 
@@ -63,7 +64,7 @@ plot_trait_manhat(query_trait_1, querysnpid)
 res.single <- cophe.single(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.single)
 # Run cophescan with susie (multiple variants) by providing the snpid of the query variant (querysnpid) for the query trait
-query_trait_1$LD <- LD
+query_trait_1$LD <- cophe_multi_trait_data$LD
 res.susie <- cophe.susie(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.susie)
 ```
@@ -88,13 +89,21 @@ ggpubr::ggarrange(cophe.plots.res$pval, cophe.plots.res$ppHa, cophe.plots.res$pp
 ##### Run hierarchical model for priors
 
 ``` r
-cophe.hier.res <- run_metrop_priors(res.multi, posterior = T, avg_posterior=T, pik=T) 
+cophe.hier.res <- run_metrop_priors(res.multi, posterior=TRUE, avg_posterior=TRUE, pik=TRUE) 
 ll <- cophe.hier.res$ll
 params <- cophe.hier.res$parameters
+
+### store user parameters
+old_par = par(no.readonly = TRUE)
+
+## Plot mcmc diagnostics
 par(mfrow=c(2,2))
 plot(1:length(ll), ll, main="loglik",type="l", col="orange")
 plot(1:ncol(params), params[1,], main="alpha",type="l", col="orange")
 plot(1:ncol(params), params[2,], main="beta",type="l", col="orange")
+
+### reset user parameters
+par(old_par)
 ```
 
 ##### Predict
@@ -102,7 +111,11 @@ plot(1:ncol(params), params[2,], main="beta",type="l", col="orange")
 ``` r
 res.post.prob = cbind(cophe.hier.res$avg.posterior, cophe.hier.res$data)
 res.hier.predict <- cophe.hyp.predict(as.data.frame(res.post.prob ))
-tail(res.post.prob, row.names = F)
+tail(res.hier.predict, row.names = F)
 ```
+
+------------------------------------------------------------------------
+
+#### [**NEWS: cophescan 1.3.1**](https://ichcha-m.github.io/cophescan/news/index.html)
 
 ------------------------------------------------------------------------

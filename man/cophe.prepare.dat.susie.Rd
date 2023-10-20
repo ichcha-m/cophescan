@@ -2,7 +2,7 @@
 % Please edit documentation in R/multivarsusie.R
 \name{cophe.prepare.dat.susie}
 \alias{cophe.prepare.dat.susie}
-\title{Prepare data for cophe.susie}
+\title{Prepare data for \code{cophe.susie}}
 \usage{
 cophe.prepare.dat.susie(dataset, querysnpid, susie.args)
 }
@@ -19,6 +19,9 @@ to be analysed.}
 a list with the output of running susie
 }
 \description{
-Prepare data for cophe.susie
+Prepare data for \code{cophe.susie}
+}
+\seealso{
+\code{\link{cophe.susie}}
 }
 \keyword{internal}

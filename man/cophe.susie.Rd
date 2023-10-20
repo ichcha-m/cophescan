@@ -2,7 +2,7 @@
 % Please edit documentation in R/multivarsusie.R
 \name{cophe.susie}
 \alias{cophe.susie}
-\title{run cophe.susie using susie to detect separate signals}
+\title{run \code{cophe.susie} using susie to detect separate signals}
 \usage{
 cophe.susie(
   dataset,

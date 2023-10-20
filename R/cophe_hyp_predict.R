@@ -1,16 +1,16 @@
 #' Predict cophescan hypothesis for tested associations
 #'
-#' @param cophe.res results obtained from cophe.single, cophe.susie or cophe.multitrait or data.frame with the following columns: PP.Hn, PP.Hc, PP.Ha, querysnp, querytrait
-#' @param grouping.vars This is important for results from cophe.susie where there are multiple signals. These will be collapsed into one call. If you want to return all signals set this to a single variable eg: grouping.vars = c('querysnp')
+#' @param cophe.res results obtained from `cophe.single`, `cophe.susie` or `cophe.multitrait` or data.frame with the following columns: PP.Hn, PP.Hc, PP.Ha, querysnp, querytrait
+#' @param grouping.vars This is important for results from `cophe.susie` where there are multiple signals. These will be collapsed into one call. If you want to return all signals set this to a single variable eg: grouping.vars = c('querysnp')
 #' @param Hc.cutoff threshold for PP.Hc above which the associations are called Hc
 #' @param Hn.cutoff threshold for PP.Hn above which the associations are called Hn
-#'
+#' @seealso \code{\link{cophe.single}}, \code{\link{cophe.susie}}, \code{\link{cophe.multitrait}}, , \code{\link{multitrait.simplify}}
 #' @return returns dataframe with posterior probabilties of Hn, Hc and Ha with the predicted hypothesis based on the provided cut.offs.
 #' @export
 #' @importFrom dplyr group_by filter
 cophe.hyp.predict <- function(cophe.res, grouping.vars = c('querysnp', 'querytrait'), Hc.cutoff= 0.6, Hn.cutoff= 0.2){
-  print(paste0('Hc.cutoff = ', Hc.cutoff))
-  print(paste0('Hn.cutoff = ', Hn.cutoff))
+  message(paste0('Hc.cutoff = ', Hc.cutoff))
+  message(paste0('Hn.cutoff = ', Hn.cutoff))
   if (!is.data.frame(cophe.res)){
     df = multitrait.simplify(cophe.res)
   } else {
@@ -66,20 +66,20 @@ cophe.hyp.predict <- function(cophe.res, grouping.vars = c('querysnp', 'querytra
 #'
 #' @param ppHc a vector containing the PP.Hc (the posterior probability of causal association) of all tests
 #' @param fdr FDR default: 0.05
-#' @param return_plot plot the fdr estimated at the different Hc.cutoff
+#' @param return_plot default: TRUE, plot the fdr estimated at the different Hc.cutoff
 #'
 #' @return the Hc.cutoff value for the specified FDR, if return_plot is True returns a plot showing the FDR calculated at different Hc thresholds
 #' @export
 #'
-Hc.cutoff.fdr = function(ppHc, fdr = 0.05, return_plot=T){
+Hc.cutoff.fdr = function(ppHc, fdr = 0.05, return_plot=TRUE){
   res =  data.frame(Hc.cutoff = seq(0, 1, by=0.1))
   res$estimated_fdr = sapply(res$Hc.cutoff, function(x) mean(1-ppHc[ppHc>=x]))
-  if (return_plot == T) {
+  if (return_plot == TRUE) {
     yticks = seq(0, 1, by=fdr)
     plot(res$Hc.cutoff,  res$estimated_fdr, ylim = c(0,1), yaxt = "n", xlab = 'Hc.cutoff', ylab = 'estimated FDR')
     axis(side=2, at = yticks)
     abline(h=0.05, lty=2)
   }
-  Hc.cutoff = min(res$Hc.cutoff[res$estimated_fdr < fdr], na.rm = T)
+  Hc.cutoff = min(res$Hc.cutoff[res$estimated_fdr < fdr], na.rm = TRUE)
   return(Hc.cutoff)
 }

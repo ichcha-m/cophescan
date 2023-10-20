@@ -18,7 +18,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Adaptation of the Coloc Method for PheWAS">
-<meta property="og:description" content="A Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.">
+<meta property="og:description" content="
+    A Bayesian method for conducting Phenome-wide association studies (PheWAS) that simultaneously identifies causal associations between genetic variants and confounding due to linkage disequilibrium. For details see 
+     Manipur et al (2023) &lt;doi:10.1101/2023.06.29.546856&gt;.">
 <meta property="og:image" content="https://ichcha-m.github.io/cophescan/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -40,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -98,6 +100,7 @@
 </h1></div>
 <p><span><a href="https://ichcha-m.github.io/cophescan/" class="external-link"> <img src="reference/figures/logo.png" align="right" height="200" style="float:right; height:180px;"></a></span></p>
 <p>The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.</p>
+<p>See the description vignette for background and references: <a href="https://ichcha-m.github.io/cophescan/articles/IntroductionCoPheScan_01.html">Introduction to CoPheScan</a></p>
 <hr>
 <div class="section level4">
 <h4 id="installation">
@@ -134,7 +137,6 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ichcha-m/cophescan" class="external-link">cophescan</a></span><span class="op">)</span></span>
 <span><span class="co">## Load the simulated summary stats data of 24 traits</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cophe_multi_trait_data"</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">cophe_multi_trait_data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cophe_multi_trait_data</span><span class="op">)</span></span></code></pre></div>
 <div class="section level5">
 <h5 id="single-trait">Single trait<a class="anchor" aria-label="anchor" href="#single-trait"></a>
@@ -150,7 +152,7 @@
 <span><span class="va">res.single</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cophe.single.html">cophe.single</a></span><span class="op">(</span><span class="va">query_trait_1</span>, querysnpid <span class="op">=</span> <span class="va">querysnpid</span>, querytrait<span class="op">=</span><span class="st">'Trait_1'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res.single</span><span class="op">)</span></span>
 <span><span class="co"># Run cophescan with susie (multiple variants) by providing the snpid of the query variant (querysnpid) for the query trait</span></span>
-<span><span class="va">query_trait_1</span><span class="op">$</span><span class="va">LD</span> <span class="op">&lt;-</span> <span class="va">LD</span></span>
+<span><span class="va">query_trait_1</span><span class="op">$</span><span class="va">LD</span> <span class="op">&lt;-</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">LD</span></span>
 <span><span class="va">res.susie</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cophe.susie.html">cophe.susie</a></span><span class="op">(</span><span class="va">query_trait_1</span>, querysnpid <span class="op">=</span> <span class="va">querysnpid</span>, querytrait<span class="op">=</span><span class="st">'Trait_1'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res.susie</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -175,13 +177,21 @@
 <h5 id="run-hierarchical-model-for-priors">Run hierarchical model for priors<a class="anchor" aria-label="anchor" href="#run-hierarchical-model-for-priors"></a>
 </h5>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cophe.hier.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_metrop_priors.html">run_metrop_priors</a></span><span class="op">(</span><span class="va">res.multi</span>, posterior <span class="op">=</span> <span class="cn">T</span>, avg_posterior<span class="op">=</span><span class="cn">T</span>, pik<span class="op">=</span><span class="cn">T</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="va">cophe.hier.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_metrop_priors.html">run_metrop_priors</a></span><span class="op">(</span><span class="va">res.multi</span>, posterior<span class="op">=</span><span class="cn">TRUE</span>, avg_posterior<span class="op">=</span><span class="cn">TRUE</span>, pik<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> </span>
 <span><span class="va">ll</span> <span class="op">&lt;-</span> <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">ll</span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">parameters</span></span>
+<span></span>
+<span><span class="co">### store user parameters</span></span>
+<span><span class="va">old_par</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Plot mcmc diagnostics</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ll</span><span class="op">)</span>, <span class="va">ll</span>, main<span class="op">=</span><span class="st">"loglik"</span>,type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"orange"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>, <span class="va">params</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"alpha"</span>,type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"orange"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>, <span class="va">params</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"beta"</span>,type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"orange"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>, <span class="va">params</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"beta"</span>,type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"orange"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">### reset user parameters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">old_par</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="predict">Predict<a class="anchor" aria-label="anchor" href="#predict"></a>
@@ -189,9 +199,15 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res.post.prob</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">avg.posterior</span>, <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
 <span><span class="va">res.hier.predict</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cophe.hyp.predict.html">cophe.hyp.predict</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">res.post.prob</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">res.post.prob</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">res.hier.predict</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
+</div>
+<div class="section level4">
+<h4 id="news-cophescan-131">
+<a href="https://ichcha-m.github.io/cophescan/news/index.html"><strong>NEWS: cophescan 1.3.1</strong></a><a class="anchor" aria-label="anchor" href="#news-cophescan-131"></a>
+</h4>
+<hr>
 </div>
 </div>
   </div>

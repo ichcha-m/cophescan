@@ -7,7 +7,7 @@
 \method{summary}{cophe}(object, ...)
 }
 \arguments{
-\item{object}{Result from either cophe.susie or cophe.single}
+\item{object}{Result from either \code{cophe.susie} or \code{cophe.single}}
 
 \item{...}{additional arguments affecting the summary produced.}
 }
@@ -16,4 +16,7 @@ log bayes and posterior probabilities
 }
 \description{
 print the summary of results from cophescan single or susie
+}
+\seealso{
+\code{\link{cophe.single}}, \code{\link{cophe.susie}}
 }

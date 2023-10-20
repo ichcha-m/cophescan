@@ -2,19 +2,19 @@
 % Please edit documentation in R/metrop_hier_priors.R
 \name{run_metrop_priors}
 \alias{run_metrop_priors}
-\title{Run the hierarchical metropolis hastings model to infer priors}
+\title{Run the hierarchical Metropolis Hastings model to infer priors}
 \usage{
 run_metrop_priors(
   multi.dat,
   covar = FALSE,
   covar_vec = NULL,
-  is_covar_categorical = F,
+  is_covar_categorical = FALSE,
   nits = 10000,
   thin = 1,
-  posterior = F,
-  avg_pik = T,
-  avg_posterior = T,
-  pik = F,
+  posterior = FALSE,
+  avg_pik = TRUE,
+  avg_posterior = TRUE,
+  pik = FALSE,
   cores = 1,
   alpha_mean = -10,
   alpha_sd = 0.5,
@@ -37,13 +37,13 @@ run_metrop_priors(
 
 \item{thin}{burnin}
 
-\item{posterior}{default: F, estimate posterior probabilities of the hypotheses}
+\item{posterior}{default: FALSE, estimate posterior probabilities of the hypotheses}
 
-\item{avg_pik}{default: F, estimate the average of the pik}
+\item{avg_pik}{default: FALSE, estimate the average of the pik}
 
-\item{avg_posterior}{default: F, estimate the average of the posterior probabilities of the hypotheses}
+\item{avg_posterior}{default: FALSE, estimate the average of the posterior probabilities of the hypotheses}
 
-\item{pik}{default: F, inferred prior probabilities}
+\item{pik}{default: FALSE, inferred prior probabilities}
 
 \item{cores}{default: 1, number of cores}
 
@@ -69,5 +69,5 @@ if avg_pik=TRUE matrix with average of all the priors: pn, pa and pc
 data, nits and thin contain the input data, number of iterations and burnin respectively specified for the hierarchical model
 }
 \description{
-Run the hierarchical metropolis hastings model to infer priors
+Run the hierarchical Metropolis Hastings model to infer priors
 }
