@@ -1,3 +1,7 @@
+## cophescan 1.3.2
+
+-   Changed one instance of print() to message()
+
 ## cophescan 1.3.1
 
 -   Changed plotting functions where querytrait and query_trait_names are now required arguments instead of optional in `prepare_plot_data`, `get_beta`, `cophe_plot`, `cophe_heatmap`.

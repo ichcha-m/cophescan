@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
                         <h4 data-toc-skip class="author">Ichcha
 Manipur</h4>
             
-            <h4 data-toc-skip class="date">2023-10-20</h4>
+            <h4 data-toc-skip class="date">2023-10-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/HEAD/vignettes/HierarchicalPriors_04.Rmd" class="external-link"><code>vignettes/HierarchicalPriors_04.Rmd</code></a></small>
       <div class="hidden name"><code>HierarchicalPriors_04.Rmd</code></div>
@@ -197,11 +197,6 @@ fields: “lBF.Ha”,“lBF.Hc” and “nsnps”.</p>
 <span><span class="va">covar</span><span class="op">=</span><span class="cn">TRUE</span></span>
 <span><span class="va">covar_vec</span> <span class="op">=</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">covar_vec</span></span>
 <span><span class="va">cophe.hier.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_metrop_priors.html">run_metrop_priors</a></span><span class="op">(</span><span class="va">res.multi.lbf.df</span>, avg_posterior<span class="op">=</span><span class="cn">TRUE</span>, avg_pik <span class="op">=</span> <span class="cn">TRUE</span>, covar_vec <span class="op">=</span> <span class="va">covar_vec</span>, covar <span class="op">=</span> <span class="va">covar</span>, nits <span class="op">=</span> <span class="fl">30000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Running the cophescan hierarchical model... </span></span>
-<span><span class="co">#&gt; Number of iterations: 30000</span></span>
-<span><span class="co">#&gt; Burn-in: 1</span></span>
-<span><span class="co">#&gt; Number of input QV/QT pairs: 24</span></span>
-<span><span class="co">#&gt; Covariate included: TRUE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cophe.hier.res</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "ll"            "parameters"    "avg.posterior" "avg.pik"      </span></span>
 <span><span class="co">#&gt; [5] "data"          "nits"          "thin"          "covar_vec"</span></span></code></pre></div>
@@ -275,9 +270,9 @@ pair.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">0.869</td>
-<td align="right">0.110</td>
-<td align="right">0.021</td>
+<td align="right">0.871</td>
+<td align="right">0.108</td>
+<td align="right">0.020</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_17</td>
@@ -286,9 +281,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="even">
-<td align="right">0.662</td>
-<td align="right">0.060</td>
-<td align="right">0.278</td>
+<td align="right">0.656</td>
+<td align="right">0.058</td>
+<td align="right">0.286</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_18</td>
@@ -297,9 +292,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="odd">
-<td align="right">0.859</td>
-<td align="right">0.089</td>
-<td align="right">0.052</td>
+<td align="right">0.861</td>
+<td align="right">0.087</td>
+<td align="right">0.051</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_19</td>
@@ -308,9 +303,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="even">
-<td align="right">0.901</td>
-<td align="right">0.081</td>
-<td align="right">0.018</td>
+<td align="right">0.904</td>
+<td align="right">0.079</td>
+<td align="right">0.017</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_20</td>
@@ -319,9 +314,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="odd">
-<td align="right">0.885</td>
-<td align="right">0.073</td>
-<td align="right">0.042</td>
+<td align="right">0.889</td>
+<td align="right">0.072</td>
+<td align="right">0.039</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_21</td>
@@ -330,9 +325,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="even">
-<td align="right">0.825</td>
-<td align="right">0.095</td>
-<td align="right">0.079</td>
+<td align="right">0.830</td>
+<td align="right">0.094</td>
+<td align="right">0.076</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_22</td>
@@ -341,9 +336,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="odd">
-<td align="right">0.853</td>
-<td align="right">0.086</td>
-<td align="right">0.061</td>
+<td align="right">0.855</td>
+<td align="right">0.085</td>
+<td align="right">0.060</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_23</td>
@@ -352,9 +347,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="even">
-<td align="right">0.873</td>
-<td align="right">0.079</td>
-<td align="right">0.047</td>
+<td align="right">0.876</td>
+<td align="right">0.078</td>
+<td align="right">0.046</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_24</td>
@@ -452,8 +447,8 @@ pair.</p>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.010</td>
-<td align="right">0.990</td>
+<td align="right">0.009</td>
+<td align="right">0.991</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_1</td>
@@ -485,8 +480,8 @@ pair.</p>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.117</td>
-<td align="right">0.882</td>
+<td align="right">0.123</td>
+<td align="right">0.877</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_4</td>
@@ -518,8 +513,8 @@ pair.</p>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.007</td>
-<td align="right">0.993</td>
+<td align="right">0.006</td>
+<td align="right">0.994</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_7</td>

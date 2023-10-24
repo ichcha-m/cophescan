@@ -15,7 +15,6 @@ run_metrop_priors(
   avg_pik = TRUE,
   avg_posterior = TRUE,
   pik = FALSE,
-  cores = 1,
   alpha_mean = -10,
   alpha_sd = 0.5,
   beta_shape = 2,
@@ -44,8 +43,6 @@ run_metrop_priors(
 \item{avg_posterior}{default: FALSE, estimate the average of the posterior probabilities of the hypotheses}
 
 \item{pik}{default: FALSE, inferred prior probabilities}
-
-\item{cores}{default: 1, number of cores}
 
 \item{alpha_mean}{prior for the mean of  alpha}
 

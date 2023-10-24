@@ -42,7 +42,7 @@ cophescan can be run in different ways depending on the size and type of dataset
 First, choosing the method for Bayes factor computation:
 
 |       | Single causal variant | Multiple causal variants | Requires LD matrix |
-|----------------|-------------------|----------------------|----------------|
+|-------|-----------------------|--------------------------|--------------------|
 | ABF   | ✔                     | x                        | No                 |
 | SuSIE | ✔                     | ✔                        | Yes                |
 |       |                       |                          |                    |

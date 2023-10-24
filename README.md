@@ -116,6 +116,6 @@ tail(res.hier.predict, row.names = F)
 
 ------------------------------------------------------------------------
 
-#### [**NEWS: cophescan 1.3.1**](https://ichcha-m.github.io/cophescan/news/index.html)
+#### [NEWS: cophescan 1.3.2](https://ichcha-m.github.io/cophescan/news/index.html)
 
 ------------------------------------------------------------------------

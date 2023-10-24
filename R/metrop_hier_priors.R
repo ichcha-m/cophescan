@@ -10,7 +10,6 @@
 #' @param avg_pik default: FALSE, estimate the average of the pik
 #' @param avg_posterior default: FALSE, estimate the average of the posterior probabilities of the hypotheses
 #' @param pik default: FALSE, inferred prior probabilities
-#' @param cores default: 1, number of cores
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
 #' @param beta_shape prior for the shape (gamma distibution) of beta
@@ -24,7 +23,7 @@
 #' @export
 run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_categorical=FALSE, nits=10000,
                               thin=1, posterior=FALSE, avg_pik=TRUE, avg_posterior=TRUE,
-                              pik=FALSE, cores=1, alpha_mean =-10,
+                              pik=FALSE, alpha_mean =-10,
                                alpha_sd=0.5,  beta_shape=2,  beta_scale=2,
                                gamma_shape=2,  gamma_scale=2){
   if (!is.data.frame(multi.dat)){
@@ -65,7 +64,7 @@ run_metrop_priors <- function(multi.dat, covar=FALSE, covar_vec=NULL, is_covar_c
 
   lbf_mat <- as.matrix(pp_df[, c('lBF.Ha', 'lBF.Hc')])
   nsnps <- as.vector(pp_df$nsnps)
-  cat(paste0('Running the cophescan hierarchical model... \nNumber of iterations: ', nits,'\nBurn-in: ', thin, '\nNumber of input QV/QT pairs: ', nrow(pp_df), '\nCovariate included: ', covar ))
+  message(paste0('Running the cophescan hierarchical model... \nNumber of iterations: ', nits,'\nBurn-in: ', thin, '\nNumber of input QV/QT pairs: ', nrow(pp_df), '\nCovariate included: ', covar ))
 
   ## Run hierarchical model
   res.metrop <- metrop_run(lbf_mat = lbf_mat, nsnps = nsnps,
