@@ -1,5 +1,7 @@
 # CoPheScan
 
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/cophescan)](https://cran.r-project.org/package=cophescan)
+
 <span><a href="https://ichcha-m.github.io/cophescan/" class="external-link"> <img src="man/figures/logo.png" align="right" height="200" style="float:right; height:180px;"/></a>
 
 The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
