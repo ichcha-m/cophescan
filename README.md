@@ -12,7 +12,13 @@ See the description vignette for background and references: [Introduction to CoP
 
 #### **Installation**
 
-Install cophescan in R with:
+Install cophescan from CRAN
+
+```r
+install.packages("cophescan")
+```
+
+Install the developmental version from GitHub
 
 ``` r
 if(!require("remotes"))
