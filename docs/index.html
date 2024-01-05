@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.9000</span>
       </span>
     </div>
 
@@ -98,6 +98,7 @@
 <div class="section level1">
 <div class="page-header"><h1 id="cophescan">CoPheScan<a class="anchor" aria-label="anchor" href="#cophescan"></a>
 </h1></div>
+<p><a href="https://cran.r-project.org/package=cophescan" class="external-link"><img src="https://www.r-pkg.org/badges/version/cophescan" alt="CRAN_Status_Badge"></a></p>
 <p><span><a href="https://ichcha-m.github.io/cophescan/" class="external-link"> <img src="reference/figures/logo.png" align="right" height="200" style="float:right; height:180px;"></a></span></p>
 <p>The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.</p>
 <p>See the description vignette for background and references: <a href="https://ichcha-m.github.io/cophescan/articles/IntroductionCoPheScan_01.html">Introduction to CoPheScan</a></p>
@@ -106,8 +107,11 @@
 <h4 id="installation">
 <strong>Installation</strong><a class="anchor" aria-label="anchor" href="#installation"></a>
 </h4>
-<p>Install cophescan in R with:</p>
+<p>Install cophescan from CRAN</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"cophescan"</span><span class="op">)</span></span></code></pre></div>
+<p>Install the developmental version from GitHub</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org" class="external-link">"remotes"</a></span><span class="op">)</span><span class="op">)</span></span>
 <span>   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span> <span class="co"># if necessary</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ichcha-m/cophescan"</span><span class="op">)</span></span></code></pre></div>
@@ -133,7 +137,7 @@
 <div class="section level4">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h4>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ichcha-m/cophescan" class="external-link">cophescan</a></span><span class="op">)</span></span>
 <span><span class="co">## Load the simulated summary stats data of 24 traits</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cophe_multi_trait_data"</span><span class="op">)</span></span>
@@ -141,7 +145,7 @@
 <div class="section level5">
 <h5 id="single-trait">Single trait<a class="anchor" aria-label="anchor" href="#single-trait"></a>
 </h5>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">query_trait_1</span> <span class="op">&lt;-</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">summ_stat</span><span class="op">[[</span><span class="st">'Trait_1'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">querysnpid</span> <span class="op">&lt;-</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">querysnpid</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">querysnpid</span><span class="op">)</span></span>
@@ -159,13 +163,13 @@
 <div class="section level5">
 <h5 id="run-multi-trait-analysis">Run multi-trait analysis<a class="anchor" aria-label="anchor" href="#run-multi-trait-analysis"></a>
 </h5>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res.multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cophe.multitrait.html">cophe.multitrait</a></span><span class="op">(</span><span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">summ_stat</span>, querysnpid <span class="op">=</span> <span class="va">querysnpid</span>, querytrait.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">summ_stat</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">'single'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="plot-cophescan-results">Plot cophescan results<a class="anchor" aria-label="anchor" href="#plot-cophescan-results"></a>
 </h5>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cophe.plots.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cophe_plot.html">cophe_plot</a></span><span class="op">(</span><span class="va">res.multi</span>, traits.dat <span class="op">=</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">summ_stat</span>, querysnpid <span class="op">=</span> <span class="va">querysnpid</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html" class="external-link">ggarrange</a></span><span class="op">(</span><span class="va">cophe.plots.res</span><span class="op">$</span><span class="va">pval</span>, <span class="va">cophe.plots.res</span><span class="op">$</span><span class="va">ppHa</span>, <span class="va">cophe.plots.res</span><span class="op">$</span><span class="va">ppHc</span>, nrow<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
@@ -176,7 +180,7 @@
 <div class="section level5">
 <h5 id="run-hierarchical-model-for-priors">Run hierarchical model for priors<a class="anchor" aria-label="anchor" href="#run-hierarchical-model-for-priors"></a>
 </h5>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cophe.hier.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_metrop_priors.html">run_metrop_priors</a></span><span class="op">(</span><span class="va">res.multi</span>, posterior<span class="op">=</span><span class="cn">TRUE</span>, avg_posterior<span class="op">=</span><span class="cn">TRUE</span>, pik<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> </span>
 <span><span class="va">ll</span> <span class="op">&lt;-</span> <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">ll</span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">parameters</span></span>
@@ -196,7 +200,7 @@
 <div class="section level5">
 <h5 id="predict">Predict<a class="anchor" aria-label="anchor" href="#predict"></a>
 </h5>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res.post.prob</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">avg.posterior</span>, <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
 <span><span class="va">res.hier.predict</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cophe.hyp.predict.html">cophe.hyp.predict</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">res.post.prob</span> <span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">res.hier.predict</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
@@ -216,6 +220,7 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=cophescan" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/ichcha-m/cophescan/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/ichcha-m/cophescan/issues" class="external-link">Report a bug</a></li>
 </ul>
