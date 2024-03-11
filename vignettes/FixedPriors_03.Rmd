@@ -17,11 +17,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-Fixed priors are used when the number of traits and variants to be tested are small.
+Fixed priors are used only when the number of traits and variants to be tested are small.
 
-The default cophescan fixed priors for : pn, pa and pc, provided for `cophe.single` and `cophe.susie` are those derived from default coloc priors (p1=1e-4, p2=1e-4 and p12=1e-5).
+The default cophescan fixed priors, pa=3.82e-5, pc=1.82e-3, provided for `cophe.single` and `cophe.susie` are those inferred from the disease-related variant dataset in the [CoPheScan manscript](https://doi.org/10.1101/2023.06.29.546856 "cophescan") [Supplementary table 12].
+Additionally, priors from other datasets tested in the [CoPheScan manscript](https://doi.org/10.1101/2023.06.29.546856 "cophescan") that match your specific use case can be taken from Supplementary table 12.
 
-The priors can also be derived from a larger dataset or from the datasets tested in the [CoPheScan manscript](https://doi.org/10.1101/2023.06.29.546856 "cophescan") [see Supplementary table 12] that match your use case.
+**Note:** 
+In the previous version (v1.3.2), the default cophescan fixed priors for : pn, pa and pc, were derived from default coloc priors by setting p1=1e-4, p2=1e-4 and p12=1e-5.
+This has now been changed as described above with priors pa=3.82e-5 and pc=1.82e-3 as default.
+
+pa and pc should be carefully selected based on the dataset.
 
 This example illustrates the use of cophescan for a small dataset using fixed priors where a hierarchical model cannot be applied.
 
@@ -81,14 +86,19 @@ res.single.predict <- cophe.hyp.predict(res.single)
 
 **Cophescan with fixed priors using SuSIE Bayes factors**
 
-```{r fig.width = 4, fig.height=4, fig.align = "center"}
+```{r fig.width = 4, fig.height=4, fig.align = "center", message=FALSE}
 # Run cophescan with susie (multiple variants) by providing the snpid of the known causal variant for trait 1 = querysnpid
 querytrait$LD <- LD
 res.susie <- cophe.susie(querytrait, querysnpid = querysnpid, querytrait='Trait_1')
 summary(res.susie)
+
+res.susie.predict <- cophe.hyp.predict(res.susie)
+(paste0('The predicted hypothesis is: ', res.susie.predict$cophe.hyp.call, ' [PP.Hc =', round(res.susie.predict$PP.Hc,3), ']' ))
 ```
 
-We get a similar result using SuSIE `cophe.susie`.
+We get similar results using SuSIE `cophe.susie`.
 We recommend the use of cophe.susie whenever LD information is available.
 
 Note: When no credible sets are identified using `cophe.susie` cophescan reverts to `cophe.single`.
+
+------------------------------------------------------------------------

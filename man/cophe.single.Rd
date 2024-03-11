@@ -9,11 +9,11 @@ cophe.single(
   querysnpid,
   querytrait,
   MAF = NULL,
-  p1 = 1e-04,
-  p2 = 1e-04,
-  p12 = 1e-05,
-  pa = NULL,
-  pc = NULL
+  pa = 3.82e-05,
+  pc = 0.00182,
+  p1 = NULL,
+  p2 = NULL,
+  p12 = NULL
 )
 }
 \arguments{
@@ -26,15 +26,15 @@ to be analysed.}
 
 \item{MAF}{Minor allele frequency vector}
 
-\item{p1}{prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)}
+\item{pa}{prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5}
 
-\item{p2}{prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)}
+\item{pc}{prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3 (cophescan prior)}
 
-\item{p12}{prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)}
+\item{p1}{prior probability a SNP is associated with trait 1, (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}; use p1, p2, p12 only when pa and pc are unavailable (See vignettes)}
 
-\item{pa}{prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)}
+\item{p2}{prior probability a SNP is associated with trait 2,  (coloc prior), pa derived by using \eqn{pa = p2}}
 
-\item{pc}{prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)}
+\item{p12}{prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}}
 }
 \value{
 a list of two \code{data.frame}s:

@@ -7,11 +7,11 @@
 #'   dataset
 #' @param querysnpid Id of the query variant
 #' @param querytrait Query trait name
-#' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
-#' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
-#' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
-#' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
-#' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
+#' @param pa prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5
+#' @param pc prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3 (cophescan prior)
+#' @param p1 prior probability a SNP is associated with trait 1, (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}; use p1, p2, p12 only when pa and pc are unavailable (See vignettes)
+#' @param p2 prior probability a SNP is associated with trait 2,  (coloc prior), pa derived by using \eqn{pa = p2}
+#' @param p12 prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}
 #' @param susie.args a named list of additional arguments to be passed to
 #'   \link{runsusie}
 #' @return a list, containing elements
@@ -34,8 +34,9 @@
 #' summary(res.susie)
 #' @export
 #' @author Ichcha Manipur
-cophe.susie=function(dataset, querysnpid, querytrait, p1=1e-4, p2=1e-4, p12=1e-5,
-                     pa=NULL, pc=NULL,
+cophe.susie=function(dataset, querysnpid, querytrait,
+                     pa=3.82e-5, pc=1.82e-3,
+                     p1=NULL, p2=NULL, p12=NULL,
                      susie.args=list()) {
   sus_dat = cophe.prepare.dat.susie(dataset, querysnpid, susie.args)
   cred_set = sus_dat$sets

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.0</span>
       </span>
     </div>
 
@@ -76,11 +76,11 @@
 <span>  <span class="va">dataset</span>,</span>
 <span>  <span class="va">querysnpid</span>,</span>
 <span>  <span class="va">querytrait</span>,</span>
-<span>  p1 <span class="op">=</span> <span class="fl">1e-04</span>,</span>
-<span>  p2 <span class="op">=</span> <span class="fl">1e-04</span>,</span>
-<span>  p12 <span class="op">=</span> <span class="fl">1e-05</span>,</span>
-<span>  pa <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  pc <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pa <span class="op">=</span> <span class="fl">3.82e-05</span>,</span>
+<span>  pc <span class="op">=</span> <span class="fl">0.00182</span>,</span>
+<span>  p1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  p2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  p12 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  susie.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -102,24 +102,24 @@ dataset</p></dd>
 <dd><p>Query trait name</p></dd>
 
 
-<dt>p1</dt>
-<dd><p>prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)</p></dd>
-
-
-<dt>p2</dt>
-<dd><p>prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)</p></dd>
-
-
-<dt>p12</dt>
-<dd><p>prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)</p></dd>
-
-
 <dt>pa</dt>
-<dd><p>prior probability that a non-query variant is causally associated with the query trait , default \(pa = p2\) (cophescan prior)</p></dd>
+<dd><p>prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5</p></dd>
 
 
 <dt>pc</dt>
-<dd><p>prior probability that the query variant is causally associated with the query trait, default \(pc =  p12/p1+p12\) (cophescan prior)</p></dd>
+<dd><p>prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3 (cophescan prior)</p></dd>
+
+
+<dt>p1</dt>
+<dd><p>prior probability a SNP is associated with trait 1, (coloc prior), pc derived by using \(pc =  p12/p1+p12\); use p1, p2, p12 only when pa and pc are unavailable (See vignettes)</p></dd>
+
+
+<dt>p2</dt>
+<dd><p>prior probability a SNP is associated with trait 2,  (coloc prior), pa derived by using \(pa = p2\)</p></dd>
+
+
+<dt>p12</dt>
+<dd><p>prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \(pc =  p12/p1+p12\)</p></dd>
 
 
 <dt>susie.args</dt>
@@ -156,18 +156,18 @@ is not high.</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> running max iterations: 100</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 	converged: TRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> SNP Priors</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 0.8092909090909091e-040.0909090909090909</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0.96005643.82e-050.00182</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Hypothesis Priors</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 0.8092909090909090.09980.0909090909090909</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0.96005640.03812360.00182</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Running cophe.susie...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using 1000 and 999 available</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 5.56e-050.03060.969</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> PP for causal query variant: 96.9%</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0.002120.3750.623</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> PP for causal query variant: 62.3%</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res.susie</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   nsnps           hit1           hit2        PP.Hn      PP.Ha     PP.Hc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1000 chr19-11182353 chr19-11182144 5.558347e-05 0.03061269 0.9693317</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     lBF.Ha   lBF.Hc       querysnp  typeBF idx1 idx2 querytrait</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 15.31003 11.95277 chr19-11182353 susieBF    1    1    Trait_1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   nsnps           hit1           hit2       PP.Hn    PP.Ha     PP.Hc   lBF.Ha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1000 chr19-11182353 chr19-11182144 0.002115712 0.375218 0.6226663 15.31003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     lBF.Hc       querysnp  typeBF idx1 idx2 querytrait</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 11.95277 chr19-11182353 susieBF    1    1    Trait_1</span>
 </code></pre></div>
     </div>
   </div>

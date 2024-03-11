@@ -3,7 +3,8 @@ url: https://ichcha-m.github.io/cophescan/
 template:
   params:
     bootswatch: spacelab
-news: ~
+news:
+- title: News
 articles:
 - title: Vignettes
   navbar: ~

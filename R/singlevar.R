@@ -2,17 +2,17 @@
 #'
 #' Estimate per snp priors
 #' @param nsnps number of SNPs
-#' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
-#' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
-#' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
-#' @param pa prior probability that a non-query variant is causally associated with the query trait
-#' @param pc prior probability that the query variant is causally associated with the query trait
+#' @param pa prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5
+#' @param pc prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3 (cophescan prior)
+#' @param p1 prior probability a SNP is associated with trait 1, (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}; use p1, p2, p12 only when pa and pc are unavailable (See vignettes)
+#' @param p2 prior probability a SNP is associated with trait 2,  (coloc prior), pa derived by using \eqn{pa = p2}
+#' @param p12 prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}
 #' @return priors at the query variant
 #' @export
 #' @author Ichcha Manipur
 
-per.snp.priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
-                           pa=NULL, pc=NULL){
+per.snp.priors <- function(nsnps, pa=3.82e-5, pc=1.82e-3,
+                           p1=NULL, p2=NULL, p12=NULL) {
   if (is.null(pc)){
     pc <- p12/(p1+p12)
   }
@@ -93,11 +93,11 @@ combine.bf <- function(lBF_df, pn, pa, pc) {
 #' @param querysnpid Id of the query variant, (id in dataset$snp)
 #' @param querytrait Query trait name
 #' @param MAF Minor allele frequency vector
-#' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
-#' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
-#' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
-#' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
-#' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
+#' @param pa prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5
+#' @param pc prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3 (cophescan prior)
+#' @param p1 prior probability a SNP is associated with trait 1, (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}; use p1, p2, p12 only when pa and pc are unavailable (See vignettes)
+#' @param p2 prior probability a SNP is associated with trait 2,  (coloc prior), pa derived by using \eqn{pa = p2}
+#' @param p12 prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}
 #' @return a list of two \code{data.frame}s:
 #' \itemize{
 #' \item summary is a vector giving the number of SNPs analysed, and the posterior probabilities of Hn (no shared causal variant), Ha (two distinct causal variants) and Hc (one common causal variant)
@@ -113,8 +113,9 @@ combine.bf <- function(lBF_df, pn, pa, pc) {
 #' summary(res.single)
 #' @author Ichcha Manipur
 #' @export
-cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL, p1=1e-4, p2=1e-4, p12=1e-5,
-                           pa=NULL, pc=NULL) {
+cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL,
+                         pa=3.82e-5, pc=1.82e-3,
+                         p1=NULL, p2=NULL, p12=NULL) {
   message('Running cophe.single...')
 
   lABF.df = cophe.single.lbf(dataset, querysnpid, querytrait, MAF)
@@ -202,17 +203,16 @@ cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
 #' adjust fixed priors when nsnps in region is high
 #'
 #' @param nsnps number of SNPs
-#' @param p1 prior probability a SNP is associated with trait 1, default 1e-4 (coloc prior)
-#' @param p2 prior probability a SNP is associated with trait 2, default 1e-4 (coloc prior)
-#' @param p12 prior probability a SNP is associated with both traits, default 1e-5 (coloc prior)
-#' @param pa prior probability that a non-query variant is causally associated with the query trait , default \eqn{pa = p2} (cophescan prior)
-#' @param pc prior probability that the query variant is causally associated with the query trait, default \eqn{pc =  p12/p1+p12} (cophescan prior)
-#'
+#' @param pa prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5
+#' @param pc prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3 (cophescan prior)
+#' @param p1 prior probability a SNP is associated with trait 1, (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}; use p1, p2, p12 only when pa and pc are unavailable (See vignettes)
+#' @param p2 prior probability a SNP is associated with trait 2,  (coloc prior), pa derived by using \eqn{pa = p2}
+#' @param p12 prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}
 #' @return vector of pn, pa and pc adjusted prior probabilities
 #' @export
 #'
-adjust_priors <- function(nsnps, p1=1e-4, p2=1e-4, p12=1e-5,
-                          pa=NULL, pc=NULL) {
+adjust_priors <- function(nsnps, pa=3.82e-5, pc=1.82e-3,
+                          p1=NULL, p2=NULL, p12=NULL) {
   if (is.null(pc)){
     pc <- p12/(p1+p12)
   }

@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.0</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
                         <h4 data-toc-skip class="author">Ichcha
 Manipur</h4>
             
-            <h4 data-toc-skip class="date">2024-01-05</h4>
+            <h4 data-toc-skip class="date">2024-03-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/HEAD/vignettes/HierarchicalPriors_04.Rmd" class="external-link"><code>vignettes/HierarchicalPriors_04.Rmd</code></a></small>
       <div class="hidden name"><code>HierarchicalPriors_04.Rmd</code></div>
@@ -114,7 +114,8 @@ have been implicated in a disease. Here we show how to use cophescan to
 infer hierarchical priors on a small test dataset.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ichcha-m/cophescan" class="external-link">cophescan</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cophe_multi_trait_data"</span><span class="op">)</span></span>
 <span><span class="va">trait_dat</span> <span class="op">=</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">summ_stat</span><span class="op">$</span><span class="va">Trait_1</span></span>
@@ -191,59 +192,88 @@ regions of the query traits have to be analysed</li>
 </h4>
 <p>The input df for the multi.dat arguments should contain the following
 fields: “lBF.Ha”,“lBF.Hc” and “nsnps”.</p>
+<p>Set the argument covar to TRUE to include covariates</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># covar=FALSE</span></span>
-<span><span class="co">## Set covar to TRUE to include covariates</span></span>
-<span><span class="va">covar</span><span class="op">=</span><span class="cn">TRUE</span></span>
-<span><span class="va">covar_vec</span> <span class="op">=</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">covar_vec</span></span>
-<span><span class="va">cophe.hier.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_metrop_priors.html">run_metrop_priors</a></span><span class="op">(</span><span class="va">res.multi.lbf.df</span>, avg_posterior<span class="op">=</span><span class="cn">TRUE</span>, avg_pik <span class="op">=</span> <span class="cn">TRUE</span>, covar_vec <span class="op">=</span> <span class="va">covar_vec</span>, covar <span class="op">=</span> <span class="va">covar</span>, nits <span class="op">=</span> <span class="fl">30000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">covar</span><span class="op">=</span><span class="cn">FALSE</span></span>
+<span><span class="va">covar_vec</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">res.multi.lbf.df</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## Set covar to TRUE to include covariates, uncomment the following 2 lines </span></span>
+<span><span class="co"># covar=TRUE</span></span>
+<span><span class="co"># covar_vec = cophe_multi_trait_data$covar_vec</span></span>
+<span><span class="va">cophe.hier.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_metrop_priors.html">run_metrop_priors</a></span><span class="op">(</span><span class="va">res.multi.lbf.df</span>, avg_posterior<span class="op">=</span><span class="cn">TRUE</span>, avg_pik <span class="op">=</span> <span class="cn">TRUE</span>, covar_vec <span class="op">=</span> <span class="va">covar_vec</span>, covar <span class="op">=</span> <span class="va">covar</span>, nits <span class="op">=</span> <span class="fl">50000</span>, thin <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cophe.hier.res</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "ll"            "parameters"    "avg.posterior" "avg.pik"      </span></span>
-<span><span class="co">#&gt; [5] "data"          "nits"          "thin"          "covar_vec"</span></span></code></pre></div>
+<span><span class="co">#&gt; [5] "data"          "nits"          "thin"</span></span></code></pre></div>
 <p>Note: Setting posterior or pik to TRUE is memory intensive for very
 large datasets</p>
 </div>
 <div class="section level4">
 <h4 id="diagnostics-of-the-hierarchical-model">Diagnostics of the hierarchical model<a class="anchor" aria-label="anchor" href="#diagnostics-of-the-hierarchical-model"></a>
 </h4>
+<p>Run 3-4 chains of the model and check if there is convergence of
+chains. Note: For large datasets run the chains separately and save them
+in individual .RData files. These can be loaded later for
+diagnostics.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">loglik</span> <span class="op">&lt;-</span> <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">ll</span></span>
-<span><span class="va">parameters</span> <span class="op">&lt;-</span> <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">parameters</span></span>
-<span><span class="va">col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span>red <span class="op">=</span> <span class="fl">0.4</span>, green <span class="op">=</span> <span class="fl">0.7</span>, blue <span class="op">=</span> <span class="fl">0.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
-<span><span class="co">### store user parameters</span></span>
-<span><span class="va">old_par</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## plot diagnostics</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">loglik</span><span class="op">)</span>, <span class="va">loglik</span>, main<span class="op">=</span><span class="st">"loglik"</span>,type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="va">col</span>, ylab <span class="op">=</span> <span class="st">"ll"</span>, xlab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">parameters</span><span class="op">)</span><span class="op">)</span>, <span class="va">parameters</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"alpha"</span>,type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="va">col</span>, ylab <span class="op">=</span> <span class="st">"alpha"</span>, xlab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">parameters</span><span class="op">)</span><span class="op">)</span>, <span class="va">parameters</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"beta"</span>,type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="va">col</span>, ylab <span class="op">=</span> <span class="st">"beta"</span>, xlab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="va">covar</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">parameters</span><span class="op">)</span><span class="op">)</span>, <span class="va">parameters</span><span class="op">[</span><span class="fl">3</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"gamma"</span>,type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="va">col</span>, ylab <span class="op">=</span> <span class="st">"gamma"</span>, xlab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<p><img src="HP-mcmcDiagnostics-1.png" width="50%" style="display: block; margin: auto;"></p>
+<code class="sourceCode R"><span><span class="va">cophe.hier.res.chain.list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> </span>
+<span>  <span class="fu"><a href="../reference/run_metrop_priors.html">run_metrop_priors</a></span><span class="op">(</span><span class="va">res.multi.lbf.df</span>, avg_posterior<span class="op">=</span><span class="cn">TRUE</span>, avg_pik <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>                    covar_vec <span class="op">=</span> <span class="va">covar_vec</span>, covar <span class="op">=</span> <span class="va">covar</span>, nits <span class="op">=</span> <span class="fl">50000</span>, thin <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Store user parameters</span></span>
+<span><span class="va">old_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># chain_colors &lt;- c("#e63946c4", "#f1faee", "#a8dadc", "#457b9d" )</span></span>
+<span><span class="va">chain_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#f4f1de"</span>, <span class="st">"#e07a5fb2"</span>, <span class="st">"#3d405bb2"</span>, <span class="st">"#81b29aa6"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, respect <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>       heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.9</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/matplot.html" class="external-link">matplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">cophe.hier.res.chain.list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">ll</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span>, </span>
+<span>        col <span class="op">=</span> <span class="va">chain_colors</span>, </span>
+<span>     main <span class="op">=</span><span class="st">"loglik"</span>, ylab <span class="op">=</span> <span class="st">"ll"</span>, xlab <span class="op">=</span> <span class="st">"Iteration"</span>, lty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">y_ax</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"gamma"</span><span class="op">)</span></span>
+<span><span class="va">num_pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">covar</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span> </span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">idx</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">num_pars</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/matplot.html" class="external-link">matplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">cophe.hier.res.chain.list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="va">idx</span>, <span class="op">]</span><span class="op">)</span>,</span>
+<span>        type <span class="op">=</span> <span class="st">"l"</span>, col <span class="op">=</span> <span class="va">chain_colors</span>,</span>
+<span>        main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">y_ax</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="va">y_ax</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span>, xlab <span class="op">=</span> <span class="st">"Iteration"</span>, lty <span class="op">=</span> <span class="fl">1</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="va">covar</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span>, type <span class="op">=</span> <span class="st">"n"</span>, axes <span class="op">=</span> <span class="cn">FALSE</span>, xlab <span class="op">=</span> <span class="st">""</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span>, type <span class="op">=</span> <span class="st">"n"</span>, axes <span class="op">=</span> <span class="cn">FALSE</span>, xlab <span class="op">=</span> <span class="st">""</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"top"</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Chain"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>, col <span class="op">=</span> <span class="va">chain_colors</span>, lty <span class="op">=</span> <span class="fl">1</span>, lwd <span class="op">=</span> <span class="fl">2</span>, </span>
+<span>       horiz <span class="op">=</span> <span class="cn">TRUE</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="HP-mcmcDiagnostics-1.png" width="80%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co">### reset user parameters</span></span>
+<span><span class="co"># Reset user parameters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">old_par</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="prediction">Prediction<a class="anchor" aria-label="anchor" href="#prediction"></a>
 </h4>
-<p><code>cophe.hier.res$avg.posterior</code> contains the posterior
-probabilities of the hypotheses : <span class="math inline">\(H_n\)</span>, <span class="math inline">\(H_a\)</span> and <span class="math inline">\(H_c\)</span> for the queryvariant/querytrait pairs
-obtained from the hierarchical model.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res.post.prob</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">avg.posterior</span>, <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p><code>cophe.hier.res.chain.list[[1]]$avg.posterior</code> contains
+the posterior probabilities of the hypotheses : <span class="math inline">\(H_n\)</span>, <span class="math inline">\(H_a\)</span> and <span class="math inline">\(H_c\)</span> for the queryvariant/querytrait pairs
+obtained from the hierarchical model. Here we use the first chain for
+prediction.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res.post.prob</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cophe.hier.res.chain.list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">avg.posterior</span>, <span class="va">cophe.hier.res</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
 <p>We can use the <code>cophe.hyp.predict</code> function to predict the
 hypothesis given the posterior probabilities. The cophe.hyp.call column
 shows the predicted hypothesis for each query trait-query variant
 pair.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res.hier.predict</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.hyp.predict.html">cophe.hyp.predict</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">res.post.prob</span> <span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hc.cutoff = 0.6</span></span>
 <span><span class="co">#&gt; Hn.cutoff = 0.2</span></span>
-<span><span class="va">col_disp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"PP.Hn"</span>, <span class="st">"PP.Ha"</span>, <span class="st">"PP.Hc"</span>, <span class="st">"nsnps"</span>, <span class="st">"querysnp"</span>, <span class="st">"querytrait"</span>, <span class="st">"typeBF"</span>,  <span class="st">"grp"</span>, <span class="st">"cophe.hyp.call"</span><span class="op">)</span></span>
+<span><span class="va">col_disp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"PP.Hn"</span>, <span class="st">"PP.Ha"</span>, <span class="st">"PP.Hc"</span>, <span class="st">"nsnps"</span>, <span class="st">"querysnp"</span>, <span class="st">"querytrait"</span>,</span>
+<span>               <span class="st">"typeBF"</span>,  <span class="st">"grp"</span>, <span class="st">"cophe.hyp.call"</span><span class="op">)</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">res.hier.predict</span><span class="op">[</span>, <span class="va">col_disp</span><span class="op">]</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, digits<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -270,9 +300,9 @@ pair.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">0.871</td>
-<td align="right">0.111</td>
-<td align="right">0.017</td>
+<td align="right">0.773</td>
+<td align="right">0.097</td>
+<td align="right">0.129</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_17</td>
@@ -281,9 +311,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="even">
-<td align="right">0.651</td>
-<td align="right">0.059</td>
-<td align="right">0.289</td>
+<td align="right">0.790</td>
+<td align="right">0.071</td>
+<td align="right">0.138</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_18</td>
@@ -292,9 +322,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="odd">
-<td align="right">0.864</td>
-<td align="right">0.090</td>
-<td align="right">0.046</td>
+<td align="right">0.798</td>
+<td align="right">0.082</td>
+<td align="right">0.120</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_19</td>
@@ -303,9 +333,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="even">
-<td align="right">0.904</td>
-<td align="right">0.082</td>
-<td align="right">0.014</td>
+<td align="right">0.801</td>
+<td align="right">0.071</td>
+<td align="right">0.127</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_20</td>
@@ -314,9 +344,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="odd">
-<td align="right">0.892</td>
-<td align="right">0.074</td>
-<td align="right">0.034</td>
+<td align="right">0.692</td>
+<td align="right">0.056</td>
+<td align="right">0.251</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_21</td>
@@ -325,9 +355,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="even">
-<td align="right">0.835</td>
-<td align="right">0.098</td>
-<td align="right">0.067</td>
+<td align="right">0.656</td>
+<td align="right">0.075</td>
+<td align="right">0.268</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_22</td>
@@ -336,9 +366,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="odd">
-<td align="right">0.858</td>
-<td align="right">0.088</td>
-<td align="right">0.054</td>
+<td align="right">0.790</td>
+<td align="right">0.080</td>
+<td align="right">0.130</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_23</td>
@@ -347,9 +377,9 @@ pair.</p>
 <td align="left">Hn</td>
 </tr>
 <tr class="even">
-<td align="right">0.878</td>
-<td align="right">0.080</td>
-<td align="right">0.041</td>
+<td align="right">0.807</td>
+<td align="right">0.073</td>
+<td align="right">0.120</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_24</td>
@@ -413,7 +443,7 @@ pair.</p>
 <td align="left">Ha</td>
 </tr>
 <tr class="even">
-<td align="right">0.000</td>
+<td align="right">0.001</td>
 <td align="right">0.999</td>
 <td align="right">0.000</td>
 <td align="right">1000</td>
@@ -448,7 +478,7 @@ pair.</p>
 <tr class="odd">
 <td align="right">0.000</td>
 <td align="right">0.010</td>
-<td align="right">0.990</td>
+<td align="right">0.989</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_1</td>
@@ -458,8 +488,8 @@ pair.</p>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.002</td>
-<td align="right">0.998</td>
+<td align="right">0.011</td>
+<td align="right">0.989</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_2</td>
@@ -469,8 +499,8 @@ pair.</p>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.006</td>
-<td align="right">0.994</td>
+<td align="right">0.024</td>
+<td align="right">0.976</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_3</td>
@@ -480,8 +510,8 @@ pair.</p>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.146</td>
-<td align="right">0.854</td>
+<td align="right">0.020</td>
+<td align="right">0.980</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_4</td>
@@ -491,8 +521,8 @@ pair.</p>
 </tr>
 <tr class="odd">
 <td align="right">0.000</td>
-<td align="right">0.004</td>
-<td align="right">0.996</td>
+<td align="right">0.010</td>
+<td align="right">0.990</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_5</td>
@@ -502,8 +532,8 @@ pair.</p>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.003</td>
-<td align="right">0.997</td>
+<td align="right">0.010</td>
+<td align="right">0.990</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_6</td>
@@ -514,7 +544,7 @@ pair.</p>
 <tr class="odd">
 <td align="right">0.000</td>
 <td align="right">0.007</td>
-<td align="right">0.993</td>
+<td align="right">0.992</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_7</td>
@@ -524,8 +554,8 @@ pair.</p>
 </tr>
 <tr class="even">
 <td align="right">0.000</td>
-<td align="right">0.007</td>
-<td align="right">0.993</td>
+<td align="right">0.012</td>
+<td align="right">0.988</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_8</td>
@@ -541,20 +571,21 @@ pair.</p>
 </h4>
 <p>Use the <code>cophe_plot</code> function to return -log10(pval), ppHa
 and ppHc PheWAS plots from the cophescan output.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res.plots</span> <span class="op">=</span> <span class="fu"><a href="../reference/cophe_plot.html">cophe_plot</a></span><span class="op">(</span><span class="va">res.hier.predict</span>, traits.dat <span class="op">=</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">summ_stat</span>, querysnpid <span class="op">=</span> <span class="va">querysnpid</span>, query_trait_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'Trait_'</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># if (!require(ggpubr)) {</span></span>
 <span>  <span class="co"># install.packages("ggpubr") </span></span>
 <span><span class="co"># }</span></span>
-<span><span class="co"># ggpubr::ggarrange(res.plots$pval, res.plots$ppHa, res.plots$ppHc, ncol = 2, nrow = 2)</span></span></code></pre></div>
-<p><img src="HP-unnamed-chunk-8-1.png" width="50%"><img src="HP-unnamed-chunk-8-2.png" width="50%"><img src="HP-unnamed-chunk-8-3.png" width="50%"></p>
+<span><span class="co"># ggpubr::ggarrange(res.plots$pval, res.plots$ppHa, res.plots$ppHc, ncol = 2, </span></span>
+<span><span class="co">#                 nrow = 2)</span></span></code></pre></div>
+<p><img src="HP-unnamed-chunk-9-1.png" width="40%"><img src="HP-unnamed-chunk-9-2.png" width="40%"><img src="HP-unnamed-chunk-9-3.png" width="40%"></p>
 <p>Note: For large datasets, it’s not feasible to input all
 coloc-structured data into “traits.dat” at once. Instead, use a loop and
 run the “get_beta” function over all the trait-variant pairs, and
 provide the resulting data frame (after binding the rows) as the
 “beta_p” argument in <code>cophe_plot</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># beta_p_list &lt;- lapply(seq_along(cophe_multi_trait_data$summ_stat),  function(x) get_beta(list(cophe_multi_trait_data$summ_stat[[x]]), querysnpid, names(cophe_multi_trait_data$summ_stat)[x]))</span></span>
 <span><span class="co"># ### the datsets need not be in a list as in cophe_multi_trait_data$summ_stat and can be stored independently.</span></span>
 <span><span class="co"># beta_p_df = bind_rows(beta_p_list)</span></span>

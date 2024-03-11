@@ -1,4 +1,12 @@
-# cophescan (development version)
+
+
+
+## cophescan 1.4.0
+
+-   Set default values for fixed priors (pa and pc) in cophe.single and cophe.susie
+-   Updated diagnostics of mcmc chains in vignettes
+-   Fixed prior information added in vignette
+-   Submitted to CRAN
 
 ## cophescan 1.3.2
 
@@ -12,25 +20,27 @@
 
 ## cophescan 1.3.0
 
--   Fixed minor note from cran auto-check of 1.2.0
+-   Fixed minor note from CRAN auto-check of 1.2.0
 
 ## cophescan 1.2.0
 
--   re-attempted cran submission but persistent note regarding access to internal functions
+-   re-attempted CRAN submission but persistent note regarding access to internal functions
 
 ## cophescan 1.1.0
 
--   1.1.0 cran re-submission
--   Fixed warnings from cran auto-check of 1.0.0
+-   1.1.0 CRAN re-submission
+-   Fixed warnings from CRAN auto-check of 1.0.0
 -   RcppArmadillo only in LinkingTo and removed from imports
 -   Updated vignettes
 
 ## cophescan 1.0.0
 
 -   Passed local R CMD checks and tested on R 4.3.1
--   Prepared package for cran submission
+-   Prepared package for CRAN submission
 
 ## cophescan 0.1.0
 
 -   Github version
 -   Added a `NEWS.md` file to track changes to the package.
+
+------------------------------------------------------------------------
