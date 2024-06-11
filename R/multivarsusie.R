@@ -3,12 +3,11 @@
 #' @title run `cophe.susie` using susie to detect separate signals
 #' @param dataset *either* a list with specifically named elements defining the dataset
 #'   to be analysed. (see
-#'   \link{check_dataset}), or the result of running \link{runsusie} on such a
-#'   dataset
+#'   \link{check_dataset})
 #' @param querysnpid Id of the query variant
 #' @param querytrait Query trait name
 #' @param pa prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5
-#' @param pc prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3 (cophescan prior)
+#' @param pc prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3
 #' @param p1 prior probability a SNP is associated with trait 1, (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}; use p1, p2, p12 only when pa and pc are unavailable (See vignettes)
 #' @param p2 prior probability a SNP is associated with trait 2,  (coloc prior), pa derived by using \eqn{pa = p2}
 #' @param p12 prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}
@@ -228,14 +227,12 @@ cophe.prepare.dat.susie <- function(dataset, querysnpid, susie.args){
     stop('N (sample size) of the dataset not provided')
   }
 
-  if("susie" %in% class(dataset))
-    sus_dat = dataset
-  else{
-    if(!querysnpid %in% dataset$snp) {
-      stop("Please check your dataset, queried trait not in dataset")
-    }
-  sus_dat=do.call("runsusie", c(list(d=dataset,suffix=1),susie.args))
+  if(!querysnpid %in% dataset$snp) {
+    stop("Please check your dataset, queried trait not in dataset")
   }
+
+  sus_dat=do.call("runsusie", c(list(d=dataset,suffix=1),susie.args))
+
   ## Remove credible sets with all variants having p-value > 0.1. Once such a set is detected,
   ## all subsequent sets are also removed
   cred_set=sus_dat$sets

@@ -1,5 +1,6 @@
-# cophescan (development version)
+## cophescan 1.4.1
 
+-   Corrected cophe.susie input to accept only query trait datasets.
 
 ## cophescan 1.4.0
 

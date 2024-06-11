@@ -19,8 +19,7 @@ cophe.susie(
 \arguments{
 \item{dataset}{\emph{either} a list with specifically named elements defining the dataset
 to be analysed. (see
-\link{check_dataset}), or the result of running \link{runsusie} on such a
-dataset}
+\link{check_dataset})}
 
 \item{querysnpid}{Id of the query variant}
 
@@ -28,7 +27,7 @@ dataset}
 
 \item{pa}{prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5}
 
-\item{pc}{prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3 (cophescan prior)}
+\item{pc}{prior probability that the query variant is causally associated with the query trait (cophescan prior), default 1.82e-3}
 
 \item{p1}{prior probability a SNP is associated with trait 1, (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}; use p1, p2, p12 only when pa and pc are unavailable (See vignettes)}
 
