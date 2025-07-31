@@ -3,7 +3,7 @@
 #' @title run `cophe.susie` using susie to detect separate signals
 #' @param dataset *either* a list with specifically named elements defining the dataset
 #'   to be analysed. (see
-#'   \link{check_dataset})
+#'   \link[coloc]{check_dataset})
 #' @param querysnpid Id of the query variant
 #' @param querytrait Query trait name
 #' @param pa prior probability that a non-query variant is causally associated with the query trait (cophescan prior), default 3.82e-5
@@ -12,7 +12,7 @@
 #' @param p2 prior probability a SNP is associated with trait 2,  (coloc prior), pa derived by using \eqn{pa = p2}
 #' @param p12 prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}
 #' @param susie.args a named list of additional arguments to be passed to
-#'   \link{runsusie}
+#'   \link[coloc]{runsusie}
 #' @return a list, containing elements
 #' * summary a data.table of posterior
 #'   probabilities of each global hypothesis, one row per pairwise comparison
@@ -45,11 +45,14 @@ cophe.susie=function(dataset, querysnpid, querytrait,
 
   psp  <-  per.snp.priors(nsnps = nsnps, p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc)
   message('SNP Priors')
-  message(psp)
-
+  # message(psp)
+  message(paste(names(psp), collapse = " "))
+  message(paste(format(psp, scientific = TRUE, digits = 6), collapse=" "))
   hp <- hypothesis.priors(nsnps = nsnps, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
   message('Hypothesis Priors')
-  message(hp)
+  # message(hp)
+  message(paste(names(hp), collapse = " "))
+  message(paste(format(hp, scientific = TRUE, digits = 6), collapse=" "))
 
 
   if (is.null(cred_set$cs) || length(cred_set$cs)==0 ){
@@ -168,7 +171,7 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
 #' @param querytrait Query trait name
 #' @param switch Set switch=TRUE to obtain single BF when credible sets not found with SuSIE
 #' @param susie.args a named list of additional arguments to be passed to
-#'   \link{runsusie}
+#'   \link[coloc]{runsusie}
 #' @param MAF Minor allele frequency vector
 #' @seealso \code{\link{cophe.susie}}
 #' @return data frame with log bayes factors for Hn and Ha hypotheses
@@ -208,7 +211,7 @@ cophe.susie.lbf <- function(dataset, querysnpid, querytrait, switch=TRUE,
 #'   to be analysed.
 #' @param querysnpid Id of the query variant, (id in dataset$snp)
 #' @param susie.args a named list of additional arguments to be passed to
-#'   \link{runsusie}
+#'   \link[coloc]{runsusie}
 #' @return a list with the output of running susie
 #' @seealso \code{\link{cophe.susie}}
 #' @keywords internal

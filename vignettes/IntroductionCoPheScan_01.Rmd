@@ -42,7 +42,7 @@ cophescan can be run in different ways depending on the size and type of dataset
 First, choosing the method for Bayes factor computation:
 
 |       | Single causal variant | Multiple causal variants | Requires LD matrix |
-|-------|-----------------------|--------------------------|--------------------|
+|----------------|-------------------|----------------------|----------------|
 | ABF   | ✔                     | x                        | No                 |
 | SuSIE | ✔                     | ✔                        | Yes                |
 |       |                       |                          |                    |
@@ -71,7 +71,7 @@ SuSIE BF/Hierarchical priors: `cophe.susie.lbf` + `run_metrop_priors`
 
 1.  Description of the CoPheScan method:
 
-    [CoPheScan: phenome-wide association studies accounting for linkage disequilibrium](https://doi.org/10.1101/2023.06.29.546856)
+    [CoPheScan: phenome-wide association studies accounting for linkage disequilibrium](https://doi.org/10.1038/s41467-024-49990-8)
 
 2.  coloc: [Giambartolomei et al (2013)](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1004383)
 

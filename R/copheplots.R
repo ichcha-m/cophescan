@@ -136,7 +136,7 @@ cophe_plot <- function(multi.dat, querysnpid, query_trait_names, thresh_Hc=0.5, 
 #' @param thresh_Ha Ha threshold to be displayed
 #' @param thresh_Hc Hc threshold to be displayed
 #' @param ... additional arguments to be passed to
-#'   \link{pheatmap}
+#'   \link[pheatmap]{pheatmap}
 #' @return heatmap of posterior probabilities of the phentypes above the set threshold
 #' @export
 #'

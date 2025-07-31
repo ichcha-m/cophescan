@@ -24,7 +24,7 @@ to be analysed.}
 \item{switch}{Set switch=TRUE to obtain single BF when credible sets not found with SuSIE}
 
 \item{susie.args}{a named list of additional arguments to be passed to
-\link{runsusie}}
+\link[coloc]{runsusie}}
 
 \item{MAF}{Minor allele frequency vector}
 }

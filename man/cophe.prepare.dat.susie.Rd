@@ -13,7 +13,7 @@ to be analysed.}
 \item{querysnpid}{Id of the query variant, (id in dataset$snp)}
 
 \item{susie.args}{a named list of additional arguments to be passed to
-\link{runsusie}}
+\link[coloc]{runsusie}}
 }
 \value{
 a list with the output of running susie

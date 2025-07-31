@@ -25,7 +25,7 @@ cophe_heatmap(
 \item{thresh_Ha}{Ha threshold to be displayed}
 
 \item{...}{additional arguments to be passed to
-\link{pheatmap}}
+\link[pheatmap]{pheatmap}}
 }
 \value{
 heatmap of posterior probabilities of the phentypes above the set threshold

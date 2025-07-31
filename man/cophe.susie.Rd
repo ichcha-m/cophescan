@@ -19,7 +19,7 @@ cophe.susie(
 \arguments{
 \item{dataset}{\emph{either} a list with specifically named elements defining the dataset
 to be analysed. (see
-\link{check_dataset})}
+\link[coloc]{check_dataset})}
 
 \item{querysnpid}{Id of the query variant}
 
@@ -36,7 +36,7 @@ to be analysed. (see
 \item{p12}{prior probability a SNP is associated with both traits,  (coloc prior), pc derived by using \eqn{pc =  p12/p1+p12}}
 
 \item{susie.args}{a named list of additional arguments to be passed to
-\link{runsusie}}
+\link[coloc]{runsusie}}
 }
 \value{
 a list, containing elements

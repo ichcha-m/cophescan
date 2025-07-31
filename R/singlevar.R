@@ -69,7 +69,9 @@ combine.bf <- function(lBF_df, pn, pa, pc) {
   # pp.bf
   names(pp) <- paste("PP.H", c('n', 'a', 'c') , sep = "")
   # barplot(pp.bf)
-  message(signif(pp,3))
+  # message(signif(pp,3))
+  message(paste(names(pp), collapse = " "))
+  message(paste(format(signif(pp,3), scientific = TRUE, digits = 6), collapse=" "))
   message(paste("PP for causal query variant: ", signif(pp["PP.Hc"],3)*100 , '%', sep=''))
   return(list(pp=pp, bf=bf))
 }
@@ -125,12 +127,14 @@ cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL,
 
   psp  <-  per.snp.priors(nsnps = nsnps, p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc)
   message('SNP Priors')
-  message(psp)
-
+  # message(psp)
+  message(paste(names(psp), collapse = " "))
+  message(paste(format(psp, scientific = TRUE, digits = 6), collapse=" "))
   hp <- hypothesis.priors(nsnps = nsnps, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
   message('Hypothesis Priors')
-  message(hp)
-
+  # message(hp)
+  message(paste(names(hp), collapse = " "))
+  message(paste(format(hp, scientific = TRUE, digits = 6), collapse=" "))
   pp.bf <- combine.bf(lABF.df, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
 
   results <- do.call("data.frame",c(list(nsnps=nsnps), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=querysnpid, querytrait=querytrait, typeBF='ABF'))

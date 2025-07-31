@@ -4,7 +4,7 @@
 
 <span><a href="https://ichcha-m.github.io/cophescan/" class="external-link"> <img src="man/figures/logo.png" align="right" height="200" style="float:right; height:180px;"/></a>
 
-The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan), a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
+The cophescan package implements Coloc adapted Phenome-wide Scan (CoPheScan) [1], a Bayesian method to perform Phenome-wide association studies (PheWAS) that identifies causal associations between genetic variants and phenotypes while simultaneously accounting for confounding due to linkage disequilibrium.
 
 See the description vignette for background and references: [Introduction to CoPheScan](https://ichcha-m.github.io/cophescan/articles/IntroductionCoPheScan_01.html)
 
@@ -14,7 +14,7 @@ See the description vignette for background and references: [Introduction to CoP
 
 Install cophescan from CRAN
 
-```r
+``` r
 install.packages("cophescan")
 ```
 
@@ -124,6 +124,16 @@ tail(res.hier.predict, row.names = F)
 
 ------------------------------------------------------------------------
 
-#### [NEWS: cophescan 1.4.1](https://ichcha-m.github.io/cophescan/news/index.html)
+#### [NEWS: cophescan 1.4.2](https://ichcha-m.github.io/cophescan/news/index.html)
+
+------------------------------------------------------------------------
+
+##### **CoPheScan Publication**
+
+Manipur, I., Reales, G., Sul, J.H., Shin, M.K., Longerich, S., Cortes, A.
+and Wallace, C., 2024.
+CoPheScan: phenome-wide association studies accounting for linkage disequilibrium.
+Nature Communications, 15(1), p.5862.
+<https://doi.org/10.1038/s41467-024-49990-8>
 
 ------------------------------------------------------------------------

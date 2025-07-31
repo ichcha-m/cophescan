@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.2</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
                         <h4 data-toc-skip class="author">Ichcha
 Manipur</h4>
             
-            <h4 data-toc-skip class="date">2024-06-11</h4>
+            <h4 data-toc-skip class="date">2025-07-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/HEAD/vignettes/HierarchicalPriors_04.Rmd" class="external-link"><code>vignettes/HierarchicalPriors_04.Rmd</code></a></small>
       <div class="hidden name"><code>HierarchicalPriors_04.Rmd</code></div>
@@ -159,19 +159,21 @@ Bayes Factor method.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res.multi.lbf.df</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      lBF.Ha   lBF.Hc nsnps       querysnp querytrait           hit1</span></span>
+<span><span class="co">#&gt;       &lt;num&gt;    &lt;num&gt; &lt;int&gt;         &lt;char&gt;     &lt;char&gt;         &lt;char&gt;</span></span>
 <span><span class="co">#&gt; 1: 15.31003 11.95277  1000 chr19-11182353    Trait_1 chr19-11182353</span></span>
 <span><span class="co">#&gt; 2: 16.43401 13.00673  1000 chr19-11182353    Trait_2 chr19-11182353</span></span>
 <span><span class="co">#&gt; 3: 17.36744 13.13794  1000 chr19-11182353    Trait_3 chr19-11182353</span></span>
 <span><span class="co">#&gt; 4: 14.45423 10.44441  1000 chr19-11182353    Trait_4 chr19-11182353</span></span>
 <span><span class="co">#&gt; 5: 15.82635 12.54912  1000 chr19-11182353    Trait_5 chr19-11182353</span></span>
 <span><span class="co">#&gt; 6: 16.23052 12.88257  1000 chr19-11182353    Trait_6 chr19-11182353</span></span>
-<span><span class="co">#&gt;              hit2  typeBF idx1 idx2</span></span>
-<span><span class="co">#&gt; 1: chr19-11182144 susieBF    1    1</span></span>
-<span><span class="co">#&gt; 2: chr19-11183133 susieBF    1    1</span></span>
-<span><span class="co">#&gt; 3: chr19-11189906 susieBF    1    1</span></span>
-<span><span class="co">#&gt; 4: chr19-11182538 susieBF    1    1</span></span>
-<span><span class="co">#&gt; 5: chr19-11176397 susieBF    1    1</span></span>
-<span><span class="co">#&gt; 6: chr19-11182135 susieBF    1    1</span></span></code></pre></div>
+<span><span class="co">#&gt;              hit2  typeBF  idx1  idx2</span></span>
+<span><span class="co">#&gt;            &lt;char&gt;  &lt;char&gt; &lt;int&gt; &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1: chr19-11182144 susieBF     1     1</span></span>
+<span><span class="co">#&gt; 2: chr19-11183133 susieBF     1     1</span></span>
+<span><span class="co">#&gt; 3: chr19-11189906 susieBF     1     1</span></span>
+<span><span class="co">#&gt; 4: chr19-11182538 susieBF     1     1</span></span>
+<span><span class="co">#&gt; 5: chr19-11176397 susieBF     1     1</span></span>
+<span><span class="co">#&gt; 6: chr19-11182135 susieBF     1     1</span></span></code></pre></div>
 <p><strong>Note:</strong></p>
 <ol style="list-style-type: decimal">
 <li>The output of <code>cophe.susie</code> or <code>cophe.single</code>
@@ -287,7 +289,7 @@ pair.</p>
 <col width="24%">
 <col width="15%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="right">PP.Hn</th>
 <th align="right">PP.Ha</th>
 <th align="right">PP.Hc</th>
@@ -299,10 +301,10 @@ pair.</p>
 <th align="left">cophe.hyp.call</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="right">0.773</td>
-<td align="right">0.099</td>
-<td align="right">0.128</td>
+<tr>
+<td align="right">0.770</td>
+<td align="right">0.100</td>
+<td align="right">0.129</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_17</td>
@@ -310,10 +312,10 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_17</td>
 <td align="left">Hn</td>
 </tr>
-<tr class="even">
-<td align="right">0.790</td>
-<td align="right">0.073</td>
-<td align="right">0.137</td>
+<tr>
+<td align="right">0.788</td>
+<td align="right">0.074</td>
+<td align="right">0.138</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_18</td>
@@ -321,10 +323,10 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_18</td>
 <td align="left">Hn</td>
 </tr>
-<tr class="odd">
-<td align="right">0.798</td>
-<td align="right">0.083</td>
-<td align="right">0.119</td>
+<tr>
+<td align="right">0.795</td>
+<td align="right">0.084</td>
+<td align="right">0.120</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_19</td>
@@ -332,10 +334,10 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_19</td>
 <td align="left">Hn</td>
 </tr>
-<tr class="even">
-<td align="right">0.801</td>
-<td align="right">0.073</td>
-<td align="right">0.126</td>
+<tr>
+<td align="right">0.799</td>
+<td align="right">0.074</td>
+<td align="right">0.128</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_20</td>
@@ -343,10 +345,10 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_20</td>
 <td align="left">Hn</td>
 </tr>
-<tr class="odd">
-<td align="right">0.694</td>
+<tr>
+<td align="right">0.690</td>
 <td align="right">0.058</td>
-<td align="right">0.248</td>
+<td align="right">0.251</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_21</td>
@@ -354,10 +356,10 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_21</td>
 <td align="left">Hn</td>
 </tr>
-<tr class="even">
-<td align="right">0.658</td>
-<td align="right">0.077</td>
-<td align="right">0.265</td>
+<tr>
+<td align="right">0.654</td>
+<td align="right">0.078</td>
+<td align="right">0.268</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_22</td>
@@ -365,10 +367,10 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_22</td>
 <td align="left">Hn</td>
 </tr>
-<tr class="odd">
-<td align="right">0.790</td>
-<td align="right">0.081</td>
-<td align="right">0.129</td>
+<tr>
+<td align="right">0.787</td>
+<td align="right">0.082</td>
+<td align="right">0.130</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_23</td>
@@ -376,10 +378,10 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_23</td>
 <td align="left">Hn</td>
 </tr>
-<tr class="even">
-<td align="right">0.807</td>
-<td align="right">0.074</td>
-<td align="right">0.119</td>
+<tr>
+<td align="right">0.804</td>
+<td align="right">0.075</td>
+<td align="right">0.120</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
 <td align="left">Trait_24</td>
@@ -387,7 +389,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_24</td>
 <td align="left">Hn</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.999</td>
 <td align="right">0.000</td>
@@ -398,7 +400,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_9</td>
 <td align="left">Ha</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">0.001</td>
 <td align="right">0.999</td>
 <td align="right">0.000</td>
@@ -409,7 +411,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_10</td>
 <td align="left">Ha</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">0.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -420,7 +422,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_11</td>
 <td align="left">Ha</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">0.002</td>
 <td align="right">0.998</td>
 <td align="right">0.000</td>
@@ -431,7 +433,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_12</td>
 <td align="left">Ha</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">0.001</td>
 <td align="right">0.999</td>
 <td align="right">0.000</td>
@@ -442,7 +444,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_13</td>
 <td align="left">Ha</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.999</td>
 <td align="right">0.000</td>
@@ -453,7 +455,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_14</td>
 <td align="left">Ha</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">0.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -464,7 +466,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_15</td>
 <td align="left">Ha</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">0.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -475,7 +477,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_16</td>
 <td align="left">Ha</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.011</td>
 <td align="right">0.989</td>
@@ -486,9 +488,9 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_1</td>
 <td align="left">Hc</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">0.000</td>
-<td align="right">0.012</td>
+<td align="right">0.011</td>
 <td align="right">0.988</td>
 <td align="right">1000</td>
 <td align="left">chr19-11182353</td>
@@ -497,7 +499,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_2</td>
 <td align="left">Hc</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.025</td>
 <td align="right">0.975</td>
@@ -508,7 +510,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_3</td>
 <td align="left">Hc</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.020</td>
 <td align="right">0.979</td>
@@ -519,7 +521,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_4</td>
 <td align="left">Hc</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.010</td>
 <td align="right">0.990</td>
@@ -530,7 +532,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_5</td>
 <td align="left">Hc</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.011</td>
 <td align="right">0.989</td>
@@ -541,7 +543,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_6</td>
 <td align="left">Hc</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.008</td>
 <td align="right">0.992</td>
@@ -552,7 +554,7 @@ pair.</p>
 <td align="left">chr19-11182353_Trait_7</td>
 <td align="left">Hc</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">0.000</td>
 <td align="right">0.013</td>
 <td align="right">0.987</td>
