@@ -1,13 +1,12 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   FixedPriors_03: FixedPriors_03.html
   HierarchicalPriors_04: HierarchicalPriors_04.html
   InputData_02: InputData_02.html
   IntroductionCoPheScan_01: IntroductionCoPheScan_01.html
-last_built: 2024-06-14T09:59Z
+last_built: 2025-07-31T08:48Z
 urls:
   reference: https://ichcha-m.github.io/cophescan/reference
   article: https://ichcha-m.github.io/cophescan/articles
-

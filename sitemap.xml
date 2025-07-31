@@ -1,174 +1,60 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/404.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/articles/FixedPriors_03.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/articles/HierarchicalPriors_04.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/articles/InputData_02.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/articles/IntroductionCoPheScan_01.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/Hc.cutoff.fdr.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/adjust_priors.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/average_piks.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/average_piks_list.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/average_posterior_prob.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/average_posterior_prob_list.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/combine.bf.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.bf_bf.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.hyp.predict.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.multitrait.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.prepare.dat.single.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.prepare.dat.susie.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.single.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.single.lbf.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.susie.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe.susie.lbf.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe_multi_trait_data.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophe_plot.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/cophescan-package.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/get_beta.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/get_posterior_prob.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/hypothesis.priors.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/logd_alpha.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/logd_beta.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/logd_gamma.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/loglik.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/logpost.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/logpriors.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/logsum.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/logsumexp.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/metrop_run.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/multitrait.simplify.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/pars2pik.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/pars_init.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/per.snp.priors.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/piks.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/plot_trait_manhat.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/posterior_prob.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/prepare_plot_data.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/propose.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/run_metrop_priors.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/sample_alpha.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/sample_beta.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/sample_gamma.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/summary.cophe.html</loc>
-  </url>
-  <url>
-    <loc>https://ichcha-m.github.io/cophescan/reference/target.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://ichcha-m.github.io/cophescan/404.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/articles/FixedPriors_03.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/articles/HierarchicalPriors_04.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/articles/InputData_02.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/articles/IntroductionCoPheScan_01.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/articles/index.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/authors.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/index.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/news/index.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/Hc.cutoff.fdr.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/adjust_priors.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/average_piks.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/average_piks_list.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/average_posterior_prob.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/average_posterior_prob_list.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/combine.bf.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.bf_bf.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.hyp.predict.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.multitrait.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.prepare.dat.single.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.prepare.dat.susie.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.single.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.single.lbf.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.susie.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe.susie.lbf.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe_heatmap.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe_multi_trait_data.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophe_plot.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/cophescan-package.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/get_beta.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/get_posterior_prob.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/hypothesis.priors.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/index.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/logd_alpha.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/logd_beta.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/logd_gamma.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/loglik.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/logpost.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/logpriors.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/logsum.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/logsumexp.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/metrop_run.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/multitrait.simplify.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/pars2pik.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/pars_init.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/per.snp.priors.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/piks.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/plot_trait_manhat.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/posterior_prob.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/prepare_plot_data.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/propose.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/run_metrop_priors.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/sample_alpha.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/sample_beta.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/sample_gamma.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/summary.cophe.html</loc></url>
+<url><loc>https://ichcha-m.github.io/cophescan/reference/target.html</loc></url>
 </urlset>
+
