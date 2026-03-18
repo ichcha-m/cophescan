@@ -1,8 +1,20 @@
-bibentry("article",
-  header    = "To cite cophescan in publications use:",
-  title    = "CoPheScan: phenome-wide association studies accounting for linkage disequilibrium",
-  author   = "I Manipur and et. al",
-  journal  = "bioRxiv",
-  year     = "2023",
-  url      = "https://doi.org/10.1101/2023.06.29.546856"
+bibentry(
+	"article",
+	header = "To cite cophescan in publications use:",
+	title = "CoPheScan: phenome-wide association studies accounting for linkage disequilibrium",
+	author = c(
+		person("I.", "Manipur"),
+		person("G.", "Reales"),
+		person("J.H.", "Sul"),
+		person("M.K.", "Shin"),
+		person("S.", "Longerich"),
+		person("A.", "Cortes"),
+		person("C.", "Wallace")
+	),
+	journal = "Nature Communications",
+	year = "2024",
+	volume = "15",
+	number = "1",
+	pages = "5862",
+	doi = "10.1038/s41467-024-49990-8"
 )
