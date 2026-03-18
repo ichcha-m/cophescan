@@ -33,52 +33,92 @@
 #' summary(res.susie)
 #' @export
 #' @author Ichcha Manipur
-cophe.susie=function(dataset, querysnpid, querytrait,
-                     pa=3.82e-5, pc=1.82e-3,
-                     p1=NULL, p2=NULL, p12=NULL,
-                     susie.args=list()) {
-  sus_dat = cophe.prepare.dat.susie(dataset, querysnpid, susie.args)
-  cred_set = sus_dat$sets
+cophe.susie = function(
+	dataset,
+	querysnpid,
+	querytrait,
+	pa = 3.82e-5,
+	pc = 1.82e-3,
+	p1 = NULL,
+	p2 = NULL,
+	p12 = NULL,
+	susie.args = list()
+) {
+	sus_dat = cophe.prepare.dat.susie(dataset, querysnpid, susie.args)
+	cred_set = sus_dat$sets
 
-  # number of snps in the region
-  nsnps <- ncol(sus_dat$alpha) - 1
+	# number of snps in the region
+	nsnps <- ncol(sus_dat$alpha) - 1
 
-  psp  <-  per.snp.priors(nsnps = nsnps, p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc)
-  message('SNP Priors')
-  # message(psp)
-  message(paste(names(psp), collapse = " "))
-  message(paste(format(psp, scientific = TRUE, digits = 6), collapse=" "))
-  hp <- hypothesis.priors(nsnps = nsnps, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
-  message('Hypothesis Priors')
-  # message(hp)
-  message(paste(names(hp), collapse = " "))
-  message(paste(format(hp, scientific = TRUE, digits = 6), collapse=" "))
+	psp <- per.snp.priors(
+		nsnps = nsnps,
+		p1 = p1,
+		p2 = p2,
+		p12 = p12,
+		pa = pa,
+		pc = pc
+	)
+	message('SNP Priors')
+	# message(psp)
+	message(paste(names(psp), collapse = " "))
+	message(paste(format(psp, scientific = TRUE, digits = 6), collapse = " "))
+	hp <- hypothesis.priors(
+		nsnps = nsnps,
+		pn = psp[["pn"]],
+		pa = psp[["pa"]],
+		pc = psp[["pc"]]
+	)
+	message('Hypothesis Priors')
+	# message(hp)
+	message(paste(names(hp), collapse = " "))
+	message(paste(format(hp, scientific = TRUE, digits = 6), collapse = " "))
 
+	if (is.null(cred_set$cs) || length(cred_set$cs) == 0) {
+		warning('No credible sets found with SuSIE...')
+		warning('Switching to cophe.single ...')
+		ret <- cophe.single(
+			dataset,
+			querysnpid,
+			querytrait,
+			pa = psp[["pa"]],
+			pc = psp[["pc"]]
+		)
+	} else {
+		# else if (!any(sub(".*[.]","",names(unlist(sus_dat$sets$cs))) %in% querysnpid) & length(sus_dat$sets$cs) < 2){
+		#   message('Queried SNP not in the susie credible set ...')
+		#   message('Switching to cophe.single ...')
+		#   ret <- cophe.single(dataset, querysnpid, pa=psp[["pa"]], pc=psp[["pc"]])
+		# }
+		if (
+			!any(sub(".*[.]", "", names(unlist(sus_dat$sets$cs))) %in% querysnpid)
+		) {
+			message('Queried SNP not in the susie credible sets ...')
+		}
+		message('Running cophe.susie...')
+		isnps = colnames(sus_dat$alpha)
+		if (!length(isnps)) {
+			return(data.table::data.table(nsnps = NA))
+		}
+		message(
+			"Using ",
+			length(isnps),
+			" and ",
+			ncol(sus_dat$alpha) - 1,
+			" available"
+		)
 
-  if (is.null(cred_set$cs) || length(cred_set$cs)==0 ){
-    warning('No credible sets found with SuSIE...')
-    warning('Switching to cophe.single ...')
-    ret <- cophe.single(dataset, querysnpid, querytrait, pa=psp[["pa"]], pc=psp[["pc"]])
-  }
-  # else if (!any(sub(".*[.]","",names(unlist(sus_dat$sets$cs))) %in% querysnpid) & length(sus_dat$sets$cs) < 2){
-  #   message('Queried SNP not in the susie credible set ...')
-  #   message('Switching to cophe.single ...')
-  #   ret <- cophe.single(dataset, querysnpid, pa=psp[["pa"]], pc=psp[["pc"]])
-  # }
-  else {
-    if (!any(sub(".*[.]","",names(unlist(sus_dat$sets$cs))) %in% querysnpid)){
-      message('Queried SNP not in the susie credible sets ...')
-    }
-    message('Running cophe.susie...')
-    isnps=colnames(sus_dat$alpha)
-    if(!length(isnps))
-      return(data.table::data.table(nsnps=NA))
-    message("Using ",length(isnps), " and ",ncol(sus_dat$alpha)-1," available")
-
-    ret=cophe.bf_bf(sus_dat, cred_set, querysnpid, querytrait, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
-  }
-  attr(ret, "class") <- "cophe"
-  return(ret)
+		ret = cophe.bf_bf(
+			sus_dat,
+			cred_set,
+			querysnpid,
+			querytrait,
+			pn = psp[["pn"]],
+			pa = psp[["pa"]],
+			pc = psp[["pc"]]
+		)
+	}
+	attr(ret, "class") <- "cophe"
+	return(ret)
 }
 
 
@@ -94,70 +134,105 @@ cophe.susie=function(dataset, querysnpid, querytrait,
 #' @seealso \code{\link{cophe.susie}}
 #' @keywords internal
 #' @return bayes factors of signals
-cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL, pc=NULL, ret_pp=TRUE) {
-  idx2=cred_set$cs_index
-  sus_bf=sus_dat$lbf_variable[idx2,,drop=FALSE][,setdiff(colnames(sus_dat$lbf_variable),"")]
-  if(is.vector(sus_bf))
-    sus_bf=matrix(sus_bf,nrow=1,dimnames=list(NULL,names(sus_bf)))
-  todo <- data.table::as.data.table(expand.grid(i=1:length(querysnpid),j=1:nrow(sus_bf)))
-  # todo[,pp4:=0]
-  isnps=colnames(sus_bf)
-  if(!length(isnps))
-    return(data.table::data.table(nsnps=NA))
+cophe.bf_bf = function(
+	sus_dat,
+	cred_set,
+	querysnpid,
+	querytrait,
+	pn = NULL,
+	pa = NULL,
+	pc = NULL,
+	ret_pp = TRUE
+) {
+	idx2 = cred_set$cs_index
+	sus_bf = sus_dat$lbf_variable[idx2, , drop = FALSE][, setdiff(
+		colnames(sus_dat$lbf_variable),
+		""
+	)]
+	if (is.vector(sus_bf)) {
+		sus_bf = matrix(sus_bf, nrow = 1, dimnames = list(NULL, names(sus_bf)))
+	}
+	todo <- data.table::as.data.table(expand.grid(
+		i = 1:length(querysnpid),
+		j = 1:nrow(sus_bf)
+	))
+	# todo[,pp4:=0]
+	isnps = colnames(sus_bf)
+	if (!length(isnps)) {
+		return(data.table::data.table(nsnps = NA))
+	}
 
-  if("null" %in% colnames(sus_bf))
-    sus_bf=sus_bf - matrix(sus_bf[,"null"],nrow(sus_bf),ncol(sus_bf))
+	if ("null" %in% colnames(sus_bf)) {
+		sus_bf = sus_bf - matrix(sus_bf[, "null"], nrow(sus_bf), ncol(sus_bf))
+	}
 
-  querypos <- which(colnames(sus_bf)%in%querysnpid)
-  sus_bf=sus_bf[,isnps,drop=FALSE]
-  results <- vector("list",nrow(todo))
-  hit1=querysnpid
-  for(k in 1:nrow(todo)) {
-    df <- data.frame(snp=isnps, sus_bf=sus_bf[todo$j[k], ])
-    nsnps <- nrow(df)
+	querypos <- which(colnames(sus_bf) %in% querysnpid)
+	sus_bf = sus_bf[, isnps, drop = FALSE]
+	results <- vector("list", nrow(todo))
+	hit1 = querysnpid
+	for (k in 1:nrow(todo)) {
+		df <- data.frame(snp = isnps, sus_bf = sus_bf[todo$j[k], ])
+		nsnps <- nrow(df)
 
-    lBF.persnp = df$sus_bf
-    lBF.Ha <- logsum(lBF.persnp[-querypos])
-    lBF.Hc <- lBF.persnp[querypos]
-    lBF_df = data.frame(lBF.Ha = lBF.Ha, lBF.Hc = lBF.Hc)
-    hit2=names(which.max(sus_bf[todo$j[k],]))
-    if (ret_pp){
-      pp.bf <- combine.bf(lBF_df, pn=pn, pa=pa, pc=pc)
-      if(is.null(hit1)) {
-        hit1="-"
-        pp.bf$pp[c(1,3)]=c(0,1)
-      }
-      if(is.null(hit2)) {
-        hit2="-"
-        pp.bf$pp[c(1,2)]=c(0,1)
-      }
-      results[[k]]=do.call("data.frame",c(list(nsnps=nsnps, hit1=hit1, hit2=hit2), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=querysnpid, typeBF='susieBF'))
-    } else {
-      results[[k]]=data.frame(lBF.Ha = lBF.Ha, lBF.Hc = lBF.Hc, nsnps=nsnps, querysnp=querysnpid, querytrait=querytrait, hit1=hit1, hit2=hit2, typeBF='susieBF')
-    }
-  }
-  results <- data.table::as.data.table(do.call("rbind",results))
-  results=cbind(results,todo[,.(idx1=i,idx2=j)])
-  ## rarely, susie puts the same cred set twice. check, and prune if found
-  hits=paste(results$hit1,results$hit2,sep=".")
-  if(any(duplicated(hits))) {
-    results=results[!duplicated(hits)]
-  }
-  if (ret_pp){
-    ret = list(summary=results,
-               priors=c(pn=pn,pa=pa, pc=pc))
-    ## renumber index to match
-    ret$summary[,idx2:=cred_set$cs_index[idx2]]
-    ret$summary[,idx1:=rep(1, length(ret$summary$idx2))]
-    ret$summary[,querytrait:=querytrait]
-    ret$bf=sus_bf
-    ret$querysnp=querysnpid
-    ret$querytrait=querytrait
-    ret$typeBF='susieBF'
-    return(ret)
-  } else{
-    return(results)
-  }
+		lBF.persnp = df$sus_bf
+		lBF.Ha <- logsum(lBF.persnp[-querypos])
+		lBF.Hc <- lBF.persnp[querypos]
+		lBF_df = data.frame(lBF.Ha = lBF.Ha, lBF.Hc = lBF.Hc)
+		hit2 = names(which.max(sus_bf[todo$j[k], ]))
+		if (ret_pp) {
+			pp.bf <- combine.bf(lBF_df, pn = pn, pa = pa, pc = pc)
+			if (is.null(hit1)) {
+				hit1 = "-"
+				pp.bf$pp[c(1, 3)] = c(0, 1)
+			}
+			if (is.null(hit2)) {
+				hit2 = "-"
+				pp.bf$pp[c(1, 2)] = c(0, 1)
+			}
+			results[[k]] = do.call(
+				"data.frame",
+				c(
+					list(nsnps = nsnps, hit1 = hit1, hit2 = hit2),
+					as.list(pp.bf$pp),
+					as.list(pp.bf$bf),
+					querysnp = querysnpid,
+					typeBF = 'susieBF'
+				)
+			)
+		} else {
+			results[[k]] = data.frame(
+				lBF.Ha = lBF.Ha,
+				lBF.Hc = lBF.Hc,
+				nsnps = nsnps,
+				querysnp = querysnpid,
+				querytrait = querytrait,
+				hit1 = hit1,
+				hit2 = hit2,
+				typeBF = 'susieBF'
+			)
+		}
+	}
+	results <- data.table::as.data.table(do.call("rbind", results))
+	results = cbind(results, todo[, .(idx1 = i, idx2 = j)])
+	## rarely, susie puts the same cred set twice. check, and prune if found
+	hits = paste(results$hit1, results$hit2, sep = ".")
+	if (any(duplicated(hits))) {
+		results = results[!duplicated(hits)]
+	}
+	if (ret_pp) {
+		ret = list(summary = results, priors = c(pn = pn, pa = pa, pc = pc))
+		## renumber index to match
+		ret$summary[, idx2 := cred_set$cs_index[idx2]]
+		ret$summary[, idx1 := rep(1, length(ret$summary$idx2))]
+		ret$summary[, querytrait := querytrait]
+		ret$bf = sus_bf
+		ret$querysnp = querysnpid
+		ret$querytrait = querytrait
+		ret$typeBF = 'susieBF'
+		return(ret)
+	} else {
+		return(results)
+	}
 }
 
 
@@ -186,22 +261,36 @@ cophe.bf_bf=function(sus_dat, cred_set, querysnpid, querytrait, pn=NULL, pa=NULL
 #'                                   querytrait='Trait_1', switch=T)
 #' res.susie.lbf
 #' @author Ichcha Manipur
-cophe.susie.lbf <- function(dataset, querysnpid, querytrait, switch=TRUE,
-                            susie.args=list(), MAF=NULL) {
-  sus_dat = cophe.prepare.dat.susie(dataset, querysnpid, susie.args)
-  cred_set = sus_dat$sets
-  if (is.null(cred_set$cs) || length(cred_set$cs)==0){
-    message('No credible sets found calculation with SuSIE...')
-    if (switch){
-      message('Switching to cophe.single.bf as switch=TRUE...')
-      out_bf <- cophe.single.lbf(dataset, querysnpid, querytrait)
-    } else{
-      stop('Set switch=TRUE to obtain single BF when credible sets not found with SuSIE')
-    }
-  } else {
-    out_bf=cophe.bf_bf(sus_dat, cred_set, querysnpid, querytrait, ret_pp=FALSE)
-  }
-  return(out_bf)
+cophe.susie.lbf <- function(
+	dataset,
+	querysnpid,
+	querytrait,
+	switch = TRUE,
+	susie.args = list(),
+	MAF = NULL
+) {
+	sus_dat = cophe.prepare.dat.susie(dataset, querysnpid, susie.args)
+	cred_set = sus_dat$sets
+	if (is.null(cred_set$cs) || length(cred_set$cs) == 0) {
+		message('No credible sets found in calculation with SuSIE...')
+		if (switch) {
+			message('Switching to cophe.single.bf as switch=TRUE...')
+			out_bf <- cophe.single.lbf(dataset, querysnpid, querytrait)
+		} else {
+			stop(
+				'Set switch=TRUE to obtain single BF when credible sets not found with SuSIE'
+			)
+		}
+	} else {
+		out_bf = cophe.bf_bf(
+			sus_dat,
+			cred_set,
+			querysnpid,
+			querytrait,
+			ret_pp = FALSE
+		)
+	}
+	return(out_bf)
 }
 
 
@@ -216,36 +305,38 @@ cophe.susie.lbf <- function(dataset, querysnpid, querytrait, switch=TRUE,
 #' @seealso \code{\link{cophe.susie}}
 #' @keywords internal
 #'
-cophe.prepare.dat.susie <- function(dataset, querysnpid, susie.args){
-  # if(!requireNamespace("susieR", quietly = TRUE)) {
-  #   stop("please install susieR https://github.com/stephenslab/susieR")
-  # }
-  if (!"pvalues" %in% names(dataset)){
-    pvalues=pnorm(-abs(dataset$beta/sqrt(dataset$varbeta)))*2
-  } else {
-    pvalues=dataset$pvalues
-  }
-  ## N Required in latest SuSIE update
-  if (!"N" %in% names(dataset)){
-    stop('N (sample size) of the dataset not provided')
-  }
+cophe.prepare.dat.susie <- function(dataset, querysnpid, susie.args) {
+	# if(!requireNamespace("susieR", quietly = TRUE)) {
+	#   stop("please install susieR https://github.com/stephenslab/susieR")
+	# }
+	if (!"pvalues" %in% names(dataset)) {
+		pvalues = pnorm(-abs(dataset$beta / sqrt(dataset$varbeta))) * 2
+	} else {
+		pvalues = dataset$pvalues
+	}
+	## N Required in latest SuSIE update
+	if (!"N" %in% names(dataset)) {
+		stop('N (sample size) of the dataset not provided')
+	}
 
-  if(!querysnpid %in% dataset$snp) {
-    stop("Please check your dataset, queried trait not in dataset")
-  }
+	if (!querysnpid %in% dataset$snp) {
+		stop("Please check your dataset, queried trait not in dataset")
+	}
 
-  sus_dat=do.call("runsusie", c(list(d=dataset,suffix=1),susie.args))
+	sus_dat = do.call("runsusie", c(list(d = dataset, suffix = 1), susie.args))
 
-  ## Remove credible sets with all variants having p-value > 0.1. Once such a set is detected,
-  ## all subsequent sets are also removed
-  cred_set=sus_dat$sets
-  for (cs_id in seq_along(cred_set$cs)){
-    if (all(pvalues[cred_set$cs[[cs_id]]] > 0.1)){
-      message('Removing credible sets with snp p-vals > 0.1')
-      cred_set$cs_index <- cred_set$cs_index[!cred_set$cs_index %in% cs_id:length(cred_set$cs)]
-      cred_set$cs[cs_id:length(cred_set$cs)] <- NULL
-      break
-    }
-  }
-  return(sus_dat)
+	## Remove credible sets with all variants having p-value > 0.1. Once such a set is detected,
+	## all subsequent sets are also removed
+	cred_set = sus_dat$sets
+	for (cs_id in seq_along(cred_set$cs)) {
+		if (all(pvalues[cred_set$cs[[cs_id]]] > 0.1)) {
+			message('Removing credible sets with snp p-vals > 0.1')
+			cred_set$cs_index <- cred_set$cs_index[
+				!cred_set$cs_index %in% cs_id:length(cred_set$cs)
+			]
+			cred_set$cs[cs_id:length(cred_set$cs)] <- NULL
+			break
+		}
+	}
+	return(sus_dat)
 }

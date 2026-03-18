@@ -12,7 +12,7 @@ multitrait.simplify(multi.dat, only_BF = FALSE)
 \item{only_BF}{return only bayes factors and not posterior probabilities (default=FALSE)}
 }
 \value{
-dataframe with posterior probabilties of Hn, Hc and Ha
+dataframe with posterior probabilities of Hn, Hc and Ha
 }
 \description{
 Simplifying the output obtained from \code{cophe.multitrait}, \code{cophe.single} or \code{cophe.susie}

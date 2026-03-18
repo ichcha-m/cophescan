@@ -11,20 +11,28 @@
 #' @export
 #' @author Ichcha Manipur
 
-per.snp.priors <- function(nsnps, pa=3.82e-5, pc=1.82e-3,
-                           p1=NULL, p2=NULL, p12=NULL) {
-  if (is.null(pc)){
-    pc <- p12/(p1+p12)
-  }
-  if (is.null(pa)){
-    pa <- p2
-  }
-  if (((pa*(nsnps-1)) + pc) >= 1){
-    stop("(pa*(nsnps-1)) - pc should be < 1, Revaluate priors or see help for adjust_priors")
-  }
-  pn <- 1 - (pa*(nsnps-1)) - pc
-  priors <- c(pn=pn, pa=pa, pc=pc)
-  return(priors)
+per.snp.priors <- function(
+	nsnps,
+	pa = 3.82e-5,
+	pc = 1.82e-3,
+	p1 = NULL,
+	p2 = NULL,
+	p12 = NULL
+) {
+	if (is.null(pc)) {
+		pc <- p12 / (p1 + p12)
+	}
+	if (is.null(pa)) {
+		pa <- p2
+	}
+	if (((pa * (nsnps - 1)) + pc) >= 1) {
+		stop(
+			"(pa*(nsnps-1)) + pc should be < 1, Reevaluate priors or see help for adjust_priors"
+		)
+	}
+	pn <- 1 - (pa * (nsnps - 1)) - pc
+	priors <- c(pn = pn, pa = pa, pc = pc)
+	return(priors)
 }
 
 #' hypothesis.priors
@@ -37,10 +45,9 @@ per.snp.priors <- function(nsnps, pa=3.82e-5, pc=1.82e-3,
 #' @return hypotheses priors
 #' @export
 #' @author Ichcha Manipur
-hypothesis.priors <- function(nsnps, pn, pa, pc){
-  hp <- c(Hn=pn, Ha=(pa*(nsnps
-                         -1)), Hc=pc)
-  return(hp)
+hypothesis.priors <- function(nsnps, pn, pa, pc) {
+	hp <- c(Hn = pn, Ha = (pa * (nsnps - 1)), Hc = pc)
+	return(hp)
 }
 
 #' Calculate posterior probabilities for all the configurations
@@ -54,26 +61,34 @@ hypothesis.priors <- function(nsnps, pn, pa, pc){
 #' @export
 #' @author Ichcha Manipur
 combine.bf <- function(lBF_df, pn, pa, pc) {
-  lHn.bf <- 0
-  lBF.Ha <- lBF_df$lBF.Ha
-  lHa.bf <- (log(pa) - log(pn)) + lBF.Ha
-  lBF.Hc <- lBF_df$lBF.Hc
-  lHc.bf <- (log(pc) - log(pn)) + lBF.Hc
-  # overall bf
-  bf <- c(lBF.Ha, lBF.Hc)
-  names(bf) <- c('lBF.Ha', 'lBF.Hc')
+	lHn.bf <- 0
+	lBF.Ha <- lBF_df$lBF.Ha
+	lHa.bf <- (log(pa) - log(pn)) + lBF.Ha
+	lBF.Hc <- lBF_df$lBF.Hc
+	lHc.bf <- (log(pc) - log(pn)) + lBF.Hc
+	# overall bf
+	bf <- c(lBF.Ha, lBF.Hc)
+	names(bf) <- c('lBF.Ha', 'lBF.Hc')
 
-  all.bf <- c(lHn.bf, lHa.bf, lHc.bf)
-  denom.log.bf <- logsum(all.bf)
-  pp <- exp(all.bf - denom.log.bf)
-  # pp.bf
-  names(pp) <- paste("PP.H", c('n', 'a', 'c') , sep = "")
-  # barplot(pp.bf)
-  # message(signif(pp,3))
-  message(paste(names(pp), collapse = " "))
-  message(paste(format(signif(pp,3), scientific = TRUE, digits = 6), collapse=" "))
-  message(paste("PP for causal query variant: ", signif(pp["PP.Hc"],3)*100 , '%', sep=''))
-  return(list(pp=pp, bf=bf))
+	all.bf <- c(lHn.bf, lHa.bf, lHc.bf)
+	denom.log.bf <- logsum(all.bf)
+	pp <- exp(all.bf - denom.log.bf)
+	# pp.bf
+	names(pp) <- paste("PP.H", c('n', 'a', 'c'), sep = "")
+	# barplot(pp.bf)
+	# message(signif(pp,3))
+	message(paste(names(pp), collapse = " "))
+	message(paste(
+		format(signif(pp, 3), scientific = TRUE, digits = 6),
+		collapse = " "
+	))
+	message(paste(
+		"PP for causal query variant: ",
+		signif(pp["PP.Hc"], 3) * 100,
+		'%',
+		sep = ''
+	))
+	return(list(pp = pp, bf = bf))
 }
 
 #' Bayesian cophescan analysis under single causal variant assumption
@@ -115,34 +130,73 @@ combine.bf <- function(lBF_df, pn, pa, pc) {
 #' summary(res.single)
 #' @author Ichcha Manipur
 #' @export
-cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL,
-                         pa=3.82e-5, pc=1.82e-3,
-                         p1=NULL, p2=NULL, p12=NULL) {
-  message('Running cophe.single...')
+cophe.single <- function(
+	dataset,
+	querysnpid,
+	querytrait,
+	MAF = NULL,
+	pa = 3.82e-5,
+	pc = 1.82e-3,
+	p1 = NULL,
+	p2 = NULL,
+	p12 = NULL
+) {
+	message('Running cophe.single...')
 
-  lABF.df = cophe.single.lbf(dataset, querysnpid, querytrait, MAF)
+	lABF.df = cophe.single.lbf(dataset, querysnpid, querytrait, MAF)
 
-  # number of snps in the region
-  nsnps <- lABF.df$nsnps
+	# number of snps in the region
+	nsnps <- lABF.df$nsnps
 
-  psp  <-  per.snp.priors(nsnps = nsnps, p1 = p1, p2 = p2, p12 = p12, pa = pa, pc = pc)
-  message('SNP Priors')
-  # message(psp)
-  message(paste(names(psp), collapse = " "))
-  message(paste(format(psp, scientific = TRUE, digits = 6), collapse=" "))
-  hp <- hypothesis.priors(nsnps = nsnps, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
-  message('Hypothesis Priors')
-  # message(hp)
-  message(paste(names(hp), collapse = " "))
-  message(paste(format(hp, scientific = TRUE, digits = 6), collapse=" "))
-  pp.bf <- combine.bf(lABF.df, pn=psp[["pn"]], pa=psp[["pa"]], pc=psp[["pc"]])
+	psp <- per.snp.priors(
+		nsnps = nsnps,
+		p1 = p1,
+		p2 = p2,
+		p12 = p12,
+		pa = pa,
+		pc = pc
+	)
+	message('SNP Priors')
+	# message(psp)
+	message(paste(names(psp), collapse = " "))
+	message(paste(format(psp, scientific = TRUE, digits = 6), collapse = " "))
+	hp <- hypothesis.priors(
+		nsnps = nsnps,
+		pn = psp[["pn"]],
+		pa = psp[["pa"]],
+		pc = psp[["pc"]]
+	)
+	message('Hypothesis Priors')
+	# message(hp)
+	message(paste(names(hp), collapse = " "))
+	message(paste(format(hp, scientific = TRUE, digits = 6), collapse = " "))
+	pp.bf <- combine.bf(
+		lABF.df,
+		pn = psp[["pn"]],
+		pa = psp[["pa"]],
+		pc = psp[["pc"]]
+	)
 
-  results <- do.call("data.frame",c(list(nsnps=nsnps), as.list(pp.bf$pp), as.list(pp.bf$bf), querysnp=querysnpid, querytrait=querytrait, typeBF='ABF'))
-  output <- list(summary=results,
-                 priors=psp, querysnp=querysnpid, querytrait=querytrait)
-  attr(output, "class") <- "cophe"
-  # class(output) <- c("cophe",class(output))
-  return(output)
+	results <- do.call(
+		"data.frame",
+		c(
+			list(nsnps = nsnps),
+			as.list(pp.bf$pp),
+			as.list(pp.bf$bf),
+			querysnp = querysnpid,
+			querytrait = querytrait,
+			typeBF = 'ABF'
+		)
+	)
+	output <- list(
+		summary = results,
+		priors = psp,
+		querysnp = querysnpid,
+		querytrait = querytrait
+	)
+	attr(output, "class") <- "cophe"
+	# class(output) <- c("cophe",class(output))
+	return(output)
 }
 
 
@@ -165,41 +219,47 @@ cophe.single <- function(dataset, querysnpid, querytrait, MAF=NULL,
 #' res.single.lbf <- cophe.single.lbf(query_trait_1, querysnpid = querysnpid, querytrait='Trait_1')
 #' res.single.lbf
 #' @author Ichcha Manipur
-cophe.single.lbf <- function(dataset, querysnpid, querytrait, MAF=NULL) {
-  proc_data = cophe.prepare.dat.single(dataset, querysnpid, MAF)
-  df=proc_data$df
-  querypos = proc_data$querypos
+cophe.single.lbf <- function(dataset, querysnpid, querytrait, MAF = NULL) {
+	proc_data = cophe.prepare.dat.single(dataset, querysnpid, MAF)
+	df = proc_data$df
+	querypos = proc_data$querypos
 
-  lBF.persnp = df$lABF.df
-  lBF.Ha <- logsum(lBF.persnp[-querypos])
-  lBF.Hc <- lBF.persnp[querypos]
+	lBF.persnp = df$lABF.df
+	lBF.Ha <- logsum(lBF.persnp[-querypos])
+	lBF.Hc <- lBF.persnp[querypos]
 
-  # overall bf
-  out_bf <- data.frame(lBF.Ha = lBF.Ha, lBF.Hc = lBF.Hc, nsnps=nrow(df), querysnp=querysnpid, querytrait=querytrait, typeBF='ABF')
-  return(out_bf)
+	# overall bf
+	out_bf <- data.frame(
+		lBF.Ha = lBF.Ha,
+		lBF.Hc = lBF.Hc,
+		nsnps = nrow(df),
+		querysnp = querysnpid,
+		querytrait = querytrait,
+		typeBF = 'ABF'
+	)
+	return(out_bf)
 }
 
 
 #' Prepare data for cophe.single
 #'
-#' @param dataset a list with specifically named elements defining the query trait dataset
-##'   to be analysed.
+#' @param dataset a list with specifically named elements defining the query trait dataset to be analysed.
 #' @param querysnpid Id of the query variant, (id in dataset$snp)
 #'
 #' @return named list containing the per snp BFs (df) and position of the query variant (querypos)
 #' @keywords internal
 #' @author Ichcha Manipur
-cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
-  if(!("MAF" %in% names(dataset)) & !is.null(MAF))
-    dataset$MAF <- MAF
-  coloc::check_dataset(d=dataset,2)
-  querypos <- which(dataset$snp%in%querysnpid)
-  if (!querysnpid %in% dataset$snp) {
-    stop("Please check your dataset, queried snp not present in dataset")
-  }
-  df <- coloc::process.dataset(d=dataset, suffix="df")
-  return(list(df=df, querypos=querypos))
-
+cophe.prepare.dat.single <- function(dataset, querysnpid, MAF = NULL) {
+	if (!("MAF" %in% names(dataset)) & !is.null(MAF)) {
+		dataset$MAF <- MAF
+	}
+	coloc::check_dataset(d = dataset, 2)
+	querypos <- which(dataset$snp %in% querysnpid)
+	if (!querysnpid %in% dataset$snp) {
+		stop("Please check your dataset, queried snp not present in dataset")
+	}
+	df <- coloc::process.dataset(d = dataset, suffix = "df")
+	return(list(df = df, querypos = querypos))
 }
 
 #' adjust_priors
@@ -215,21 +275,26 @@ cophe.prepare.dat.single <- function(dataset, querysnpid, MAF=NULL){
 #' @return vector of pn, pa and pc adjusted prior probabilities
 #' @export
 #'
-adjust_priors <- function(nsnps, pa=3.82e-5, pc=1.82e-3,
-                          p1=NULL, p2=NULL, p12=NULL) {
-  if (is.null(pc)){
-    pc <- p12/(p1+p12)
-  }
-  if (is.null(pa)){
-    pa <- p2
-  }
-  sum_priors <- (nsnps+1)*pa + pc
-  pc <- pc/sum_priors
-  pa <- pa/sum_priors
-  pn <- pa
-  return(c(pn=pn, pa=pa, pc=pc))
+adjust_priors <- function(
+	nsnps,
+	pa = 3.82e-5,
+	pc = 1.82e-3,
+	p1 = NULL,
+	p2 = NULL,
+	p12 = NULL
+) {
+	if (is.null(pc)) {
+		pc <- p12 / (p1 + p12)
+	}
+	if (is.null(pa)) {
+		pa <- p2
+	}
+	sum_priors <- (nsnps + 1) * pa + pc
+	pc <- pc / sum_priors
+	pa <- pa / sum_priors
+	pn <- pa
+	return(c(pn = pn, pa = pa, pc = pc))
 }
-
 
 
 #' print the summary of results from cophescan single or susie
@@ -240,11 +305,11 @@ adjust_priors <- function(nsnps, pa=3.82e-5, pc=1.82e-3,
 #' @seealso \code{\link{cophe.single}}, \code{\link{cophe.susie}}
 #' @export
 #'
-summary.cophe <- function(object, ...){
-  summ =object$summary
-  class(summ) = c("summary.cophe", "data.frame")
-  return(summ)
-  # message(cophe.res$summary)
+summary.cophe <- function(object, ...) {
+	summ = object$summary
+	class(summ) = c("summary.cophe", "data.frame")
+	return(summ)
+	# message(cophe.res$summary)
 }
 
 ##' Internal function, logsum
@@ -255,7 +320,7 @@ summary.cophe <- function(object, ...){
 ##' @param x numeric vector
 ##' @return max(x) + log(sum(exp(x - max(x))))
 logsum <- function(x) {
-  my.max <- max(x)                              ##take out the maximum value in log form
-  my.res <- my.max + log(sum(exp(x - my.max )))
-  return(my.res)
+	my.max <- max(x) ##take out the maximum value in log form
+	my.res <- my.max + log(sum(exp(x - my.max)))
+	return(my.res)
 }

@@ -11,9 +11,9 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "HP-"
+	collapse = TRUE,
+	comment = "#>",
+	fig.path = "HP-"
 )
 ```
 
@@ -43,12 +43,16 @@ Note: When there are no credible sets identified with SuSIE the function interna
 ```{r message=FALSE, warning=FALSE, results='hide'}
 ## Hide print messages from coloc
 res.multi.lbf <- list()
-for (trait_idx in seq_along(cophe_multi_trait_data$summ_stat)){
-  querytrait_ss <- cophe_multi_trait_data$summ_stat[[trait_idx]]
-  # Here LD is the same
-  querytrait_ss$LD <- LD
-  trait_variant_pair <- paste0('Trait', trait_idx, '_', querysnpid)
-  res.multi.lbf[[trait_variant_pair]] <- cophe.susie.lbf(querytrait_ss, querysnpid = querysnpid, querytrait = paste0('Trait_', trait_idx))
+for (trait_idx in seq_along(cophe_multi_trait_data$summ_stat)) {
+	querytrait_ss <- cophe_multi_trait_data$summ_stat[[trait_idx]]
+	# Here LD is the same
+	querytrait_ss$LD <- LD
+	trait_variant_pair <- paste0('Trait', trait_idx, '_', querysnpid)
+	res.multi.lbf[[trait_variant_pair]] <- cophe.susie.lbf(
+		querytrait_ss,
+		querysnpid = querysnpid,
+		querytrait = paste0('Trait_', trait_idx)
+	)
 }
 
 res.multi.lbf.df = bind_rows(res.multi.lbf)
@@ -71,12 +75,20 @@ The input df for the multi.dat arguments should contain the following fields: "l
 Set the argument covar to TRUE to include covariates
 
 ```{r warning=F, message=F, fig.width = 8, fig.height=8, out.width = "75%",  fig.ncol = 3, fig.align = "center"}
-covar=FALSE
-covar_vec=rep(1, nrow(res.multi.lbf.df))
-## Set covar to TRUE to include covariates, uncomment the following 2 lines 
+covar = FALSE
+covar_vec = rep(1, nrow(res.multi.lbf.df))
+## Set covar to TRUE to include covariates, uncomment the following 2 lines
 # covar=TRUE
 # covar_vec = cophe_multi_trait_data$covar_vec
-cophe.hier.res <- run_metrop_priors(res.multi.lbf.df, avg_posterior=TRUE, avg_pik = TRUE, covar_vec = covar_vec, covar = covar, nits = 50000, thin = 5)
+cophe.hier.res <- run_metrop_priors(
+	res.multi.lbf.df,
+	avg_posterior = TRUE,
+	avg_pik = TRUE,
+	covar_vec = covar_vec,
+	covar = covar,
+	nits = 50000,
+	thin = 5
+)
 names(cophe.hier.res)
 ```
 
@@ -88,9 +100,17 @@ Run 3-4 chains of the model and check if there is convergence of chains.
 Note: For large datasets run the chains separately and save them in individual .RData files. These can be loaded later for diagnostics.
 
 ```{r message=FALSE}
-cophe.hier.res.chain.list <- lapply(1:4, function(x) 
-  run_metrop_priors(res.multi.lbf.df, avg_posterior=TRUE, avg_pik = TRUE, 
-                    covar_vec = covar_vec, covar = covar, nits = 50000, thin = 5))
+cophe.hier.res.chain.list <- lapply(1:4, function(x) {
+	run_metrop_priors(
+		res.multi.lbf.df,
+		avg_posterior = TRUE,
+		avg_pik = TRUE,
+		covar_vec = covar_vec,
+		covar = covar,
+		nits = 50000,
+		thin = 5
+	)
+})
 ```
 
 
@@ -101,31 +121,52 @@ old_par <- par(no.readonly = TRUE)
 # chain_colors <- c("#e63946c4", "#f1faee", "#a8dadc", "#457b9d" )
 chain_colors <- c("#f4f1de", "#e07a5fb2", "#3d405bb2", "#81b29aa6")
 
-layout(matrix(c(1, 2, 3, 4, 5, 5), ncol=2, byrow = TRUE), respect = TRUE, 
-       heights = c(0.9, 0.9, 0.1))
+layout(
+	matrix(c(1, 2, 3, 4, 5, 5), ncol = 2, byrow = TRUE),
+	respect = TRUE,
+	heights = c(0.9, 0.9, 0.1)
+)
 
 
-matplot(sapply(cophe.hier.res.chain.list, function(x) x$ll), type = "l", 
-        col = chain_colors, 
-     main ="loglik", ylab = "ll", xlab = "Iteration", lty = 1)
+matplot(
+	sapply(cophe.hier.res.chain.list, function(x) x$ll),
+	type = "l",
+	col = chain_colors,
+	main = "loglik",
+	ylab = "ll",
+	xlab = "Iteration",
+	lty = 1
+)
 
 y_ax <- c("alpha", "beta", "gamma")
-num_pars <- ifelse(covar, 3, 2) 
+num_pars <- ifelse(covar, 3, 2)
 for (idx in 1:num_pars) {
-    matplot(sapply(cophe.hier.res.chain.list, function(x) x$parameters[idx, ]),
-        type = "l", col = chain_colors,
-        main = paste(y_ax[idx]), ylab = y_ax[idx], xlab = "Iteration", lty = 1
-    )
+	matplot(
+		sapply(cophe.hier.res.chain.list, function(x) x$parameters[idx, ]),
+		type = "l",
+		col = chain_colors,
+		main = paste(y_ax[idx]),
+		ylab = y_ax[idx],
+		xlab = "Iteration",
+		lty = 1
+	)
 }
 
 if (!covar) {
-    plot(1, type = "n", axes = FALSE, xlab = "", ylab = "")
+	plot(1, type = "n", axes = FALSE, xlab = "", ylab = "")
 }
 
-par(mar=c(0, 0, 0, 0))
+par(mar = c(0, 0, 0, 0))
 plot(1, type = "n", axes = FALSE, xlab = "", ylab = "")
-legend("top", legend = paste("Chain", 1:4), col = chain_colors, lty = 1, lwd = 2, 
-       horiz = TRUE, bty = "n")
+legend(
+	"top",
+	legend = paste("Chain", 1:4),
+	col = chain_colors,
+	lty = 1,
+	lwd = 2,
+	horiz = TRUE,
+	bty = "n"
+)
 
 # Reset user parameters
 par(old_par)
@@ -138,7 +179,10 @@ par(old_par)
 `cophe.hier.res.chain.list[[1]]$avg.posterior` contains the posterior probabilities of the hypotheses : $H_n$, $H_a$ and $H_c$ for the queryvariant/querytrait pairs obtained from the hierarchical model. Here we use the first chain for prediction.
 
 ```{r}
-res.post.prob = cbind(cophe.hier.res.chain.list[[1]]$avg.posterior, cophe.hier.res$data)
+res.post.prob = cbind(
+	cophe.hier.res.chain.list[[1]]$avg.posterior,
+	cophe.hier.res$data
+)
 ```
 
 
@@ -146,10 +190,19 @@ We can use the `cophe.hyp.predict` function to predict the hypothesis given the 
 The cophe.hyp.call column shows the predicted hypothesis for each query trait-query variant pair.
 
 ```{r}
-res.hier.predict <- cophe.hyp.predict(as.data.frame(res.post.prob ))
-col_disp <- c( "PP.Hn", "PP.Ha", "PP.Hc", "nsnps", "querysnp", "querytrait",
-               "typeBF",  "grp", "cophe.hyp.call")
-knitr::kable(res.hier.predict[, col_disp], row.names = FALSE, digits=3)
+res.hier.predict <- cophe.hyp.predict(as.data.frame(res.post.prob))
+col_disp <- c(
+	"PP.Hn",
+	"PP.Ha",
+	"PP.Hc",
+	"nsnps",
+	"querysnp",
+	"querytrait",
+	"typeBF",
+	"grp",
+	"cophe.hyp.call"
+)
+knitr::kable(res.hier.predict[, col_disp], row.names = FALSE, digits = 3)
 ```
 
 #### Visualisation
@@ -157,19 +210,24 @@ knitr::kable(res.hier.predict[, col_disp], row.names = FALSE, digits=3)
 Use the `cophe_plot` function to return -log10(pval), ppHa and ppHc PheWAS plots from the cophescan output.
 
 ```{r cophePlots, message=FALSE}
-res.plots = cophe_plot(res.hier.predict, traits.dat = cophe_multi_trait_data$summ_stat, querysnpid = querysnpid, query_trait_names = paste0('Trait_', 1:24))
+res.plots = cophe_plot(
+	res.hier.predict,
+	traits.dat = cophe_multi_trait_data$summ_stat,
+	querysnpid = querysnpid,
+	query_trait_names = paste0('Trait_', 1:24)
+)
 
 # if (!require(ggpubr)) {
-  # install.packages("ggpubr") 
+# install.packages("ggpubr")
 # }
-# ggpubr::ggarrange(res.plots$pval, res.plots$ppHa, res.plots$ppHc, ncol = 2, 
+# ggpubr::ggarrange(res.plots$pval, res.plots$ppHa, res.plots$ppHc, ncol = 2,
 #                 nrow = 2)
 ```
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, out.width = "40%"}
-res.plots$pval + theme(legend.position="bottom")
-res.plots$ppHa + theme(legend.position="bottom")
-res.plots$ppHc + theme(legend.position="bottom")
+res.plots$pval + theme(legend.position = "bottom")
+res.plots$ppHa + theme(legend.position = "bottom")
+res.plots$ppHc + theme(legend.position = "bottom")
 ```
 
 Note: For large datasets, it's not feasible to input all coloc-structured data into "traits.dat" at once.
@@ -177,7 +235,7 @@ Instead, use a loop and run the "get_beta" function over all the trait-variant p
 
 ``` r
 # beta_p_list <- lapply(seq_along(cophe_multi_trait_data$summ_stat),  function(x) get_beta(list(cophe_multi_trait_data$summ_stat[[x]]), querysnpid, names(cophe_multi_trait_data$summ_stat)[x]))
-# ### the datsets need not be in a list as in cophe_multi_trait_data$summ_stat and can be stored independently.
+# ### the datasets need not be in a list as in cophe_multi_trait_data$summ_stat and can be stored independently.
 # beta_p_df = bind_rows(beta_p_list)
 # ### Make sure the query trait names in beta_p_df are the same as in res.hier.predict
 # res.plots = cophe_plot(res.hier.predict,  querysnpid = querysnpid, query_trait_names = beta_p_df$querytrait, beta_p = beta_p_df)

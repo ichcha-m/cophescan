@@ -8,3 +8,21 @@
 \description{
 Coloc adapted Phenome-wide Scans
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/ichcha-m/cophescan}
+  \item \url{https://ichcha-m.github.io/cophescan/}
+  \item Report bugs at \url{https://github.com/ichcha-m/cophescan/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Ichcha Manipur \email{im504@cam.ac.uk}
+
+Authors:
+\itemize{
+  \item Chris Wallace
+}
+
+}

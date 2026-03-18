@@ -28,7 +28,7 @@ cophe_heatmap(
 \link[pheatmap]{pheatmap}}
 }
 \value{
-heatmap of posterior probabilities of the phentypes above the set threshold
+heatmap of posterior probabilities of the phenotypes above the set threshold
 }
 \description{
 Heatmap of multi-trait cophescan results

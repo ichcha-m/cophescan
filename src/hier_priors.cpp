@@ -48,8 +48,8 @@ double logsumexp(arma::rowvec x) {
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param covar_vec Vector of the covariate
-//' @param covar logical: should the covariate inflormation be used? default: False
-//' @return logpost flog of the posteriors
+//' @param covar logical: should the covariate information be used? default: False
+//' @return logpost log of the posteriors
 // [[Rcpp::export]]
 arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
   arma::mat pik = pars2pik(params, nsnps, covar_vec, covar);
@@ -70,8 +70,8 @@ arma::mat logpost(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, Nume
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param covar_vec Vector of the covariate
-//' @param covar logical: should the covariate inflormation be used? default: False
-//' @return logpost flog of the posteriors
+//' @param covar logical: should the covariate information be used? default: False
+//' @return logpost log of the posteriors
 // [[Rcpp::export]]
 double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
   arma::mat logpos = logpost(params, lbf_mat, nsnps, covar_vec, covar);
@@ -91,7 +91,7 @@ double loglik(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericV
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param covar_vec Vector of the covariate
-//' @param covar logical: should the covariate inflormation be used? default: False
+//' @param covar logical: should the covariate information be used? default: False
 //' @return posterior prob of Hn, Ha and Hc
 // [[Rcpp::export]]
 arma::mat get_posterior_prob(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
@@ -124,7 +124,7 @@ arma::vec sample_alpha(double alpha_mean=-10, double alpha_sd=0.5){
 }
 
 //' sample beta
-//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_shape prior for the shape (gamma distribution) of beta
 //' @param beta_scale prior for the scale of beta
 //' @return sample from rgamma for \eqn{\beta}
 // [[Rcpp::export]]
@@ -134,7 +134,7 @@ arma::vec sample_beta(double beta_shape=2, double beta_scale=2){
 }
 
 //' sample gamma
-//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_shape prior for the shape (gamma distribution) of gamma
 //' @param gamma_scale prior for the scale of gamma
 //' @return sample from rgamma for \eqn{\gamma}
 // [[Rcpp::export]]
@@ -155,7 +155,7 @@ double logd_alpha(double a, double alpha_mean=-10, double alpha_sd=0.5){
 
 //' dgamma for beta
 //' @param b current beta
-//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_shape prior for the shape (gamma distribution) of beta
 //' @param beta_scale prior for the scale of beta
 //' @return log dgamma
 // [[Rcpp::export]]
@@ -167,7 +167,7 @@ double logd_beta(double b, double beta_shape=2, double beta_scale=2){
 
 //' dgamma for gamma
 //' @param g current gamma
-//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_shape prior for the shape (gamma distribution) of gamma
 //' @param gamma_scale prior for the scale of gamma
 //' @return log dgamma
 // [[Rcpp::export]]
@@ -177,12 +177,12 @@ double logd_gamma(double g, double gamma_shape=2, double gamma_scale=2){
 
 //' Calculate log priors
 //' @param params Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}
-//' @param covar logical: Should the covariate inflormation be used? default: False
+//' @param covar logical: Should the covariate information be used? default: False
 //' @param alpha_mean prior for the mean of  alpha
 //' @param alpha_sd prior for the standard deviation of  alpha
-//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_shape prior for the shape (gamma distribution) of beta
 //' @param beta_scale prior for the scale of beta
-//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_shape prior for the shape (gamma distribution) of gamma
 //' @param gamma_scale prior for the scale of gamma
 //' @return log priors
 // [[Rcpp::export]]
@@ -203,7 +203,7 @@ double logpriors(arma::vec params, bool covar=false, double alpha_mean =-10, dou
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param covar_vec Vector of the covariate
-//' @param covar logical: Should the covariate inflormation be used? default: False
+//' @param covar logical: Should the covariate information be used? default: False
 //' @return target
 // [[Rcpp::export]]
 double target(arma::vec params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false) {
@@ -224,12 +224,12 @@ arma::vec propose(arma::vec params, double propsd=0.5){
 }
 
 //' Initiate parameters alpha, beta and gamma
-//' @param covar logical: Should the covariate inflormation be used? default: False
+//' @param covar logical: Should the covariate information be used? default: False
 //' @param alpha_mean prior for the mean of  alpha
 //' @param alpha_sd prior for the standard deviation of  alpha
-//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_shape prior for the shape (gamma distribution) of beta
 //' @param beta_scale prior for the scale of beta
-//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_shape prior for the shape (gamma distribution) of gamma
 //' @param gamma_scale prior for the scale of gamma
 //' @return params \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}
 // [[Rcpp::export]]
@@ -253,12 +253,12 @@ arma::vec pars_init(bool covar=false, double alpha_mean =-10, double alpha_sd=0.
 //' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param covar logical: Should the covariate inflormation be used? default: False
+//' @param covar logical: Should the covariate information be used? default: False
 //' @param alpha_mean prior for the mean of  alpha
 //' @param alpha_sd prior for the standard deviation of  alpha
-//' @param beta_shape prior for the shape (gamma distibution) of beta
+//' @param beta_shape prior for the shape (gamma distribution) of beta
 //' @param beta_scale prior for the scale of beta
-//' @param gamma_shape prior for the shape (gamma distibution) of gamma
+//' @param gamma_shape prior for the shape (gamma distribution) of gamma
 //' @param gamma_scale prior for the scale of gamma
 //' @return named list of log likelihood (ll) and parameters: alpha, beta and gamma
 // [[Rcpp::export]]
@@ -299,8 +299,8 @@ List metrop_run(arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec,
 //' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 //' @param nsnps number of snps
 //' @param covar_vec Vector of the covariate
-//' @param covar logical: was the covariate inflormation  used? default: False
-//' @return List of posterior probabilties (len: iterations): Hn, Ha and Hc
+//' @param covar logical: was the covariate information  used? default: False
+//' @return List of posterior probabilities (len: iterations): Hn, Ha and Hc
 // [[Rcpp::export]]
 List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, bool covar=false){
   double k = params.n_cols;
@@ -317,7 +317,7 @@ List posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, Nu
 //' @param params Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}
 //' @param nsnps number of snps
 //' @param covar_vec Vector of the covariate
-//' @param covar logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate information  used? default: False
 //' @return List of priors (len: iterations): pnk, pak and pck
 // [[Rcpp::export]]
 List piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, bool covar=false){
@@ -338,7 +338,7 @@ List piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, bool c
 //' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param covar logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate information  used? default: False
 //' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 // [[Rcpp::export]]
 arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
@@ -362,7 +362,7 @@ arma::mat average_posterior_prob_list(arma::mat params, arma::mat lbf_mat, Numer
 //' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param covar logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate information  used? default: False
 //' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 // [[Rcpp::export]]
 arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
@@ -384,7 +384,7 @@ arma::mat average_posterior_prob(arma::mat params, arma::mat lbf_mat, NumericVec
 //' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param covar logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate information  used? default: False
 //' @return average pik matrix of priors: pnk, pak and pck
 // [[Rcpp::export]]
 arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){
@@ -408,7 +408,7 @@ arma::mat average_piks_list(arma::mat params, NumericVector nsnps, NumericVector
 //' @param covar_vec Vector of the covariate
 //' @param nits Number of iterations run in mcmc
 //' @param thin thinning
-//' @param covar logical: was the covariate inflormation  used? default: False
+//' @param covar logical: was the covariate information  used? default: False
 //' @return average pik matrix of priors: pnk, pak and pck
 // [[Rcpp::export]]
 arma::mat average_piks(arma::mat params, NumericVector nsnps, NumericVector covar_vec, int nits, int thin, bool covar=false){

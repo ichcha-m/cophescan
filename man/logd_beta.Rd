@@ -9,7 +9,7 @@ logd_beta(b, beta_shape = 2, beta_scale = 2)
 \arguments{
 \item{b}{current beta}
 
-\item{beta_shape}{prior for the shape (gamma distibution) of beta}
+\item{beta_shape}{prior for the shape (gamma distribution) of beta}
 
 \item{beta_scale}{prior for the scale of beta}
 }

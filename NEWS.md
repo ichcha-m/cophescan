@@ -1,3 +1,10 @@
+# cophescan 1.4.3
+
+- Fixed `nrow` check in `cophe.hyp.predict` for empty hypothesis subsets
+- Replaced `dplyr::select_if` with `dplyr::select(-matches(...))`
+- Fixed warning and error messages 
+- Fixed spelling in documentation
+
 # cophescan 1.4.2
 
 -   Fixed cross-references for documentation

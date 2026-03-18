@@ -2,7 +2,6 @@
 #'
 #' @description Coloc adapted Phenome-wide Scans
 #'
-#' @docType package
 #' @name cophescan-package
 #' @importFrom Rcpp evalCpp
 #' @exportPattern "^[[:alpha:]]+"
@@ -36,6 +35,38 @@
 #' @importFrom data.table .NGRP
 #' @importFrom data.table .EACHI
 ## usethis namespace: end
-NULL
-utils::globalVariables(c(".","pval_plot","beta_plot","Hn","Ha","Hc","ppHn","ppHa","ppHc","hit1","hit2","lBF.Ha","lBF.Hc","nsnps","snp","idx1","i","varbeta","z","x","y","points","j","df","querysnpid","L1","L2", "PP.Hn", "PP.Ha", "PP.Hc", "grp"))
+"_PACKAGE"
+utils::globalVariables(c(
+	".",
+	"pval_plot",
+	"beta_plot",
+	"Hn",
+	"Ha",
+	"Hc",
+	"ppHn",
+	"ppHa",
+	"ppHc",
+	"hit1",
+	"hit2",
+	"lBF.Ha",
+	"lBF.Hc",
+	"nsnps",
+	"snp",
+	"idx1",
+	"i",
+	"varbeta",
+	"z",
+	"x",
+	"y",
+	"points",
+	"j",
+	"df",
+	"querysnpid",
+	"L1",
+	"L2",
+	"PP.Hn",
+	"PP.Ha",
+	"PP.Hc",
+	"grp"
+))
 NULL

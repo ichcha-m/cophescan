@@ -18,17 +18,17 @@ logpriors(
 \arguments{
 \item{params}{Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}}
 
-\item{covar}{logical: Should the covariate inflormation be used? default: False}
+\item{covar}{logical: Should the covariate information be used? default: False}
 
 \item{alpha_mean}{prior for the mean of  alpha}
 
 \item{alpha_sd}{prior for the standard deviation of  alpha}
 
-\item{beta_shape}{prior for the shape (gamma distibution) of beta}
+\item{beta_shape}{prior for the shape (gamma distribution) of beta}
 
 \item{beta_scale}{prior for the scale of beta}
 
-\item{gamma_shape}{prior for the shape (gamma distibution) of gamma}
+\item{gamma_shape}{prior for the shape (gamma distribution) of gamma}
 
 \item{gamma_scale}{prior for the scale of gamma}
 }

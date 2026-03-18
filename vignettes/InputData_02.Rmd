@@ -11,9 +11,9 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "Input-"
+	collapse = TRUE,
+	comment = "#>",
+	fig.path = "Input-"
 )
 ```
 
@@ -31,7 +31,7 @@ type:'cc'
 
 N: sample size
 
-**For a Quantitave dataset**
+**For a Quantitative dataset**
 
 When, beta and varbeta are not available the following
 

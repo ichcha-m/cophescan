@@ -27,7 +27,7 @@ average_posterior_prob_list(
 
 \item{thin}{thinning}
 
-\item{covar}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate information  used? default: False}
 }
 \value{
 matrix with average of all the posterior probabilities: Hn, Ha and Hc

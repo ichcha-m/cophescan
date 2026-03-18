@@ -11,8 +11,7 @@ cophe_plot(
   thresh_Hc = 0.5,
   thresh_Ha = 0.5,
   beta_p = NULL,
-  traits.dat = NULL,
-  group_pheno = NULL
+  traits.dat = NULL
 )
 }
 \arguments{
@@ -26,11 +25,9 @@ cophe_plot(
 
 \item{thresh_Ha}{Ha threshold to be displayed}
 
-\item{beta_p}{data.frame (from the \code{get.beta} function) with four columns : 1. "beta_plot": indicating beta direction (p or n) 2. "beta_plot": -log10(pval) of the queried variant 3. "querysnp" 4. "querytrait".}
+\item{beta_p}{data.frame (from the \code{get.beta} function) with four columns : 1. "beta_plot": indicating beta direction (p or n) 2. "pval_plot": -log10(pval) of the queried variant 3. "querysnp" 4. "querytrait".}
 
 \item{traits.dat}{list of multi-trait coloc structured datasets}
-
-\item{group_pheno}{Vector with additional grouping of phenotypes}
 }
 \value{
 cophescan plots of Ha and Hc

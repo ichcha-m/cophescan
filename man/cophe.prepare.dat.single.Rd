@@ -7,8 +7,7 @@
 cophe.prepare.dat.single(dataset, querysnpid, MAF = NULL)
 }
 \arguments{
-\item{dataset}{a list with specifically named elements defining the query trait dataset
-to be analysed.}
+\item{dataset}{a list with specifically named elements defining the query trait dataset to be analysed.}
 
 \item{querysnpid}{Id of the query variant, (id in dataset$snp)}
 }

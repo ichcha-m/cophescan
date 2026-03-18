@@ -35,9 +35,9 @@ the multi.dat list contain the trait names please pass querytrait.names=names(mu
 
 \item{predict.hyp}{if TRUE predicts the hypothesis based on the provided thresholds for pp.Hc and pp.Hn (overrides simplify) using \code{cophe.hyp.predict}}
 
-\item{Hn.cutoff}{threshold for PP.Hc above which the associations are called Hc}
+\item{Hn.cutoff}{threshold for PP.Hn above which the associations are called Hn}
 
-\item{Hc.cutoff}{threshold for PP.Hc above which the associations are called Hn}
+\item{Hc.cutoff}{threshold for PP.Hc above which the associations are called Hc}
 
 \item{est.fdr.based.cutoff}{if True calculates the Hc.cutoff using 1-mean(PP.Hc)|PP.Hc > cutoff}
 

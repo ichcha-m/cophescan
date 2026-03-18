@@ -11,9 +11,9 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "Intro-"
+	collapse = TRUE,
+	comment = "#>",
+	fig.path = "Intro-"
 )
 ```
 
@@ -47,9 +47,9 @@ First, choosing the method for Bayes factor computation:
 | SuSIE | ✔                     | ✔                        | Yes                |
 |       |                       |                          |                    |
 
-Whenever, LD matrices are available (preferably in-sample LD), \``cophe.susie`\` is the recommended method as it accounts for multiple causal variants in the tested region.
+Whenever LD matrices are available (preferably in-sample LD), `cophe.susie` is the recommended method as it accounts for multiple causal variants in the tested region.
 
-Next, depending upon the size of the dataset we choose the method to specify priors :
+Next, depending upon the size of the dataset we choose the method to specify priors:
 
 |                     | Dataset | Inclusion of covariates |
 |---------------------|---------|-------------------------|

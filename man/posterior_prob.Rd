@@ -15,10 +15,10 @@ posterior_prob(params, lbf_mat, nsnps, covar_vec, covar = FALSE)
 
 \item{covar_vec}{Vector of the covariate}
 
-\item{covar}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate information  used? default: False}
 }
 \value{
-List of posterior probabilties (len: iterations): Hn, Ha and Hc
+List of posterior probabilities (len: iterations): Hn, Ha and Hc
 }
 \description{
 List of posterior probabilities: Hn, Ha and Hc over all iterations

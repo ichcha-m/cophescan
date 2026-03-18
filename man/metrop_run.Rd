@@ -26,7 +26,7 @@ metrop_run(
 
 \item{covar_vec}{Vector of the covariate}
 
-\item{covar}{logical: Should the covariate inflormation be used? default: False}
+\item{covar}{logical: Should the covariate information be used? default: False}
 
 \item{nits}{Number of iterations run in mcmc}
 
@@ -36,11 +36,11 @@ metrop_run(
 
 \item{alpha_sd}{prior for the standard deviation of  alpha}
 
-\item{beta_shape}{prior for the shape (gamma distibution) of beta}
+\item{beta_shape}{prior for the shape (gamma distribution) of beta}
 
 \item{beta_scale}{prior for the scale of beta}
 
-\item{gamma_shape}{prior for the shape (gamma distibution) of gamma}
+\item{gamma_shape}{prior for the shape (gamma distribution) of gamma}
 
 \item{gamma_scale}{prior for the scale of gamma}
 }

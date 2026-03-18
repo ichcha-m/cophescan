@@ -13,7 +13,7 @@ piks(params, nsnps, covar_vec, covar = FALSE)
 
 \item{covar_vec}{Vector of the covariate}
 
-\item{covar}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate information  used? default: False}
 }
 \value{
 List of priors (len: iterations): pnk, pak and pck

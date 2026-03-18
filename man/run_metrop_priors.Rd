@@ -48,11 +48,11 @@ run_metrop_priors(
 
 \item{alpha_sd}{prior for the standard deviation of  alpha}
 
-\item{beta_shape}{prior for the shape (gamma distibution) of beta}
+\item{beta_shape}{prior for the shape (gamma distribution) of beta}
 
 \item{beta_scale}{prior for the scale of beta}
 
-\item{gamma_shape}{prior for the shape (gamma distibution) of gamma}
+\item{gamma_shape}{prior for the shape (gamma distribution) of gamma}
 
 \item{gamma_scale}{prior for the scale of gamma}
 }

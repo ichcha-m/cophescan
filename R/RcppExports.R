@@ -25,8 +25,8 @@ logsumexp <- function(x) {
 #' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param covar_vec Vector of the covariate
-#' @param covar logical: should the covariate inflormation be used? default: False
-#' @return logpost flog of the posteriors
+#' @param covar logical: should the covariate information be used? default: False
+#' @return logpost log of the posteriors
 logpost <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
     .Call(`_cophescan_logpost`, params, lbf_mat, nsnps, covar_vec, covar)
 }
@@ -37,8 +37,8 @@ logpost <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
 #' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param covar_vec Vector of the covariate
-#' @param covar logical: should the covariate inflormation be used? default: False
-#' @return logpost flog of the posteriors
+#' @param covar logical: should the covariate information be used? default: False
+#' @return logpost log of the posteriors
 loglik <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
     .Call(`_cophescan_loglik`, params, lbf_mat, nsnps, covar_vec, covar)
 }
@@ -49,7 +49,7 @@ loglik <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
 #' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param covar_vec Vector of the covariate
-#' @param covar logical: should the covariate inflormation be used? default: False
+#' @param covar logical: should the covariate information be used? default: False
 #' @return posterior prob of Hn, Ha and Hc
 get_posterior_prob <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
     .Call(`_cophescan_get_posterior_prob`, params, lbf_mat, nsnps, covar_vec, covar)
@@ -64,7 +64,7 @@ sample_alpha <- function(alpha_mean = -10, alpha_sd = 0.5) {
 }
 
 #' sample beta
-#' @param beta_shape prior for the shape (gamma distibution) of beta
+#' @param beta_shape prior for the shape (gamma distribution) of beta
 #' @param beta_scale prior for the scale of beta
 #' @return sample from rgamma for \eqn{\beta}
 sample_beta <- function(beta_shape = 2, beta_scale = 2) {
@@ -72,7 +72,7 @@ sample_beta <- function(beta_shape = 2, beta_scale = 2) {
 }
 
 #' sample gamma
-#' @param gamma_shape prior for the shape (gamma distibution) of gamma
+#' @param gamma_shape prior for the shape (gamma distribution) of gamma
 #' @param gamma_scale prior for the scale of gamma
 #' @return sample from rgamma for \eqn{\gamma}
 sample_gamma <- function(gamma_shape = 2, gamma_scale = 2) {
@@ -90,7 +90,7 @@ logd_alpha <- function(a, alpha_mean = -10, alpha_sd = 0.5) {
 
 #' dgamma for beta
 #' @param b current beta
-#' @param beta_shape prior for the shape (gamma distibution) of beta
+#' @param beta_shape prior for the shape (gamma distribution) of beta
 #' @param beta_scale prior for the scale of beta
 #' @return log dgamma
 logd_beta <- function(b, beta_shape = 2, beta_scale = 2) {
@@ -99,7 +99,7 @@ logd_beta <- function(b, beta_shape = 2, beta_scale = 2) {
 
 #' dgamma for gamma
 #' @param g current gamma
-#' @param gamma_shape prior for the shape (gamma distibution) of gamma
+#' @param gamma_shape prior for the shape (gamma distribution) of gamma
 #' @param gamma_scale prior for the scale of gamma
 #' @return log dgamma
 logd_gamma <- function(g, gamma_shape = 2, gamma_scale = 2) {
@@ -108,12 +108,12 @@ logd_gamma <- function(g, gamma_shape = 2, gamma_scale = 2) {
 
 #' Calculate log priors
 #' @param params Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}
-#' @param covar logical: Should the covariate inflormation be used? default: False
+#' @param covar logical: Should the covariate information be used? default: False
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
-#' @param beta_shape prior for the shape (gamma distibution) of beta
+#' @param beta_shape prior for the shape (gamma distribution) of beta
 #' @param beta_scale prior for the scale of beta
-#' @param gamma_shape prior for the shape (gamma distibution) of gamma
+#' @param gamma_shape prior for the shape (gamma distribution) of gamma
 #' @param gamma_scale prior for the scale of gamma
 #' @return log priors
 logpriors <- function(params, covar = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
@@ -125,7 +125,7 @@ logpriors <- function(params, covar = FALSE, alpha_mean = -10, alpha_sd = 0.5, b
 #' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param covar_vec Vector of the covariate
-#' @param covar logical: Should the covariate inflormation be used? default: False
+#' @param covar logical: Should the covariate information be used? default: False
 #' @return target
 target <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
     .Call(`_cophescan_target`, params, lbf_mat, nsnps, covar_vec, covar)
@@ -141,12 +141,12 @@ propose <- function(params, propsd = 0.5) {
 }
 
 #' Initiate parameters alpha, beta and gamma
-#' @param covar logical: Should the covariate inflormation be used? default: False
+#' @param covar logical: Should the covariate information be used? default: False
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
-#' @param beta_shape prior for the shape (gamma distibution) of beta
+#' @param beta_shape prior for the shape (gamma distribution) of beta
 #' @param beta_scale prior for the scale of beta
-#' @param gamma_shape prior for the shape (gamma distibution) of gamma
+#' @param gamma_shape prior for the shape (gamma distribution) of gamma
 #' @param gamma_scale prior for the scale of gamma
 #' @return params \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}
 pars_init <- function(covar = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
@@ -159,12 +159,12 @@ pars_init <- function(covar = FALSE, alpha_mean = -10, alpha_sd = 0.5, beta_shap
 #' @param covar_vec Vector of the covariate
 #' @param nits Number of iterations run in mcmc
 #' @param thin thinning
-#' @param covar logical: Should the covariate inflormation be used? default: False
+#' @param covar logical: Should the covariate information be used? default: False
 #' @param alpha_mean prior for the mean of  alpha
 #' @param alpha_sd prior for the standard deviation of  alpha
-#' @param beta_shape prior for the shape (gamma distibution) of beta
+#' @param beta_shape prior for the shape (gamma distribution) of beta
 #' @param beta_scale prior for the scale of beta
-#' @param gamma_shape prior for the shape (gamma distibution) of gamma
+#' @param gamma_shape prior for the shape (gamma distribution) of gamma
 #' @param gamma_scale prior for the scale of gamma
 #' @return named list of log likelihood (ll) and parameters: alpha, beta and gamma
 metrop_run <- function(lbf_mat, nsnps, covar_vec, covar = FALSE, nits = 10000L, thin = 1L, alpha_mean = -10, alpha_sd = 0.5, beta_shape = 2, beta_scale = 2, gamma_shape = 2, gamma_scale = 2) {
@@ -177,8 +177,8 @@ metrop_run <- function(lbf_mat, nsnps, covar_vec, covar = FALSE, nits = 10000L, 
 #' @param lbf_mat matrix of log bayes factors: lBF.Ha and lBF.Hc
 #' @param nsnps number of snps
 #' @param covar_vec Vector of the covariate
-#' @param covar logical: was the covariate inflormation  used? default: False
-#' @return List of posterior probabilties (len: iterations): Hn, Ha and Hc
+#' @param covar logical: was the covariate information  used? default: False
+#' @return List of posterior probabilities (len: iterations): Hn, Ha and Hc
 posterior_prob <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
     .Call(`_cophescan_posterior_prob`, params, lbf_mat, nsnps, covar_vec, covar)
 }
@@ -188,7 +188,7 @@ posterior_prob <- function(params, lbf_mat, nsnps, covar_vec, covar = FALSE) {
 #' @param params Vector of parameters: \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}
 #' @param nsnps number of snps
 #' @param covar_vec Vector of the covariate
-#' @param covar logical: was the covariate inflormation  used? default: False
+#' @param covar logical: was the covariate information  used? default: False
 #' @return List of priors (len: iterations): pnk, pak and pck
 piks <- function(params, nsnps, covar_vec, covar = FALSE) {
     .Call(`_cophescan_piks`, params, nsnps, covar_vec, covar)
@@ -202,7 +202,7 @@ piks <- function(params, nsnps, covar_vec, covar = FALSE) {
 #' @param covar_vec Vector of the covariate
 #' @param nits Number of iterations run in mcmc
 #' @param thin thinning
-#' @param covar logical: was the covariate inflormation  used? default: False
+#' @param covar logical: was the covariate information  used? default: False
 #' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 average_posterior_prob_list <- function(params, lbf_mat, nsnps, covar_vec, nits, thin, covar = FALSE) {
     .Call(`_cophescan_average_posterior_prob_list`, params, lbf_mat, nsnps, covar_vec, nits, thin, covar)
@@ -216,7 +216,7 @@ average_posterior_prob_list <- function(params, lbf_mat, nsnps, covar_vec, nits,
 #' @param covar_vec Vector of the covariate
 #' @param nits Number of iterations run in mcmc
 #' @param thin thinning
-#' @param covar logical: was the covariate inflormation  used? default: False
+#' @param covar logical: was the covariate information  used? default: False
 #' @return matrix with average of all the posterior probabilities: Hn, Ha and Hc
 average_posterior_prob <- function(params, lbf_mat, nsnps, covar_vec, nits, thin, covar = FALSE) {
     .Call(`_cophescan_average_posterior_prob`, params, lbf_mat, nsnps, covar_vec, nits, thin, covar)
@@ -229,7 +229,7 @@ average_posterior_prob <- function(params, lbf_mat, nsnps, covar_vec, nits, thin
 #' @param covar_vec Vector of the covariate
 #' @param nits Number of iterations run in mcmc
 #' @param thin thinning
-#' @param covar logical: was the covariate inflormation  used? default: False
+#' @param covar logical: was the covariate information  used? default: False
 #' @return average pik matrix of priors: pnk, pak and pck
 average_piks_list <- function(params, nsnps, covar_vec, nits, thin, covar = FALSE) {
     .Call(`_cophescan_average_piks_list`, params, nsnps, covar_vec, nits, thin, covar)
@@ -242,7 +242,7 @@ average_piks_list <- function(params, nsnps, covar_vec, nits, thin, covar = FALS
 #' @param covar_vec Vector of the covariate
 #' @param nits Number of iterations run in mcmc
 #' @param thin thinning
-#' @param covar logical: was the covariate inflormation  used? default: False
+#' @param covar logical: was the covariate information  used? default: False
 #' @return average pik matrix of priors: pnk, pak and pck
 average_piks <- function(params, nsnps, covar_vec, nits, thin, covar = FALSE) {
     .Call(`_cophescan_average_piks`, params, nsnps, covar_vec, nits, thin, covar)

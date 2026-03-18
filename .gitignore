@@ -10,3 +10,4 @@ inst/doc
 pkgdown
 cran-comments.md
 CRAN-SUBMISSION
+.vscode/

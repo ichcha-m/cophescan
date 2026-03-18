@@ -15,7 +15,7 @@ target(params, lbf_mat, nsnps, covar_vec, covar = FALSE)
 
 \item{covar_vec}{Vector of the covariate}
 
-\item{covar}{logical: Should the covariate inflormation be used? default: False}
+\item{covar}{logical: Should the covariate information be used? default: False}
 }
 \value{
 target

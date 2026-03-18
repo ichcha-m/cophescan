@@ -17,7 +17,7 @@ average_piks(params, nsnps, covar_vec, nits, thin, covar = FALSE)
 
 \item{thin}{thinning}
 
-\item{covar}{logical: was the covariate inflormation  used? default: False}
+\item{covar}{logical: was the covariate information  used? default: False}
 }
 \value{
 average pik matrix of priors: pnk, pak and pck
