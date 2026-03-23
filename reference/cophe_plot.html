@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.3</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>cophe_plots showing the Ha and Hc of all traits and labelled above the specified threshold</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/v1.4.2/R/copheplots.R" class="external-link"><code>R/copheplots.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/main/R/copheplots.R" class="external-link"><code>R/copheplots.R</code></a></small>
     <div class="hidden name"><code>cophe_plot.Rd</code></div>
     </div>
 
@@ -79,8 +79,7 @@
 <span>  thresh_Hc <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  thresh_Ha <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  beta_p <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  traits.dat <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  group_pheno <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  traits.dat <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -109,15 +108,11 @@
 
 
 <dt id="arg-beta-p">beta_p<a class="anchor" aria-label="anchor" href="#arg-beta-p"></a></dt>
-<dd><p>data.frame (from the <code>get.beta</code> function) with four columns : 1. "beta_plot": indicating beta direction (p or n) 2. "beta_plot": -log10(pval) of the queried variant 3. "querysnp" 4. "querytrait".</p></dd>
+<dd><p>data.frame (from the <code>get.beta</code> function) with four columns : 1. "beta_plot": indicating beta direction (p or n) 2. "pval_plot": -log10(pval) of the queried variant 3. "querysnp" 4. "querytrait".</p></dd>
 
 
 <dt id="arg-traits-dat">traits.dat<a class="anchor" aria-label="anchor" href="#arg-traits-dat"></a></dt>
 <dd><p>list of multi-trait coloc structured datasets</p></dd>
-
-
-<dt id="arg-group-pheno">group_pheno<a class="anchor" aria-label="anchor" href="#arg-group-pheno"></a></dt>
-<dd><p>Vector with additional grouping of phenotypes</p></dd>
 
 </dl></div>
     <div id="value">
@@ -141,7 +136,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

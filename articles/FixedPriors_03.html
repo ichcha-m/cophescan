@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cophescan</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.3</span>
       </span>
     </div>
 
@@ -95,9 +95,9 @@
                         <h4 data-toc-skip class="author">Ichcha
 Manipur</h4>
             
-            <h4 data-toc-skip class="date">2025-08-01</h4>
+            <h4 data-toc-skip class="date">2026-03-23</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/v1.4.2/vignettes/FixedPriors_03.Rmd" class="external-link"><code>vignettes/FixedPriors_03.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ichcha-m/cophescan/blob/main/vignettes/FixedPriors_03.Rmd" class="external-link"><code>vignettes/FixedPriors_03.Rmd</code></a></small>
       <div class="hidden name"><code>FixedPriors_03.Rmd</code></div>
 
     </div>
@@ -108,8 +108,8 @@ Manipur</h4>
 be tested are small.</p>
 <p>The default cophescan fixed priors, pa=3.82e-5, pc=1.82e-3, provided
 for <code>cophe.single</code> and <code>cophe.susie</code> are those
-inferred from the disease-related variant dataset in the <a href="https://doi.org/10.1101/2023.06.29.546856" title="cophescan" class="external-link">CoPheScan manscript</a> [Supplementary table 12].
-Additionally, priors from other datasets tested in the <a href="https://doi.org/10.1101/2023.06.29.546856" title="cophescan" class="external-link">CoPheScan manscript</a> that match your specific use
+inferred from the disease-related variant dataset in the <a href="https://doi.org/10.1101/2023.06.29.546856" title="cophescan" class="external-link">CoPheScan manuscript</a> [Supplementary table 12].
+Additionally, priors from other datasets tested in the <a href="https://doi.org/10.1101/2023.06.29.546856" title="cophescan" class="external-link">CoPheScan manuscript</a> that match your specific use
 case can be taken from Supplementary table 12.</p>
 <p><strong>Note:</strong> In the previous version (v1.3.2), the default
 cophescan fixed priors for : pn, pa and pc, were derived from default
@@ -134,16 +134,18 @@ analysis.</p>
 <p>We will check for causal association between a single trait and a
 query variant using fixed priors.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">querytrait</span> <span class="op">&lt;-</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">summ_stat</span><span class="op">[[</span><span class="st">'Trait_1'</span><span class="op">]</span><span class="op">]</span> </span>
+<code class="sourceCode R"><span><span class="va">querytrait</span> <span class="op">&lt;-</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">summ_stat</span><span class="op">[[</span><span class="st">'Trait_1'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">querysnpid</span> <span class="op">&lt;-</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">querysnpid</span></span>
 <span><span class="va">LD</span> <span class="op">&lt;-</span> <span class="va">cophe_multi_trait_data</span><span class="op">$</span><span class="va">LD</span></span></code></pre></div>
 <p>Regional Manhattan plot showing the position of the query variant in
 the query trait.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Additional  field named 'position' is required for the Manahattan plot. It is a numeric vector of chromosal positions</span></span>
-<span><span class="va">querytrait</span><span class="op">$</span><span class="va">position</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">querytrait</span><span class="op">$</span><span class="va">snp</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"-"</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Additional  field named 'position' is required for the Manhattan plot. It is a numeric vector of chromosal positions</span></span>
+<span><span class="va">querytrait</span><span class="op">$</span><span class="va">position</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">querytrait</span><span class="op">$</span><span class="va">snp</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"-"</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_trait_manhat.html">plot_trait_manhat</a></span><span class="op">(</span><span class="va">querytrait</span>, <span class="va">querysnpid</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FP-regManhat-1.png" width="384" style="display: block; margin: auto;"></p>
+<p><img src="FP-regManhat-1.png" class="r-plt" alt="" width="384" style="display: block; margin: auto;"></p>
 <p><strong>Cophescan with fixed priors under a single variant assumption
 (ABF)</strong></p>
 <p>CoPheScan can be run using a single variant assumption (which uses
@@ -151,12 +153,16 @@ Approximate Bayes Factors) with the <code>cophe.single</code>
 function.</p>
 <p>Note:</p>
 <p>Case where nsnps in the queried region is very high and pa*(nsnps-1)
-+ pc &gt; 1: In this case please revaluate the supplied priors or run
++ pc &gt; 1: In this case please reevaluate the supplied priors or run
 adjust_priors function (see help) which scales down the priors while
 maintaining the proportion of the supplied priors.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = querysnpid</span></span>
-<span><span class="va">res.single</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.single.html">cophe.single</a></span><span class="op">(</span><span class="va">querytrait</span>, querysnpid <span class="op">=</span> <span class="va">querysnpid</span>, querytrait<span class="op">=</span><span class="st">'Trait_1'</span><span class="op">)</span></span>
+<span><span class="va">res.single</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.single.html">cophe.single</a></span><span class="op">(</span></span>
+<span>    <span class="va">querytrait</span>,</span>
+<span>    querysnpid <span class="op">=</span> <span class="va">querysnpid</span>,</span>
+<span>    querytrait <span class="op">=</span> <span class="st">'Trait_1'</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Running cophe.single...</span></span>
 <span><span class="co">#&gt; SNP Priors</span></span>
 <span><span class="co">#&gt; pn pa pc</span></span>
@@ -173,7 +179,7 @@ maintaining the proportion of the supplied priors.</p>
 <span><span class="co">#&gt;   querytrait typeBF</span></span>
 <span><span class="co">#&gt; 1    Trait_1    ABF</span></span></code></pre></div>
 <p>We observe that the posterior probability of causal association for
-the query variant is 0.969 which indicates that the query trait is
+the query variant is 0.969 which indicates that the query variant is
 causally associated with the query trait.</p>
 <p>We can also use the <code>cophe.hyp.predict</code> function to
 predict the hypothesis given the posterior probabilities.</p>
@@ -181,14 +187,24 @@ predict the hypothesis given the posterior probabilities.</p>
 <code class="sourceCode R"><span><span class="va">res.single.predict</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.hyp.predict.html">cophe.hyp.predict</a></span><span class="op">(</span><span class="va">res.single</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hc.cutoff = 0.6</span></span>
 <span><span class="co">#&gt; Hn.cutoff = 0.2</span></span>
-<span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'The predicted hypothesis is: '</span>, <span class="va">res.single.predict</span><span class="op">$</span><span class="va">cophe.hyp.call</span>, <span class="st">' [PP.Hc ='</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res.single.predict</span><span class="op">$</span><span class="va">PP.Hc</span>,<span class="fl">3</span><span class="op">)</span>, <span class="st">']'</span> <span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>    <span class="st">'The predicted hypothesis is: '</span>,</span>
+<span>    <span class="va">res.single.predict</span><span class="op">$</span><span class="va">cophe.hyp.call</span>,</span>
+<span>    <span class="st">' [PP.Hc ='</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res.single.predict</span><span class="op">$</span><span class="va">PP.Hc</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>    <span class="st">']'</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The predicted hypothesis is: Hc [PP.Hc =0.623]"</span></span></code></pre></div>
 <p><strong>Cophescan with fixed priors using SuSIE Bayes
 factors</strong></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run cophescan with susie (multiple variants) by providing the snpid of the known causal variant for trait 1 = querysnpid</span></span>
 <span><span class="va">querytrait</span><span class="op">$</span><span class="va">LD</span> <span class="op">&lt;-</span> <span class="va">LD</span></span>
-<span><span class="va">res.susie</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.susie.html">cophe.susie</a></span><span class="op">(</span><span class="va">querytrait</span>, querysnpid <span class="op">=</span> <span class="va">querysnpid</span>, querytrait<span class="op">=</span><span class="st">'Trait_1'</span><span class="op">)</span></span>
+<span><span class="va">res.susie</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.susie.html">cophe.susie</a></span><span class="op">(</span></span>
+<span>    <span class="va">querytrait</span>,</span>
+<span>    querysnpid <span class="op">=</span> <span class="va">querysnpid</span>,</span>
+<span>    querytrait <span class="op">=</span> <span class="st">'Trait_1'</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res.susie</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   nsnps           hit1           hit2       PP.Hn    PP.Ha     PP.Hc   lBF.Ha</span></span>
 <span><span class="co">#&gt; 1  1000 chr19-11182353 chr19-11182144 0.002115712 0.375218 0.6226663 15.31003</span></span>
@@ -196,7 +212,13 @@ factors</strong></p>
 <span><span class="co">#&gt; 1 11.95277 chr19-11182353 susieBF    1    1    Trait_1</span></span>
 <span></span>
 <span><span class="va">res.susie.predict</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cophe.hyp.predict.html">cophe.hyp.predict</a></span><span class="op">(</span><span class="va">res.susie</span><span class="op">)</span></span>
-<span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'The predicted hypothesis is: '</span>, <span class="va">res.susie.predict</span><span class="op">$</span><span class="va">cophe.hyp.call</span>, <span class="st">' [PP.Hc ='</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res.susie.predict</span><span class="op">$</span><span class="va">PP.Hc</span>,<span class="fl">3</span><span class="op">)</span>, <span class="st">']'</span> <span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>    <span class="st">'The predicted hypothesis is: '</span>,</span>
+<span>    <span class="va">res.susie.predict</span><span class="op">$</span><span class="va">cophe.hyp.call</span>,</span>
+<span>    <span class="st">' [PP.Hc ='</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res.susie.predict</span><span class="op">$</span><span class="va">PP.Hc</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>    <span class="st">']'</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The predicted hypothesis is: Hc [PP.Hc =0.623]"</span></span></code></pre></div>
 <p>We get similar results using SuSIE <code>cophe.susie</code>. We
 recommend the use of cophe.susie whenever LD information is
@@ -223,7 +245,7 @@ available.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
