@@ -47,7 +47,7 @@ names(cophe_multi_trait_data)
 
 We will check for causal association between a single trait and a query variant using fixed priors.
 
-```{r fig.width = 4, fig.height=4, fig.align = "center"}
+```{r}
 querytrait <- cophe_multi_trait_data$summ_stat[['Trait_1']]
 querysnpid <- cophe_multi_trait_data$querysnpid
 LD <- cophe_multi_trait_data$LD
@@ -55,7 +55,7 @@ LD <- cophe_multi_trait_data$LD
 
 Regional Manhattan plot showing the position of the query variant in the query trait.
 
-```{r regManhat, fig.width = 4, fig.height=4, fig.align = "center"}
+```{r regManhat, fig.width = 4, fig.height=4, fig.align = "center", fig.alt = "Regional Manhattan plot showing the position of the query variant in the query trait"}
 # Additional  field named 'position' is required for the Manhattan plot. It is a numeric vector of chromosal positions
 querytrait$position <- sapply(querytrait$snp, function(x) {
 	as.numeric(unlist(strsplit(x, "-"))[2])
@@ -71,7 +71,7 @@ Note:
 
 Case where nsnps in the queried region is very high and pa\*(nsnps-1) + pc \> 1: In this case please reevaluate the supplied priors or run adjust_priors function (see help) which scales down the priors while maintaining the proportion of the supplied priors.
 
-```{r fig.width = 4, fig.height=4, fig.align = "center"}
+```{r}
 # Run cophescan under a single causal variant assumption by providing the snpid of the known causal variant for trait 1 = querysnpid
 res.single <- cophe.single(
 	querytrait,
@@ -98,7 +98,7 @@ res.single.predict <- cophe.hyp.predict(res.single)
 
 **Cophescan with fixed priors using SuSIE Bayes factors**
 
-```{r fig.width = 4, fig.height=4, fig.align = "center", message=FALSE}
+```{r, message=FALSE, fig}
 # Run cophescan with susie (multiple variants) by providing the snpid of the known causal variant for trait 1 = querysnpid
 querytrait$LD <- LD
 res.susie <- cophe.susie(

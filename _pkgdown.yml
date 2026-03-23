@@ -1,8 +1,8 @@
 title: cophescan
 url: https://ichcha-m.github.io/cophescan/
 template:
-  params:
-    bootswatch: spacelab
+  bootstrap: 5
+  bootswatch: spacelab
 news:
 - title: News
 articles:

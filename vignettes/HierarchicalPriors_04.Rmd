@@ -74,7 +74,7 @@ The input df for the multi.dat arguments should contain the following fields: "l
 
 Set the argument covar to TRUE to include covariates
 
-```{r warning=F, message=F, fig.width = 8, fig.height=8, out.width = "75%",  fig.ncol = 3, fig.align = "center"}
+```{r warning=FALSE, message=FALSE}
 covar = FALSE
 covar_vec = rep(1, nrow(res.multi.lbf.df))
 ## Set covar to TRUE to include covariates, uncomment the following 2 lines
@@ -114,7 +114,7 @@ cophe.hier.res.chain.list <- lapply(1:4, function(x) {
 ```
 
 
-```{r mcmcDiagnostics, warning=FALSE, message=FALSE, fig.width=5, fig.height=5, out.width="80%", fig.align="center"}
+```{r mcmcDiagnostics, warning=FALSE, message=FALSE, fig.width=5, fig.height=5, out.width="80%", fig.align="center", fig.alt=c("MCMC trace plot for log-likelihood", "MCMC trace plot for alpha parameter", "MCMC trace plot for beta parameter", "MCMC legend")}
 # Store user parameters
 old_par <- par(no.readonly = TRUE)
 
@@ -202,7 +202,12 @@ col_disp <- c(
 	"grp",
 	"cophe.hyp.call"
 )
-knitr::kable(res.hier.predict[, col_disp], row.names = FALSE, digits = 3)
+knitr::kable(
+	res.hier.predict[, col_disp],
+	row.names = FALSE,
+	digits = 3,
+	align = "c"
+)
 ```
 
 #### Visualisation
@@ -224,7 +229,7 @@ res.plots = cophe_plot(
 #                 nrow = 2)
 ```
 
-```{r, warning=FALSE, message=FALSE, echo=FALSE, out.width = "40%"}
+```{r, warning=FALSE, message=FALSE, echo=FALSE, out.width = "40%", fig.alt = c("PheWAS plot showing -log10(pval) for the query variant across all traits", "PheWAS plot showing ppHa for the query variant across all traits", "PheWAS plot showing ppHc for the query variant across all traits")}
 res.plots$pval + theme(legend.position = "bottom")
 res.plots$ppHa + theme(legend.position = "bottom")
 res.plots$ppHc + theme(legend.position = "bottom")
