@@ -1,0 +1,35 @@
+# List of posterior probabilities: Hn, Ha and Hc over all iterations
+
+List of posterior probabilities: Hn, Ha and Hc over all iterations
+
+## Usage
+
+``` r
+posterior_prob(params, lbf_mat, nsnps, covar_vec, covar = FALSE)
+```
+
+## Arguments
+
+- params:
+
+  Vector of parameters: \\\alpha\\, \\\beta\\ and \\\gamma\\
+
+- lbf_mat:
+
+  matrix of log bayes factors: lBF.Ha and lBF.Hc
+
+- nsnps:
+
+  number of snps
+
+- covar_vec:
+
+  Vector of the covariate
+
+- covar:
+
+  logical: was the covariate information used? default: False
+
+## Value
+
+List of posterior probabilities (len: iterations): Hn, Ha and Hc

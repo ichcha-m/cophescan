@@ -1,0 +1,83 @@
+# Introduction to CoPheScan
+
+``` r
+library(cophescan)
+```
+
+#### CoPheScan
+
+The cophescan package implements Coloc adapted Phenome-wide Scan
+(CoPheScan), a Bayesian method to perform Phenome-wide association
+studies (PheWAS) that identifies causal associations between genetic
+variants and phenotypes while simultaneously accounting for confounding
+due to linkage disequilibrium.
+
+Given a query variant and genomic region with Q SNPs for a query trait,
+cophescan discriminates between 3 hypotheses:
+
+$H_{n}$ : No association with the query trait (1 configuration)
+
+$H_{a}$ : Association of a variant other than the query variant with the
+query trait (Q-1 configurations)
+
+$H_{c}$ : Association of the query variant with the query trait (1
+configuration)
+
+with $p_{n}$, $p_{a}$ and $p_{c}$ being their corresponding priors.
+
+#### CoPheScan approaches
+
+cophescan can be run in different ways depending on the size and type of
+dataset.
+
+First, choosing the method for Bayes factor computation:
+
+|       | Single causal variant | Multiple causal variants | Requires LD matrix |
+|-------|-----------------------|--------------------------|--------------------|
+| ABF   | ✔                     | x                        | No                 |
+| SuSIE | ✔                     | ✔                        | Yes                |
+|       |                       |                          |                    |
+
+Whenever LD matrices are available (preferably in-sample LD),
+`cophe.susie` is the recommended method as it accounts for multiple
+causal variants in the tested region.
+
+Next, depending upon the size of the dataset we choose the method to
+specify priors:
+
+|                     | Dataset | Inclusion of covariates |
+|---------------------|---------|-------------------------|
+| Fixed priors        | Small   | \-                      |
+| Hierarchical priors | Large   | ✔                       |
+|                     |         |                         |
+
+The different combinations that can be run are:
+
+ABF/Fixed priors: `cophe.single`
+
+SuSIE BF/Fixed priors: `cophe.susie`
+
+ABF/Hierarchical priors: `cophe.single.lbf` + `run_metrop_priors`
+
+SuSIE BF/Hierarchical priors: `cophe.susie.lbf` + `run_metrop_priors`
+
+#### Further reading
+
+1.  Description of the CoPheScan method:
+
+    [CoPheScan: phenome-wide association studies accounting for linkage
+    disequilibrium](https://doi.org/10.1038/s41467-024-49990-8)
+
+2.  coloc: [Giambartolomei et al
+    (2013)](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1004383)
+
+3.  coloc with SuSIE: [Wallace et al
+    (2021)](https://doi.org/10.1371/journal.pgen.1009440),
+    [github](https://github.com/chr1swallace/coloc)
+
+4.  ABF: [Wakefield (2008)](https://doi.org/10.1002/gepi.20359)
+
+5.  SuSIE: [Wang et al (2020)](https://doi.org/10.1111/rssb.12388),
+    [github](https://github.com/stephenslab/susieR)
+
+------------------------------------------------------------------------
